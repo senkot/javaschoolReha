@@ -6,7 +6,6 @@
   Time: 13:46
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Patient List</title>
@@ -39,19 +38,19 @@
                 <th>Edit</th>
             </tr>
 
-            <c:forEach var="patients" items="${patients}">
+            <c:forEach var="patient" items="${patients}">
                 <tr>
-                    <td><c:out value="${person.lastName}" /></td>
-                    <td><c:out value="${person.firstName}" /></td>
-                    <td><c:out value="${person.secondName}" /></td>
-                    <td><c:out value="${person.dateOfBirth}" /></td>
-                    <td><c:out value="${person.insurance}" /></td>
-                    <td><c:out value="${person.additionalInsurance}" />Insert check-mark with condition true/false</td>
+                    <td><c:out value="${patient.lastName}" /></td>
+                    <td><c:out value="${patient.firstName}" /></td>
+                    <td><c:out value="${patient.secondName}" /></td>
+                    <td><c:out value="${patient.dateOfBirth}" /></td>
+                    <td><c:out value="${patient.insurance}" /></td>
+                    <td><c:out value="${patient.additionalInsurance}" />Insert check-mark with condition true/false</td>
                     <td>
-                        <a href='<c:url value="/patient?id=${user.id}" />'>SHOW</a>
+                        <a href='<c:url value="/patient?id=${patient.id}" />'>SHOW</a>
                     </td>
                     <td>
-                        <a href='<c:url value="/edit?id=${user.id}" />'>EDIT</a>
+                        <a href='<c:url value="/edit?id=${patient.id}" />'>EDIT</a>
                     </td>
                 </tr>
             </c:forEach>

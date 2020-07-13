@@ -1,16 +1,42 @@
 package ru.senkot.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
+@Entity
+@Table(name = "patient")
 public class Patient {
 
+    @Id
+    @Column(name = "patientid")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "insurance")
     private String insurance;              // We have 16 digits in Russian Insurance
+
+    @Column(name = "additionalinsurance")
     private String additionalInsurance;
+
+    @Column(name = "firstname")
     private String firstName;
+
+    @Column(name = "lastname")
     private String lastName;
+
+    @Column(name = "secondname")
     private String secondName;
+
+    @Column(name = "dateofbirth")
     private Date dateOfBirth;
+
+    public Patient() {
+    }
 
     public boolean haveAdditionalInsurance() {
         return additionalInsurance != null;
