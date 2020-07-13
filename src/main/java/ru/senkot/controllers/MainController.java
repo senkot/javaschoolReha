@@ -11,6 +11,28 @@ public class MainController {
     public ModelAndView patientList() {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-list");
+        mav.addObject()
+        return mav;
+    }
+
+    @GetMapping(value = "/patient-form")
+    public ModelAndView patientForm() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("patient-form");
+        return mav;
+    }
+
+    @GetMapping(value = "/patient")
+    public ModelAndView getPatient() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("patient");
+        return mav;
+    }
+
+    @GetMapping(value = "/edit")
+    public ModelAndView editPatient() {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("patient-form");
         return mav;
     }
 
