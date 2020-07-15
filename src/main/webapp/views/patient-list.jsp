@@ -22,7 +22,7 @@
     </div>
 
     <div>
-        <button style="margin: 3px" onclick="location.href='<c:url value="/patient-form"/>'">ADD</button>
+        <button style="margin: 3px" onclick="location.href='<c:url value="/add"/>'">ADD</button>
     </div>
 
     <div>
@@ -35,7 +35,6 @@
                 <th>Number of Insurance</th>
                 <th>Additional Insurance</th>
                 <th>Show</th>
-                <th>Edit</th>
             </tr>
 
             <c:forEach var="patient" items="${patients}">
@@ -45,19 +44,21 @@
                     <td><c:out value="${patient.secondName}" /></td>
                     <td><c:out value="${patient.dateOfBirth}" /></td>
                     <td><c:out value="${patient.insurance}" /></td>
-                    <td><c:out value="${patient.additionalInsurance}" />Insert check-mark with condition true/false</td>
+                    <c:if test="${patient.haveAdditionalInsurance() == true}" >
+                        <td style="text-align: center">&#9745;</td>
+                    </c:if>
+                    <c:if test="${patient.haveAdditionalInsurance() == false}" >
+                        <td style="text-align: center">&#9746;</td>
+                    </c:if>
                     <td>
                         <a href='<c:url value="/patient?id=${patient.id}" />'>SHOW</a>
-                    </td>
-                    <td>
-                        <a href='<c:url value="/edit?id=${patient.id}" />'>EDIT</a>
                     </td>
                 </tr>
             </c:forEach>
         </table>
 
         <div>
-            <button style="margin: 3px" onclick="location.href='<c:url value="/" />' ">Back to List of Patients</button>
+            <button style="margin: 3px" onclick="location.href='<c:url value="/" />' ">Back to Start</button>
         </div>
 
     </div>

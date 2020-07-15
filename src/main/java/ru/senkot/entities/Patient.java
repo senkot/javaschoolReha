@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "patient")
@@ -39,7 +39,7 @@ public class Patient {
     }
 
     public boolean haveAdditionalInsurance() {
-        return additionalInsurance != null;
+        return additionalInsurance != null && !additionalInsurance.equals("");
     }
 
     public Patient(String insurance, String additionalInsurance, String firstName, String lastName,
