@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: KOTLIS
@@ -12,5 +13,8 @@
 </head>
 <body>
     <h2>The Prescription</h2>
+
+
+
 </body>
 </html>

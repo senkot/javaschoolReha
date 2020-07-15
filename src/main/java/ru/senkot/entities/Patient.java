@@ -13,14 +13,14 @@ import java.sql.Date;
 public class Patient {
 
     @Id
-    @Column(name = "patientid")
+    @Column(name = "patient_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "insurance")
     private String insurance;              // We have 16 digits in Russian Insurance
 
-    @Column(name = "additionalinsurance")
+    @Column(name = "additional_insurance")
     private String additionalInsurance;
 
     @Column(name = "firstname")
@@ -32,7 +32,7 @@ public class Patient {
     @Column(name = "secondname")
     private String secondName;
 
-    @Column(name = "dateofbirth")
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
     public Patient() {

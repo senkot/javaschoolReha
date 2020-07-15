@@ -12,5 +12,10 @@
 </head>
 <body>
     <h2>Prescription List</h2>
+
+    <div>
+        <button style="margin: 3px" onclick="location.href='<c:url value="/patient"/>'">Go back to the Patient</button>
+    </div>
+
 </body>
 </html>

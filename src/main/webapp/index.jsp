@@ -7,6 +7,7 @@
 <div>
     <div>
         <button onclick="location.href='<c:url value="/patient-list"/>'">Doctor's page</button>
+        <button onclick="location.href='<c:url value="/event-list"/>'">Nurse's page</button>
     </div>
 </div>
 </body>

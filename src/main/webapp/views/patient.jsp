@@ -67,6 +67,10 @@
 </table>
 
 <div>
+    <button style="margin: 3px" onclick="location.href='<c:url value="/prescription-list?id=${patient.id}" />'">Prescriptions</button>
+</div>
+
+<div>
     <button style="margin: 3px" onclick="location.href='<c:url value="/patient-list" />' ">Back to List of Patients</button>
 </div>
 

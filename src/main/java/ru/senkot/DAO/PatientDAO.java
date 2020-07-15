@@ -34,9 +34,10 @@ public class PatientDAO {
         return session.get(Patient.class, id);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Patient> selectAllPatients() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Patient").list();
+        return session.createQuery("select p from Patient as p").list();
     }
 
     public void deletePatient(Patient patient) {
