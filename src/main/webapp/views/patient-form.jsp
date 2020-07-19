@@ -6,7 +6,6 @@
   Time: 18:15
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <c:if test="${empty patient.id}">
@@ -15,121 +14,113 @@
     <c:if test="${!empty patient.id}">
         <title>Edit Patient</title>
     </c:if>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <style>
+        #my-header {background-color: #e6e6fe}
+    </style>
 </head>
-<body>
-<div>
-    <c:if test="${empty patient.id}">
-        <h2>Add new Patient</h2>
-    </c:if>
-    <c:if test="${!empty patient.id}">
-        <h2>Edit Patient</h2>
-    </c:if>
-</div>
-
-<div>
-    <div>
-        <form method="post">
-            <table>
-                <tr>
-                    <th></th>
-                    <td>DATA</td>
-                </tr>
-
-                <tr>
-                    <th>Surname : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><input type="text" name="lastName"></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><input type="text" name="lastName" value="<c:out value="${patient.lastName}"/>"></td>
-                    </c:if>
-                </tr>
-
-                <tr>
-                    <th>Name : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><label><input type="text" name="firstName"></label></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><label>
-                            <input type="text" name="firstName" value="<c:out value="${patient.firstName}"/>">
-                        </label></td>
-                    </c:if>
-                </tr>
-
-                <tr>
-                    <th>Second Name : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><label>
-                            <input type="text" name="secondName">
-                        </label></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><label>
-                            <input type="text" name="secondName" value="<c:out value="${patient.secondName}"/>">
-                        </label></td>
-                    </c:if>
-                </tr>
-
-                <tr>
-                    <th>Date of birth : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><label>
-                            <input type="date" name="dateOfBirth">
-                        </label></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><label>
-                            <input type="date" name="dateOfBirth" value="<c:out value="${patient.dateOfBirth}"/>">
-                        </label></td>
-                    </c:if>
-                </tr>
-
-                <tr>
-                    <th>Insurance : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><label>
-                            <input type="text" name="insurance">
-                        </label></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><label>
-                            <input type="text" name="insurance" value="<c:out value="${patient.insurance}"/>">
-                        </label></td>
-                    </c:if>
-                </tr>
-
-                <tr>
-                    <th>Additional insurance : </th>
-                    <c:if test="${empty patient.id}">
-                        <td><label>
-                            <input type="text" name="additionalInsurance">
-                        </label></td>
-                    </c:if>
-                    <c:if test="${!empty patient.id}">
-                        <td><label>
-                            <input type="text" name="additionalInsurance" value="<c:out value="${patient.additionalInsurance}"/>">
-                        </label></td>
-                    </c:if>
-                </tr>
-            </table>
+<body class="text-center">
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header>
+        <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <c:if test="${empty patient.id}">
-                <button type="submit">ADD</button>
+                <h5 class="my-0 mr-md-auto font-weight-normal">Add New Patient</h5>
             </c:if>
             <c:if test="${!empty patient.id}">
-                <button type="submit">EDIT</button>
+                <h5 class="my-0 mr-md-auto font-weight-normal">Edit Patient</h5>
             </c:if>
-        </form>
-    </div>
-</div>
 
-<div>
-    <c:if test="${empty patient.id}">
-        <button onclick="location.href='<c:url value="/patient-list"/>'">Back to Patient LIST</button>
-    </c:if>
-    <c:if test="${!empty patient.id}">
-        <button onclick="location.href='<c:url value="/patient?id=${patient.id}"/>'">Back to Patient INFO</button>
-    </c:if>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <c:if test="${empty patient.id}">
+                    <a class="p-2 text-dark" href="<c:url value="/patient-list"/>">Back to Patient LIST</a>
+                </c:if>
+                <c:if test="${!empty patient.id}">
+                    <a class="p-2 text-dark" href="<c:url value="/patient?id=${patient.id}"/>">Back to Patient INFO</a>
+                </c:if>
+            </nav>
+
+            <a class="btn btn-outline-primary" href="<c:url value='/'/>">Back to Authorization Page</a>
+        </div>
+    </header>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label for="lastName">Surname</label>
+            <c:if test="${empty patient.id}">
+                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter surname">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="text" id="lastName" name="lastName" class="form-control" value="<c:out value="${patient.lastName}"/>" >
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Name</label>
+            <c:if test="${empty patient.id}">
+                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter name">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="text" id="firstName" name="firstName" class="form-control" value="<c:out value="${patient.firstName}"/>">
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="secondName">Second name</label>
+            <c:if test="${empty patient.id}">
+                <input type="text" id="secondName" name="secondName" class="form-control" placeholder="Enter second name">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="text" id="secondName" name="secondName" class="form-control" value="<c:out value="${patient.secondName}"/>">
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="dateOfBirth">Date of Birth</label>
+            <c:if test="${empty patient.id}">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>">
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="insurance">Insurance</label>
+            <c:if test="${empty patient.id}">
+                <input type="text" id="insurance" name="insurance" class="form-control" placeholder="Enter number of main insurance">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="text" id="insurance" name="insurance" class="form-control" value="<c:out value="${patient.insurance}"/>">
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="additionalInsurance">Additional Insurance</label>
+            <c:if test="${empty patient.id}">
+                <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" placeholder="Enter number of additional insurance if there is">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" value="<c:out value="${patient.additionalInsurance}"/>">
+            </c:if>
+        </div>
+
+        <c:if test="${empty patient.id}">
+            <button class="btn btn-primary" type="submit">ADD</button>
+        </c:if>
+        <c:if test="${!empty patient.id}">
+            <button class="btn btn-primary" type="submit">EDIT</button>
+        </c:if>
+    </form>
+
+    <footer class="mastfoot mt-auto">
+        <div class="inner">
+            <p>Chandra Clinic &copy; 2020 by Konstantin Senko</p>
+        </div>
+    </footer>
+
 </div>
 </body>
 </html>

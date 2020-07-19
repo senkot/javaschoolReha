@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Charite Clinic</title>
+    <title>Chandra Clinic</title>
     <style>
         #my-header {background-color: #e6e6fe}
     </style>
@@ -11,7 +11,7 @@
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 <header>
 <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Charite Clinic</h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal">Chandra Clinic</h5>
     <nav class="my-2 my-md-0 mr-md-3">
         <a class="p-2 text-dark" href="<c:url value="/patient-list"/>">Doctor's page</a>
         <a class="p-2 text-dark" href="<c:url value="/event-list"/>">Nurse's page</a>
@@ -21,8 +21,8 @@
 </header>
 
 <main role="main" class="inner cover">
-    <h1 class="cover-heading">Charite Clinic Information System</h1>
-    <p class="lead">Professional document management system of the Charite clinic</p>
+    <h1 class="cover-heading">Chandra Clinic Information System</h1>
+    <p class="lead">Professional document management system of the Chandra clinic</p>
     <p class="lead">
         <a class="btn btn-outline-primary"  href='#'>About System</a>
     </p>
@@ -30,7 +30,7 @@
 
 <footer class="mastfoot mt-auto">
     <div class="inner">
-        <p> &copy; 2020 by Konstantin Senko</p>
+        <p>Chandra Clinic &copy; 2020 by Konstantin Senko</p>
     </div>
 </footer>
 </div>

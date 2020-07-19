@@ -32,10 +32,10 @@ public class Prescription {
     private Patient patient;
 
     @Column(name = "remedy_name")
-    private String remedy_name;
+    private String remedyName;
 
     @Column(name = "remedy_type")
-    private String remedy_type;
+    private String remedyType;
 
     @Column(name = "date_start")
     private Date dateStart;
@@ -55,27 +55,31 @@ public class Prescription {
 
     @Override
     public String toString() {
-        return remedy_name + " " + remedy_type + " " + dateStart + " " + dateEnd + " " + quantity;
+        return remedyName + " " + remedyType + " " + dateStart + " " + dateEnd + " " + quantity;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getRemedy_name() {
-        return remedy_name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setRemedy_name(String remedy_name) {
-        this.remedy_name = remedy_name;
+    public String getRemedyName() {
+        return remedyName;
     }
 
-    public String getRemedy_type() {
-        return remedy_type;
+    public void setRemedyName(String remedyName) {
+        this.remedyName = remedyName;
     }
 
-    public void setRemedy_type(String remedy_type) {
-        this.remedy_type = remedy_type;
+    public String getRemedyType() {
+        return remedyType;
+    }
+
+    public void setRemedyType(String remedyType) {
+        this.remedyType = remedyType;
     }
 
     public Date getDateStart() {

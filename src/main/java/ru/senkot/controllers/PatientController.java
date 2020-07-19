@@ -8,16 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.entities.Patient;
 import ru.senkot.servicies.PatientService;
-import ru.senkot.servicies.PrescriptionService;
 
 @Controller
-public class MainController {
+public class PatientController {
 
     @Autowired
     private PatientService patientService;
-
-    @Autowired
-    private PrescriptionService prescriptionService;
 
 
     @GetMapping(value = "/patient-list")
@@ -66,15 +62,6 @@ public class MainController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
         mav.addObject("patient", patientService.selectPatient(id));
-        return mav;
-    }
-
-    @GetMapping(value = "/prescription-list")
-    public ModelAndView prescriptionList(@ModelAttribute("id") int id) {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("prescription-list");
-        mav.addObject("patient", patientService.selectPatient(id));
-        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(id));
         return mav;
     }
 

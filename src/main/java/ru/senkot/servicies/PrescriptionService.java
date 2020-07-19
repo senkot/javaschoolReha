@@ -3,7 +3,6 @@ package ru.senkot.servicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.PrescriptionDAO;
-import ru.senkot.entities.Patient;
 import ru.senkot.entities.Prescription;
 
 import javax.transaction.Transactional;
@@ -26,8 +25,8 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void selectPrescription(int id) {
-        prescriptionDAO.selectPrescription(id);
+    public Prescription selectPrescription(int id) {
+        return prescriptionDAO.selectPrescription(id);
     }
 
     @Transactional

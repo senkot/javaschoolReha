@@ -20,7 +20,7 @@
         <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Prescription List</h5>
             <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" href="<c:url value="/add-prescription"/>">Add new Prescription</a>
+                <a class="p-2 text-dark" href="<c:url value="/add-prescription?id=${patient.id}"/>">Add new Prescription</a>
                 <a class="p-2 text-dark" href="<c:url value="/patient?id=${patient.id}"/>">Back to The Patient</a>
             </nav>
             <a class="btn btn-outline-primary" href="/">Back to Authorization Page</a>
@@ -42,8 +42,8 @@
 
             <c:forEach var="prescription" items="${prescriptions}">
                 <tr>
-                    <td><c:out value="${prescription.remedy_name}" /></td>
-                    <td><c:out value="${prescription.remedy_type}" /></td>
+                    <td><c:out value="${prescription.remedyName}" /></td>
+                    <td><c:out value="${prescription.remedyType}" /></td>
                     <td><c:out value="${prescription.dateStart}" /></td>
                     <td><c:out value="${prescription.dateEnd}" /></td>
                     <td><c:out value="${prescription.repeat}" /></td>
@@ -57,7 +57,7 @@
                         <a href='<c:url value="/prescription?id=${prescription.id}" />'>SHOW</a>
                     </td>
                     <td>
-                        <a href='<c:url value="/prescription-edit?id=${prescription.id}" />'>EDIT</a>
+                        <a href='<c:url value="/edit-prescription?id=${prescription.id}" />'>EDIT</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -66,7 +66,7 @@
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
-            <p> &copy; 2020 by Konstantin Senko</p>
+            <p>Chandra Clinic &copy; 2020 by Konstantin Senko</p>
         </div>
     </footer>
 
