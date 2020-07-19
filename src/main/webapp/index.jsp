@@ -22,7 +22,7 @@
 
 <main role="main" class="inner cover">
     <h1 class="cover-heading">Charite Clinic Information System</h1>
-    <p class="lead">Professional document management system of the Charite clinic. Berlin</p>
+    <p class="lead">Professional document management system of the Charite clinic</p>
     <p class="lead">
         <a class="btn btn-outline-primary"  href='#'>About System</a>
     </p>
@@ -30,7 +30,7 @@
 
 <footer class="mastfoot mt-auto">
     <div class="inner">
-        <p>Charite Clinic Information System. created by Konstantin Senko <a href="mailto:senko.kostya@ya.ru">SEND</a> a mail</p>
+        <p> &copy; 2020 by Konstantin Senko</p>
     </div>
 </footer>
 </div>

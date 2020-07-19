@@ -1,19 +1,22 @@
 package ru.senkot.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "patient")
 public class Patient {
 
     @Id
-    @Column(name = "patient_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
@@ -35,6 +38,9 @@ public class Patient {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Prescription> prescriptions;
+
     public Patient() {
     }
 
@@ -52,15 +58,17 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Patient(int id, String insurance, String additionalInsurance, String firstName, String lastName,
-                   String secondName, Date dateOfBirth) {
-        this.id = id;
-        this.insurance = insurance;
-        this.additionalInsurance = additionalInsurance;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.secondName = secondName;
-        this.dateOfBirth = dateOfBirth;
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", insurance=" + insurance +
+                ", additionalInsurance" + additionalInsurance +
+                '}';
     }
 
     public String getFirstName() {
@@ -103,12 +111,16 @@ public class Patient {
         this.insurance = insurance;
     }
 
-    public int getId() {
-        return id;
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getAdditionalInsurance() {

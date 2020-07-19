@@ -46,10 +46,10 @@
                         <td><c:out value="${patient.dateOfBirth}" /></td>
                         <td><c:out value="${patient.insurance}" /></td>
                         <c:if test="${patient.haveAdditionalInsurance() == true}" >
-                            <td style="text-align: center">&#9745;</td>
+                            <td style="text-align: center">&#9989;</td>
                         </c:if>
                         <c:if test="${patient.haveAdditionalInsurance() == false}" >
-                            <td style="text-align: center">&#9746;</td>
+                            <td style="text-align: center">&#10062;</td>
                         </c:if>
                         <td>
                             <a href='<c:url value="/patient?id=${patient.id}" />'>SHOW</a>
@@ -61,7 +61,7 @@
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
-            <p>Charite Clinic Information System. created by Konstantin Senko <a href="mailto:senko.kostya@ya.ru">SEND</a> a mail</p>
+            <p> &copy; 2020 by Konstantin Senko</p>
         </div>
     </footer>
 
