@@ -7,6 +7,8 @@ Has dates of start and finish;
 Can be canceled;
  */
 
+import ru.senkot.servicies.PatientService;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +29,7 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
@@ -51,6 +53,16 @@ public class Prescription {
 
     public Prescription() {
 
+    }
+
+    public Prescription(Patient patient, String remedyName, String remedyType, Date dateStart, Date dateEnd, String repeat, int quantity) {
+        this.patient = patient;
+        this.remedyName = remedyName;
+        this.remedyType = remedyType;
+        this.dateStart = dateStart;
+        this.dateEnd = dateEnd;
+        this.repeat = repeat;
+        this.quantity = quantity;
     }
 
     @Override

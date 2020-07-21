@@ -47,9 +47,9 @@
 
     <form method="post">
 
-        <input type="hidden" name="patient_id" value="${patient.id}">
-
         <div class="form-group">
+            <input type="hidden" name="patientId" class="form-control" value="${patient.id}">
+
             <label for="remedyName">Remedy</label>
             <c:if test="${empty prescription.id}">
                 <input type="text" id="remedyName" name="remedyName" class="form-control" placeholder="Enter name of remedy">
@@ -70,22 +70,22 @@
         </div>
 
         <div class="form-group">
-            <label for="dateStart">Date of start</label>
+            <label for="dateOfStart">Date of start</label>
             <c:if test="${empty prescription.id}">
-                <input type="date" id="dateStart" name="dateStart" class="form-control">
+                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control">
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <input type="date" id="dateStart" name="dateStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>">
+                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>">
             </c:if>
         </div>
 
         <div class="form-group">
-            <label for="dateEnd">Date of end</label>
+            <label for="dateOfEnd">Date of end</label>
             <c:if test="${empty prescription.id}">
-                <input type="date" id="dateEnd" name="dateEnd" class="form-control">
+                <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control">
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <input type="date" id="dateEnd" name="dateEnd" class="form-control" value="<c:out value="${prescription.dateEnd}"/>">
+                <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control" value="<c:out value="${prescription.dateEnd}"/>">
             </c:if>
         </div>
 

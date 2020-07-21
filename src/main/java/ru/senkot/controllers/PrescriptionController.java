@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.senkot.entities.Patient;
+import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Prescription;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.PrescriptionService;
@@ -48,9 +48,16 @@ public class PrescriptionController {
     }
 
     @PostMapping(value = "/edit-prescription")
-    public ModelAndView editPrescriptionForm(@ModelAttribute("prescription") Prescription prescription) {
+    public ModelAndView editPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
+        Prescription prescription = new Prescription(patientService.selectPatient(prescriptionDTO.getPatientId()),
+                prescriptionDTO.getRemedyName(),
+                prescriptionDTO.getRemedyType(),
+                prescriptionDTO.getDateOfStart(),
+                prescriptionDTO.getDateOfEnd(),
+                prescriptionDTO.getRepeat(),
+                prescriptionDTO.getQuantity());
         prescriptionService.updatePrescription(prescription);
         mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
         mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescription.getPatient().getId()));
@@ -58,10 +65,16 @@ public class PrescriptionController {
     }
 
     @PostMapping(value = "/add-prescription")
-    public ModelAndView addPrescriptionForm(@ModelAttribute("prescription") Prescription prescription) {
+    public ModelAndView addPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
-        prescription.setPatient(patientService.selectPatient(prescription.getPatient().getId()));
+        Prescription prescription = new Prescription(patientService.selectPatient(prescriptionDTO.getPatientId()),
+                prescriptionDTO.getRemedyName(),
+                prescriptionDTO.getRemedyType(),
+                prescriptionDTO.getDateOfStart(),
+                prescriptionDTO.getDateOfEnd(),
+                prescriptionDTO.getRepeat(),
+                prescriptionDTO.getQuantity());
         prescriptionService.insertPrescription(prescription);
         mav.addObject("id", prescription.getPatient().getId());
         return mav;

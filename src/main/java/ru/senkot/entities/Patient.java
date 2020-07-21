@@ -58,6 +58,8 @@ public class Patient {
         this.dateOfBirth = dateOfBirth;
     }
 
+
+
     @Override
     public String toString() {
         return "Patient{" +
@@ -121,6 +123,10 @@ public class Patient {
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getAdditionalInsurance() {
