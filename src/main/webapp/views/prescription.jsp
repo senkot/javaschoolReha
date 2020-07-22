@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <th>Iterations</th>
-                <td><c:out value="${prescription.repeat}"/></td>
+                <td><c:out value="${prescription.iteration}"/></td>
             </tr>
             <tr>
                 <th>Quantity</th>

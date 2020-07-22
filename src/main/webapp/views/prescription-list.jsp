@@ -46,7 +46,7 @@
                     <td><c:out value="${prescription.remedyType}" /></td>
                     <td><c:out value="${prescription.dateStart}" /></td>
                     <td><c:out value="${prescription.dateEnd}" /></td>
-                    <td><c:out value="${prescription.repeat}" /></td>
+                    <td><c:out value="${prescription.iteration}" /></td>
                     <c:if test="${prescription.quantity != 0}" >
                         <td style="text-align: center"><c:out value="${prescription.quantity}"/></td>
                     </c:if>

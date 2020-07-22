@@ -51,13 +51,14 @@ public class PrescriptionController {
     public ModelAndView editPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
-        Prescription prescription = new Prescription(patientService.selectPatient(prescriptionDTO.getPatientId()),
-                prescriptionDTO.getRemedyName(),
-                prescriptionDTO.getRemedyType(),
-                prescriptionDTO.getDateOfStart(),
-                prescriptionDTO.getDateOfEnd(),
-                prescriptionDTO.getRepeat(),
-                prescriptionDTO.getQuantity());
+        Prescription prescription = prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId());
+        prescription.setRemedyName(prescriptionDTO.getRemedyName());
+        prescription.setRemedyType(prescriptionDTO.getRemedyType());
+        prescription.setDateStart(prescriptionDTO.getDateOfStart());
+        prescription.setDateEnd(prescriptionDTO.getDateOfEnd());
+        prescription.setIteration(prescription.getIteration());
+        prescription.setQuantity(prescription.getQuantity());
+
         prescriptionService.updatePrescription(prescription);
         mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
         mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescription.getPatient().getId()));
@@ -73,10 +74,11 @@ public class PrescriptionController {
                 prescriptionDTO.getRemedyType(),
                 prescriptionDTO.getDateOfStart(),
                 prescriptionDTO.getDateOfEnd(),
-                prescriptionDTO.getRepeat(),
+                prescriptionDTO.getIteration(),
                 prescriptionDTO.getQuantity());
         prescriptionService.insertPrescription(prescription);
-        mav.addObject("id", prescription.getPatient().getId());
+        mav.addObject("patient", prescription.getPatient());
+        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescription.getPatient().getId()));
         return mav;
     }
 

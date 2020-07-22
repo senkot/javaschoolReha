@@ -48,7 +48,14 @@
     <form method="post">
 
         <div class="form-group">
+
+
+            <c:if test="${!empty prescription.id}">
+                <input type="hidden" name="prescriptionId" class="form-control" value="<c:out value="${prescription.id}"/>" >
+            </c:if>
+
             <input type="hidden" name="patientId" class="form-control" value="${patient.id}">
+
 
             <label for="remedyName">Remedy</label>
             <c:if test="${empty prescription.id}">
@@ -90,12 +97,12 @@
         </div>
 
         <div class="form-group">
-            <label for="repeat">Repeat</label>
+            <label for="iteration">Repeat</label>
             <c:if test="${empty prescription.id}">
-                <input type="text" id="repeat" name="repeat" class="form-control" placeholder="Choose days for repeat remedy">
+                <input type="text" id="iteration" name="iteration" class="form-control" placeholder="Choose days for repeat remedy">
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <input type="text" id="repeat" name="repeat" class="form-control" value="<c:out value="${prescription.repeat}"/>">
+                <input type="text" id="iteration" name="iteration" class="form-control" value="<c:out value="${prescription.iteration}"/>">
             </c:if>
         </div>
 

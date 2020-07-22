@@ -7,8 +7,6 @@ Has dates of start and finish;
 Can be canceled;
  */
 
-import ru.senkot.servicies.PatientService;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,8 +43,8 @@ public class Prescription {
     @Column(name = "date_end")
     private Date dateEnd;
 
-    @Column(name = "repeat")
-    private String repeat;
+    @Column(name = "iteration")
+    private String iteration;
 
     @Column(name = "quantity")
     private int quantity;
@@ -55,13 +53,13 @@ public class Prescription {
 
     }
 
-    public Prescription(Patient patient, String remedyName, String remedyType, Date dateStart, Date dateEnd, String repeat, int quantity) {
+    public Prescription(Patient patient, String remedyName, String remedyType, Date dateStart, Date dateEnd, String iteration, int quantity) {
         this.patient = patient;
         this.remedyName = remedyName;
         this.remedyType = remedyType;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        this.repeat = repeat;
+        this.iteration = iteration;
         this.quantity = quantity;
     }
 
@@ -110,12 +108,12 @@ public class Prescription {
         this.dateEnd = dateEnd;
     }
 
-    public String getRepeat() {
-        return repeat;
+    public String getIteration() {
+        return iteration;
     }
 
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
+    public void setIteration(String iteration) {
+        this.iteration = iteration;
     }
 
     public int getQuantity() {

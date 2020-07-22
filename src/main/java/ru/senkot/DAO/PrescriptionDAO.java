@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.senkot.entities.Patient;
 import ru.senkot.entities.Prescription;
 
 import java.util.List;

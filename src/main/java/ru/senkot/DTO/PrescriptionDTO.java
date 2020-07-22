@@ -4,22 +4,31 @@ import java.sql.Date;
 
 public class PrescriptionDTO {
 
+    private int prescriptionId;
     private int patientId;
     private String remedyName;
     private String remedyType;
     private Date dateOfStart;
     private Date dateOfEnd;
-    private String repeat;
+    private String iteration;
     private int quantity;
 
-    public PrescriptionDTO(int patientId, String remedyName, String remedyType, Date dateOfStart, Date dateOfEnd, String repeat, int quantity) {
+    public PrescriptionDTO(int patientId, String remedyName, String remedyType, Date dateOfStart, Date dateOfEnd, String iteration, int quantity) {
         this.patientId = patientId;
         this.remedyName = remedyName;
         this.remedyType = remedyType;
         this.dateOfStart = dateOfStart;
         this.dateOfEnd = dateOfEnd;
-        this.repeat = repeat;
+        this.iteration = iteration;
         this.quantity = quantity;
+    }
+
+    public int getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public void setPrescriptionId(int prescriptionId) {
+        this.prescriptionId = prescriptionId;
     }
 
     public int getPatientId() {
@@ -62,12 +71,12 @@ public class PrescriptionDTO {
         this.dateOfEnd = dateOfEnd;
     }
 
-    public String getRepeat() {
-        return repeat;
+    public String getIteration() {
+        return iteration;
     }
 
-    public void setRepeat(String repeat) {
-        this.repeat = repeat;
+    public void setIteration(String iteration) {
+        this.iteration = iteration;
     }
 
     public int getQuantity() {
