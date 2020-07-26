@@ -7,6 +7,7 @@ Has dates of start and finish;
 Can be canceled;
  */
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,8 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "prescription")
@@ -48,6 +51,9 @@ public class Prescription {
 
     @Column(name = "quantity")
     private int quantity;
+
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events;
 
     public Prescription() {
 
@@ -130,5 +136,13 @@ public class Prescription {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

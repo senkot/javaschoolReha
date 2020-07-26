@@ -69,10 +69,24 @@
         <div class="form-group">
             <label for="remedyType">Type of remedy</label>
             <c:if test="${empty prescription.id}">
-                <input type="text" id="remedyType" name="remedyType" class="form-control" placeholder="Choose type of remedy">
+                <select  class="form-control" id="remedyType" name="remedyType">
+                    <option>pill</option>
+                    <option>procedure</option>
+                </select>
+                <%--                <input type="text" id="remedyType" name="remedyType" class="form-control" placeholder="Choose type of remedy">--%>
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <input type="text" id="remedyType" name="remedyType" class="form-control" value="<c:out value="${prescription.remedyType}"/>">
+                <select class="form-control" id="remedyType" name="remedyType" value="<c:out value="${prescription.remedyType}"/>">
+                    <c:if test="${prescription.remedyType == 'pill'}">
+                        <option selected>pill</option>
+                        <option>procedure</option>
+                    </c:if>
+                    <c:if test="${prescription.remedyType == 'procedure'}">
+                        <option>pill</option>
+                        <option selected>procedure</option>
+                    </c:if>
+                </select>
+                <%--                <input type="text" id="remedyType" name="remedyType" class="form-control" value="<c:out value="${prescription.remedyType}"/>">--%>
             </c:if>
         </div>
 

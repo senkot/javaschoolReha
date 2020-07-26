@@ -65,11 +65,4 @@ public class PatientController {
         return mav;
     }
 
-    @GetMapping(value = "/event-list")
-    public ModelAndView eventList() {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("event-list");
-        return mav;
-    }
-
 }

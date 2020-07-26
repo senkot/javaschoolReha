@@ -29,7 +29,7 @@ public class EventDAO {
         session.update(event);
     }
 
-    public Prescription selectEvent(int id) {
+    public Event selectEvent(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Event.class, id);
     }
@@ -39,7 +39,7 @@ public class EventDAO {
         return session.createQuery("From Event").list();
     }
 
-    public List<Prescription> selectAllEventsById(int id) {
+    public List<Prescription> selectAllEventsByPatientId(int id) {
         Session session = sessionFactory.getCurrentSession();
         List<Prescription> allPrescriptions = session.createQuery("select p FROM Prescription as p").list();
         return allPrescriptions.stream().
