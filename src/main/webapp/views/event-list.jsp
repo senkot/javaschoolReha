@@ -16,6 +16,10 @@
             <nav class="my-2 my-md-0 mr-md-3">
                 <%-- прописать роли входа и от этого условие появления кнопки перехода --%>
 
+                    <form action="<c:url value="/logout" />" method="post">
+                        <input type="submit" value="Sign Out"/>
+                    </form>
+
                 <a class="p-2 text-dark" href="<c:url value="/patient-list"/>">Back to Patient List</a>
             </nav>
             <a class="btn btn-outline-primary" href="/">Back to Authorization Page</a>
