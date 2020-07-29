@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Chandra Clinic</title>
+    <title>Sign In</title>
     <style>
         #my-header {background-color: #e6e6fe}
     </style>
@@ -12,20 +12,27 @@
     <header>
         <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Chandra Clinic</h5>
-            <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" href="<c:url value="/patient-list"/>">Doctor's page</a>
-                <a class="p-2 text-dark" href="<c:url value="/event-list"/>">Nurse's page</a>
-            </nav>
-            <a class="btn btn-outline-primary" href="<c:url value="/login"/>">Login Page</a>
+            <a class="btn btn-outline-primary" href="/">Back to Start Page</a>
         </div>
     </header>
 
     <main role="main" class="inner cover">
-        <h1 class="cover-heading">Chandra Clinic Rehab Division System</h1>
-        <p class="lead">Document management system of the Chandra clinic Rehab Resort</p>
-        <p class="lead">
-            <a class="btn btn-outline-primary"  href='<c:url value="/about" />'>More</a>
-        </p>
+        <h1 class="cover-heading">Login</h1>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="name">Name: </label>
+                    <input id="name" name="name" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password: </label>
+                    <input id="password" name="password" type="password">
+                </div>
+                <input type="submit">
+            </form>
+            <c:if test="${error == true}">
+                <p>Bad credentials!</p>
+            </c:if>
     </main>
 
     <footer class="mastfoot mt-auto">

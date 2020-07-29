@@ -46,7 +46,6 @@ public class UserDAO {
 
     public User findByUsername(String name) {
         Session session = sessionFactory.getCurrentSession();
-        List<User> users = session.createQuery("select u from User as u").list();
-        return users.stream().filter(user -> user.getUsername() == name).collect(Collectors.toList()).get(0);
+        return session.get(User.class, name);
     }
 }
