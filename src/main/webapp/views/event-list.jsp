@@ -4,30 +4,30 @@
 <head>
     <title>Event List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <style>
-        #my-header {background-color: #e6e6fe}
-    </style>
+
+    <script src="js/jquery-3.5.1.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.tablesorter.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $("#user_list").tablesorter();
+        });
+    </script>
 </head>
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header>
-        <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
+        <div style="background-color: #e6e6fe" id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Event List</h5>
             <nav class="my-2 my-md-0 mr-md-3">
-                <%-- прописать роли входа и от этого условие появления кнопки перехода --%>
-
-                    <form action="<c:url value="/logout" />" method="post">
-                        <input type="submit" value="Sign Out"/>
-                    </form>
 
                 <a class="p-2 text-dark" href="<c:url value="/patient-list"/>">Back to Patient List</a>
             </nav>
-            <a class="btn btn-outline-primary" href="/">Back to Authorization Page</a>
+            <a class="btn btn-outline-primary" href="/">Back to Srart Page</a>
         </div>
     </header>
 
     <div class="table-responsive container">
-        <table class="table table-bordered table-hover">
+        <table  class="table table-bordered table-hover" id="user_list">
             <tr class="table-active">
                 <th>Date</th>
                 <th>Time</th>

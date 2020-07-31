@@ -10,16 +10,14 @@
 <head>
     <title>Patient</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <style>
-        #my-header {background-color: #e6e6fe}
-    </style>
+
 </head>
 <body class="text-center">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
     <header>
-        <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
+        <div style="background-color: #e6e6fe" id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Patient:
                 <c:if test="${patient.lastName != null}">
                     <c:out value="${patient.lastName}"/>

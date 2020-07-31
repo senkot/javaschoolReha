@@ -15,13 +15,11 @@
     </header>
 
     <main role="main" class="inner cover">
-        <h1 class="cover-heading">Chandra Clinic Rehab Division System</h1>
-        <p class="lead">Rehab division of the Chandra clinic was founded in May 2020</p>
-        <p class="lead">as a part of Chandra Clinic in Pune, Maharashtra, India.</p>
-        <p class="lead">Rehab division is a resort with a special approach to visitors</p>
-        <p class="lead">who are patients of Chandra Clinic and take a rehabilitation course.</p>
+        <h1 class="cover-heading">Access denied</h1>
+        <p class="lead">It looks like you don't have rights to get this page</p>
+        <p class="lead">you can go to Start and login or re-login</p>
         <p class="lead">
-            <a class="btn btn-outline-primary"  href='<c:url value="/" />'>Back</a>
+            <a class="btn btn-outline-primary"  href='<c:url value="/" />'>Back to Start Page</a>
         </p>
     </main>
 
