@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <c:if test="${empty patient.id}">
@@ -101,10 +103,14 @@
         </div>
 
         <c:if test="${empty patient.id}">
-            <button class="btn btn-primary" type="submit">ADD</button>
+            <form:form action="${pageContext.request.contextPath}/add" method="post">
+                <button class="btn btn-primary" type="submit">ADD</button>
+            </form:form>
         </c:if>
         <c:if test="${!empty patient.id}">
-            <button class="btn btn-primary" type="submit">EDIT</button>
+            <form:form action="${pageContext.request.contextPath}/edit" method="post">
+                <button class="btn btn-primary" type="submit">EDIT</button>
+            </form:form>
         </c:if>
     </form>
 

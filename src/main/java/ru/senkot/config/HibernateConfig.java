@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 @Configuration
 @ComponentScan(basePackages = "ru.senkot")
@@ -25,6 +26,8 @@ public class HibernateConfig {
     public void setEnvironment(Environment environment) {
         this.environment = environment;
     }
+
+//    private Logger logger = Logger.getLogger(getClass().getName());
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
@@ -40,6 +43,8 @@ public class HibernateConfig {
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
+//        logger.info(">>> jdbc.url=" + environment.getProperty("jdbc.url"));
+//        logger.info(">>> jdbc.user=" + environment.getProperty("jdbc.user"));
         return dataSource;
     }
 

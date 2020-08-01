@@ -1,11 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: KOTLIS
-  Date: 11.07.2020
-  Time: 18:15
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <c:if test="${empty prescription.id}">
@@ -131,10 +126,14 @@
         </div>
 
         <c:if test="${empty prescription.id}">
-            <button class="btn btn-primary" type="submit">ADD</button>
+            <form:form action="${pageContext.request.contextPath}/add-prescription" method="post">
+                <button class="btn btn-primary" type="submit">ADD</button>
+            </form:form>
         </c:if>
         <c:if test="${!empty prescription.id}">
-            <button class="btn btn-primary" type="submit">EDIT</button>
+            <form:form action="${pageContext.request.contextPath}/edit-prescription" method="post">
+                <button class="btn btn-primary" type="submit">EDIT</button>
+            </form:form>
         </c:if>
     </form>
 
