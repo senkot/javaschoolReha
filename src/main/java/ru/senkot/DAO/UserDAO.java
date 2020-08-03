@@ -27,10 +27,6 @@ public class UserDAO {
         session.update(user);
     }
 
-    public User selectUser(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(User.class, id);
-    }
 
     @SuppressWarnings("unchecked")
     public List<User> selectAllUsers() {

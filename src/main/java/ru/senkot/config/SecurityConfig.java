@@ -20,13 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-//        User.UserBuilder users = User.withDefaultPasswordEncoder();
-//
-//        auth.inMemoryAuthentication()
-//                .withUser(users.username("john").password("test123").roles("DOCTOR"))
-//                .withUser(users.username("mary").password("test123").roles("NURSE"))
-//                .withUser(users.username("admin").password("admin").roles("DOCTOR", "NURSE", "ADMIN"));
-
         auth.jdbcAuthentication().dataSource(dataSource);
 
     }
@@ -37,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                     .antMatchers("/", "/about").permitAll()
                     .antMatchers("/patient-list/**", "/patient/**", "/patient-form/**"
-                    , "/prescription-list/**", "/prescription/**", "/prescription-form/**").hasRole("DOCTOR")
+                    , "/prescription-list/**", "/prescription/**", "/prescription-form/**", "/add", "/edit"
+                    , "/add-prescription", "/edit-prescription").hasRole("DOCTOR")
                     .antMatchers("/event-list/**", "/event/**").hasAnyRole("NURSE", "DOCTOR")
                 .and()
                 .formLogin()

@@ -1,7 +1,7 @@
 package ru.senkot.entities;
 
 public enum Role {
-    DOCTOR,
-    NURSE,
-    ADMIN;
+    ROLE_DOCTOR,
+    ROLE_NURSE,
+    ROLE_ADMIN;
 }

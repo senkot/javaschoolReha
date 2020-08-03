@@ -79,6 +79,18 @@
                     <td>-none-</td>
                 </c:if>
             </tr>
+            <tr>
+                <th>Attending Doctor</th>
+                <td><c:out value="${patient.doctorName}"/></td>
+            </tr>
+            <tr>
+                <th>Diagnosis</th>
+                <td><c:out value="${patient.diagnosis}"/></td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td><c:out value="${patient.state}"/></td>
+            </tr>
 
         </table>
     </div>

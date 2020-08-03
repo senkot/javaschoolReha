@@ -22,39 +22,42 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     @Column(name = "username")
-    @Size(min = 3, message = "At least 3 characters")
-    @NotBlank(message = "Name is required")
     private String username;
 
     @Column(name = "password")
-    @Size(min = 5, message = "At least 5 symbols")
     private String password;
 
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Transient
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "username"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
-//    @Column(name = "role")
-//    private String role;
 
     public User() {
     }
 
-    public int getId() {
-        return id;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getUsername() {
@@ -73,20 +76,4 @@ public class User {
         this.password = password;
     }
 
-//    public String getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(String role) {
-//        this.role = role;
-//    }
-
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

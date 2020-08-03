@@ -68,10 +68,9 @@
                     <option>pill</option>
                     <option>procedure</option>
                 </select>
-                <%--                <input type="text" id="remedyType" name="remedyType" class="form-control" placeholder="Choose type of remedy">--%>
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <select class="form-control" id="remedyType" name="remedyType" value="<c:out value="${prescription.remedyType}"/>">
+                <select class="form-control" id="remedyType" name="remedyType">
                     <c:if test="${prescription.remedyType == 'pill'}">
                         <option selected>pill</option>
                         <option>procedure</option>

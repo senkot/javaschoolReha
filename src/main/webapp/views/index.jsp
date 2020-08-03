@@ -26,21 +26,22 @@
                     <a class="p-2 text-dark" href="<c:url value="/event-list"/>">Events</a>
                 </sec:authorize>
             </nav>
-            <p class="my-2 my-md-0 mr-md-3">
+
                 <sec:authorize access="hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
                 <form:form action="${pageContext.request.contextPath}/logout" method="post">
-                    <input type="submit" class="btn btn-outline-primary" value="Logout" />
+                    <in class="btn btn-outline-primary" type="submit">Logout</in>
                 </form:form>
                 </sec:authorize>
                 <sec:authorize access="!hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
                     <a class="btn btn-outline-primary"  href='<c:url value="/login-page" />'>Login</a>
                 </sec:authorize>
-            </p>
+
         </div>
     </header>
 
     <main role="main" class="inner cover">
         <h1 class="cover-heading">Chandra Clinic Rehab Division System</h1>
+<%--        <h1 class="cover-heading">THE USER IS : <c:out value="${user.fullName}" /></h1>--%>
         <p class="lead">Document management system of the Chandra clinic Rehab Resort</p>
         <p class="lead">
             <a class="btn btn-outline-primary"  href='<c:url value="/about" />'>More</a>

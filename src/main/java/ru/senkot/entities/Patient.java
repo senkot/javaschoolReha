@@ -38,6 +38,15 @@ public class Patient {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
 
+    @Column(name = "doctor_name")
+    private String doctorName;
+
+    @Column(name = "diagnosis")
+    private String diagnosis;
+
+    @Column(name = "state")
+    private String state;
+
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Prescription> prescriptions;
 
@@ -49,13 +58,16 @@ public class Patient {
     }
 
     public Patient(String insurance, String additionalInsurance, String firstName, String lastName,
-                   String secondName, Date dateOfBirth) {
+                   String secondName, Date dateOfBirth, String doctorName, String diagnosis, String state) {
         this.insurance = insurance;
         this.additionalInsurance = additionalInsurance;
         this.firstName = firstName;
         this.lastName = lastName;
         this.secondName = secondName;
         this.dateOfBirth = dateOfBirth;
+        this.doctorName = doctorName;
+        this.diagnosis = diagnosis;
+        this.state = state;
     }
 
 
@@ -135,6 +147,30 @@ public class Patient {
 
     public void setAdditionalInsurance(String additionalInsurance) {
         this.additionalInsurance = additionalInsurance;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     @Override

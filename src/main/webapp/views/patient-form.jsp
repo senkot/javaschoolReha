@@ -36,13 +36,28 @@
                 </c:if>
             </nav>
 
-            <a class="btn btn-outline-primary" href="<c:url value='/'/>">Back to Authorization Page</a>
+            <a class="btn btn-outline-primary" href="<c:url value='/'/>">Back to Start Page</a>
         </div>
     </header>
 
     <form method="post">
 
         <div class="form-group">
+
+            <input type="hidden" name="doctorName" value="${user.fullName}">
+
+            <c:if test="${!empty patient.id}">
+                <input type="hidden" name="patientId" class="form-control" value="<c:out value="${patient.id}"/>" >
+            </c:if>
+
+            <c:if test="${empty patient.id}">
+                <input type="hidden" name="state" value="in">
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <input type="hidden" name="state" value="${patient.state}">
+            </c:if>
+
+
             <label for="lastName">Surname</label>
             <c:if test="${empty patient.id}">
                 <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter surname">
@@ -99,6 +114,50 @@
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" value="<c:out value="${patient.additionalInsurance}"/>">
+            </c:if>
+        </div>
+
+        <div class="form-group">
+            <label for="diagnosis">Diagnosis</label>
+            <c:if test="${empty patient.id}">
+                <select class="form-control" id="diagnosis" name="diagnosis">
+                    <option>tiredness</option>
+                    <option>sadness</option>
+                    <option>stress</option>
+                    <option>depression</option>
+                    <option>weakness</option>
+                    <option>boredom</option>
+                    <option>insomnia</option>
+                    <option>nervousness</option>
+                </select>
+            </c:if>
+            <c:if test="${!empty patient.id}">
+                <select  class="form-control" id="diagnosis" name="diagnosis">
+                    <c:if test="${patient.diagnosis == 'tiredness'}">
+                        <option selected>tiredness</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'sadness'}">
+                        <option selected>sadness</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'stress'}">
+                        <option selected>stress</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'depression'}">
+                        <option selected>depression</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'weakness'}">
+                        <option selected>weakness</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'boredom'}">
+                        <option selected>boredom</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'insomnia'}">
+                        <option selected>insomnia</option>
+                    </c:if>
+                    <c:if test="${patient.diagnosis == 'nervousness'}">
+                        <option selected>nervousness</option>
+                    </c:if>
+                </select>
             </c:if>
         </div>
 
