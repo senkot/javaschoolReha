@@ -56,6 +56,11 @@
                 </tr>
             </c:forEach>
         </table>
+
+        <c:forEach var="date" items="${dates}">
+            <p><c:out value="${date}"/></p>
+        </c:forEach>
+
     </div>
 
     <footer class="mastfoot mt-auto">

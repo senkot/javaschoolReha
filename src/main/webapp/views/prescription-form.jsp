@@ -124,6 +124,26 @@
             </c:if>
         </div>
 
+        <div class="form-group">
+            <label class="w-100">Times reception:</label>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="morning" name="morning">
+                <label class="custom-control-label" for="morning">Morning</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="afternoon" name="afternoon">
+                <label class="custom-control-label" for="afternoon">Afternoon</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="evening" name="evening">
+                <label class="custom-control-label" for="evening">Evening</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="night" name="night">
+                <label class="custom-control-label" for="night">Night</label>
+            </div>
+        </div>
+
         <c:if test="${empty prescription.id}">
             <form:form action="${pageContext.request.contextPath}/add-prescription" method="post">
                 <button class="btn btn-primary" type="submit">ADD</button>

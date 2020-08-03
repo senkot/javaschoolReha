@@ -3,10 +3,15 @@ package ru.senkot.servicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.EventDAO;
+import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Event;
 import ru.senkot.entities.Prescription;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @Service
@@ -45,6 +50,21 @@ public class EventService {
         eventDAO.deleteEvent(event);
     }
 
+    public List<Date> dates(PrescriptionDTO prescriptionDTO) {
+        List<Date> datesInRange = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(prescriptionDTO.getDateOfStart());
 
+        Calendar endCalendar = new GregorianCalendar();
+        endCalendar.setTime(prescriptionDTO.getDateOfEnd());
+        endCalendar.add(Calendar.DATE, 1);
+
+        while (calendar.before(endCalendar)) {
+            Date result = new Date(calendar.getTime().getTime());
+            datesInRange.add(result);
+            calendar.add(Calendar.DATE, 1);
+        }
+        return datesInRange;
+    }
 
 }

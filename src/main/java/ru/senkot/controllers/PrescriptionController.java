@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Prescription;
+import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.PrescriptionService;
 
@@ -19,6 +20,9 @@ public class PrescriptionController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private EventService eventService;
 
     @GetMapping(value = "/prescription-list")
     public ModelAndView prescriptionList(@ModelAttribute("id") int id) {
@@ -62,6 +66,7 @@ public class PrescriptionController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
         prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
+        mav.addObject("dates", eventService.dates(prescriptionDTO));
         mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
         mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
         return mav;
