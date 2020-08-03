@@ -29,6 +29,9 @@
                 <th>Date of Birth</th>
                 <th>Number of Insurance</th>
                 <th>Additional Insurance</th>
+                <th>Attending Doctor</th>
+                <th>Diagnosis</th>
+                <th>Status</th>
                 <th>Show</th>
             </tr>
 
@@ -45,6 +48,9 @@
                     <c:if test="${patient.haveAdditionalInsurance() == false}" >
                         <td style="text-align: center">&#10062;</td>
                     </c:if>
+                    <td><c:out value="${patient.doctorName}" /></td>
+                    <td><c:out value="${patient.diagnosis}" /></td>
+                    <td><c:out value="${patient.state}" /></td>
                     <td>
                         <a href='<c:url value="/patient?id=${patient.id}" />'>SHOW</a>
                     </td>
