@@ -10,21 +10,43 @@ public class PrescriptionDTO {
     private String remedyType;
     private Date dateOfStart;
     private Date dateOfEnd;
-    private String iteration;
+
+    private String monday;
+    private String tuesday;
+    private String wednesday;
+    private String thursday;
+    private String friday;
+    private String saturday;
+    private String sunday;
+
     private int quantity;
     private String morning;
     private String afternoon;
     private String evening;
     private String night;
 
-    public PrescriptionDTO(int patientId, String remedyName, String remedyType, Date dateOfStart, Date dateOfEnd, String iteration, int quantity) {
+    public PrescriptionDTO(int patientId, String remedyName, String remedyType,
+                           Date dateOfStart, Date dateOfEnd, String monday, String tuesday,
+                           String wednesday, String thursday, String friday, String saturday,
+                           String sunday, int quantity, String morning, String afternoon,
+                           String evening, String night) {
         this.patientId = patientId;
         this.remedyName = remedyName;
         this.remedyType = remedyType;
         this.dateOfStart = dateOfStart;
         this.dateOfEnd = dateOfEnd;
-        this.iteration = iteration;
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
         this.quantity = quantity;
+        this.morning = morning;
+        this.afternoon = afternoon;
+        this.evening = evening;
+        this.night = night;
     }
 
     public int getPrescriptionId() {
@@ -75,12 +97,60 @@ public class PrescriptionDTO {
         this.dateOfEnd = dateOfEnd;
     }
 
-    public String getIteration() {
-        return iteration;
+    public String getMonday() {
+        return monday;
     }
 
-    public void setIteration(String iteration) {
-        this.iteration = iteration;
+    public void setMonday(String monday) {
+        this.monday = monday;
+    }
+
+    public String getTuesday() {
+        return tuesday;
+    }
+
+    public void setTuesday(String tuesday) {
+        this.tuesday = tuesday;
+    }
+
+    public String getWednesday() {
+        return wednesday;
+    }
+
+    public void setWednesday(String wednesday) {
+        this.wednesday = wednesday;
+    }
+
+    public String getThursday() {
+        return thursday;
+    }
+
+    public void setThursday(String thursday) {
+        this.thursday = thursday;
+    }
+
+    public String getFriday() {
+        return friday;
+    }
+
+    public void setFriday(String friday) {
+        this.friday = friday;
+    }
+
+    public String getSaturday() {
+        return saturday;
+    }
+
+    public void setSaturday(String saturday) {
+        this.saturday = saturday;
+    }
+
+    public String getSunday() {
+        return sunday;
+    }
+
+    public void setSunday(String sunday) {
+        this.sunday = sunday;
     }
 
     public int getQuantity() {

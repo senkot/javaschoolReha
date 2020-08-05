@@ -46,9 +46,6 @@ public class Prescription {
     @Column(name = "date_end")
     private Date dateEnd;
 
-    @Column(name = "iteration")
-    private String iteration;
-
     @Column(name = "quantity")
     private int quantity;
 
@@ -59,13 +56,13 @@ public class Prescription {
 
     }
 
-    public Prescription(Patient patient, String remedyName, String remedyType, Date dateStart, Date dateEnd, String iteration, int quantity) {
+    public Prescription(Patient patient, String remedyName, String remedyType,
+                        Date dateStart, Date dateEnd, int quantity) {
         this.patient = patient;
         this.remedyName = remedyName;
         this.remedyType = remedyType;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
-        this.iteration = iteration;
         this.quantity = quantity;
     }
 
@@ -112,14 +109,6 @@ public class Prescription {
 
     public void setDateEnd(Date dateEnd) {
         this.dateEnd = dateEnd;
-    }
-
-    public String getIteration() {
-        return iteration;
-    }
-
-    public void setIteration(String iteration) {
-        this.iteration = iteration;
     }
 
     public int getQuantity() {

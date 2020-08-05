@@ -49,7 +49,22 @@ public class Event {
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;
 
+    @Column(name = "patient_id")
+    private int patientId;
+
     public Event(){}
+
+    public Event(Date date, String time, String status, String remedyName,
+                 String remedyType, int quantity, Prescription prescription, int patientId) {
+        this.date = date;
+        this.time = time;
+        this.status = status;
+        this.remedyName = remedyName;
+        this.remedyType = remedyType;
+        this.quantity = quantity;
+        this.prescription = prescription;
+        this.patientId = patientId;
+    }
 
     @Override
     public String toString() {
@@ -119,5 +134,13 @@ public class Event {
 
     public void setPrescription(Prescription prescription) {
         this.prescription = prescription;
+    }
+
+    public int getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
     }
 }

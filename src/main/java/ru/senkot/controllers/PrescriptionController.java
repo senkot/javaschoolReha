@@ -12,6 +12,10 @@ import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.PrescriptionService;
 
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class PrescriptionController {
 
@@ -64,11 +68,22 @@ public class PrescriptionController {
     @PostMapping(value = "/add-prescription")
     public ModelAndView addPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("prescription-list");
-        prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
-        mav.addObject("dates", eventService.dates(prescriptionDTO));
-        mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
-        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+        List<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
+
+        if (collisions == null || collisions.isEmpty()) {
+            mav.setViewName("prescription-list");
+            prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
+
+            prescriptionDTO.setPrescriptionId(prescriptionService.getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
+            eventService.generateAndInsertEvents(prescriptionDTO);
+            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+            mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+
+        } else {
+            mav.setViewName("prescription-form");
+            mav.addObject("collisions", collisions);
+            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+        }
         return mav;
     }
 

@@ -39,11 +39,11 @@ public class EventDAO {
         return session.createQuery("From Event").list();
     }
 
-    public List<Prescription> selectAllEventsByPatientId(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        List<Prescription> allPrescriptions = session.createQuery("select p FROM Prescription as p").list();
-        return allPrescriptions.stream().
-                filter(prescription -> prescription.getPatient().getId() == id).
+    public List<Event> selectAllEventsByPatientId(int id) {
+        List<Event> eventList = selectAllEvents();
+
+        return eventList.stream().
+                filter(event -> event.getPatientId() == id).
                 collect(Collectors.toList());
     }
 

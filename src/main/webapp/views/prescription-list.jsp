@@ -28,7 +28,6 @@
                 <th>Type</th>
                 <th>Date of Start</th>
                 <th>Date of End</th>
-                <th>Iterations</th>
                 <th>Quantity</th>
                 <th>Show INFO</th>
                 <th>Edit</th>
@@ -40,7 +39,6 @@
                     <td><c:out value="${prescription.remedyType}" /></td>
                     <td><c:out value="${prescription.dateStart}" /></td>
                     <td><c:out value="${prescription.dateEnd}" /></td>
-                    <td><c:out value="${prescription.iteration}" /></td>
                     <c:if test="${prescription.quantity != 0}" >
                         <td style="text-align: center"><c:out value="${prescription.quantity}"/></td>
                     </c:if>
@@ -56,10 +54,6 @@
                 </tr>
             </c:forEach>
         </table>
-
-        <c:forEach var="date" items="${dates}">
-            <p><c:out value="${date}"/></p>
-        </c:forEach>
 
     </div>
 

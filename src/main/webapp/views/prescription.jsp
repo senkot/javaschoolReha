@@ -53,10 +53,6 @@
                 <td><c:out value="${prescription.dateEnd}"/></td>
             </tr>
             <tr>
-                <th>Iterations</th>
-                <td><c:out value="${prescription.iteration}"/></td>
-            </tr>
-            <tr>
                 <th>Quantity</th>
                 <td><c:out value="${prescription.quantity}"/></td>
             </tr>

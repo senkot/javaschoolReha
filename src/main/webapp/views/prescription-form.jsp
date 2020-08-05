@@ -44,6 +44,15 @@
 
         <div class="form-group">
 
+            <c:if test="${!empty collisions}">
+                <div>
+                <ul>There is some collisions in the dates :
+                <c:forEach items="${collisions}" var="collision">
+                    <li><c:out value="${collision}" /></li>
+                </c:forEach>
+                </ul>
+                </div>
+            </c:if>
 
             <c:if test="${!empty prescription.id}">
                 <input type="hidden" name="prescriptionId" class="form-control" value="<c:out value="${prescription.id}"/>" >
@@ -105,13 +114,35 @@
         </div>
 
         <div class="form-group">
-            <label for="iteration">Repeat</label>
-            <c:if test="${empty prescription.id}">
-                <input type="text" id="iteration" name="iteration" class="form-control" placeholder="Choose days for repeat remedy">
-            </c:if>
-            <c:if test="${!empty prescription.id}">
-                <input type="text" id="iteration" name="iteration" class="form-control" value="<c:out value="${prescription.iteration}"/>">
-            </c:if>
+            <label class="w-100">Weekday for repeat</label>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="monday" name="monday">
+                <label class="custom-control-label" for="monday">Monday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="tuesday" name="tuesday">
+                <label class="custom-control-label" for="tuesday">Tuesday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="wednesday" name="wednesday">
+                <label class="custom-control-label" for="wednesday">Wednesday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="thursday" name="thursday">
+                <label class="custom-control-label" for="thursday">Thursday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="friday" name="friday">
+                <label class="custom-control-label" for="friday">Friday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="saturday" name="saturday">
+                <label class="custom-control-label" for="saturday">Saturday</label>
+            </div>
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="sunday" name="sunday">
+                <label class="custom-control-label" for="sunday">Sunday</label>
+            </div>
         </div>
 
         <div class="form-group">
@@ -125,7 +156,7 @@
         </div>
 
         <div class="form-group">
-            <label class="w-100">Times reception:</label>
+            <label class="w-100">Time reception</label>
             <div class="custom-control custom-checkbox custom-control-inline">
                 <input type="checkbox" class="custom-control-input" id="morning" name="morning">
                 <label class="custom-control-label" for="morning">Morning</label>

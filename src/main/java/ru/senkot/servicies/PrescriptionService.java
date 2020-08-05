@@ -44,13 +44,22 @@ public class PrescriptionService {
     }
 
     @Transactional
+    public int getLastInsertedPrescriptionIdForPatient(int id) {
+        List<Prescription> prescriptions = prescriptionDAO.selectAllPrescriptionsById(id);
+        int lastPrescriptionId = 0;
+        for (Prescription p : prescriptions) {
+            if (p.getId() > lastPrescriptionId) lastPrescriptionId = p.getId();
+        }
+        return lastPrescriptionId;
+    }
+
+    @Transactional
     public Prescription getPrescriptionFromDTOForUpdate(PrescriptionDTO prescriptionDTO) {
         Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
         prescription.setRemedyName(prescriptionDTO.getRemedyName());
         prescription.setRemedyType(prescriptionDTO.getRemedyType());
         prescription.setDateStart(prescriptionDTO.getDateOfStart());
         prescription.setDateEnd(prescriptionDTO.getDateOfEnd());
-        prescription.setIteration(prescription.getIteration());
         prescription.setQuantity(prescription.getQuantity());
         return prescription;
     }
@@ -63,7 +72,6 @@ public class PrescriptionService {
                 prescriptionDTO.getRemedyType(),
                 prescriptionDTO.getDateOfStart(),
                 prescriptionDTO.getDateOfEnd(),
-                prescriptionDTO.getIteration(),
                 prescriptionDTO.getQuantity()
         );
     }
