@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -76,13 +78,14 @@ public class EventService {
     // возвращает List с совпадениями в виде: Дата : Время-дня
 
     @Transactional
-    public List<String> overlapEventsFromPrescriptionMap(PrescriptionDTO prescriptionDTO) {
+    public Set<String> overlapEventsFromPrescriptionMap(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
         List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
         if (events.isEmpty()) {
             return null;
         } else {
             List<String> collisionList = new ArrayList<>();
+            Set<String> collisionSet = new HashSet<>();
 
             for (Event event : events) {
                 for (Map.Entry<Date, List<String>> entry : dateTimeMap.entrySet()) {
@@ -96,12 +99,13 @@ public class EventService {
                     if (!times.isEmpty()) {
                         for (String time : times) {
                             collisionList.add(entry.getKey() + " : " + time);
+                            collisionSet.add(entry.getKey() + " : " + time);
                         }
                     }
                 }
             }
 
-            if (!collisionList.isEmpty()) return collisionList;
+            if (!collisionList.isEmpty()) return collisionSet;
             else return null;
         }
     }

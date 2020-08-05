@@ -15,6 +15,7 @@ import ru.senkot.servicies.PrescriptionService;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 public class PrescriptionController {
@@ -68,7 +69,7 @@ public class PrescriptionController {
     @PostMapping(value = "/add-prescription")
     public ModelAndView addPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
         ModelAndView mav = new ModelAndView();
-        List<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
+        Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
 
         if (collisions == null || collisions.isEmpty()) {
             mav.setViewName("prescription-list");
