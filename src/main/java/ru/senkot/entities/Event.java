@@ -45,6 +45,9 @@ public class Event {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "cause")
+    private String cause;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;
@@ -142,5 +145,13 @@ public class Event {
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 }

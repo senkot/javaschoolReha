@@ -3,8 +3,10 @@ package ru.senkot.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.senkot.DAO.EventDAO;
+import ru.senkot.DTO.EventDTO;
 import ru.senkot.servicies.EventService;
 
 @Controller
@@ -21,4 +23,20 @@ public class EventController {
         return mav;
     }
 
+    @GetMapping(value = "/event")
+    public ModelAndView getEventById(@ModelAttribute("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("event");
+        mav.addObject("event", eventService.selectEvent(id));
+        return mav;
+    }
+
+    @PostMapping(value = "/event")
+    public ModelAndView changeStatus(@ModelAttribute("eventDTO")EventDTO eventDTO){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("event");
+        eventService.updateEventStatus(eventDTO);
+        mav.addObject("event", eventService.selectEvent(eventDTO.getEventId()));
+        return mav;
+    }
 }

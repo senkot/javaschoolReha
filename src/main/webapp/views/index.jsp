@@ -29,7 +29,7 @@
 
                 <sec:authorize access="hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
                 <form:form action="${pageContext.request.contextPath}/logout" method="post">
-                    <in class="btn btn-outline-primary" type="submit">Logout</in>
+                    <input type="submit" class="btn btn-outline-primary" value="Logout" />
                 </form:form>
                 </sec:authorize>
                 <sec:authorize access="!hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">

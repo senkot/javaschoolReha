@@ -10,7 +10,7 @@
         <title>Edit Patient</title>
     </c:if>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 
     <style>
         #my-header {background-color: #e6e6fe}
@@ -89,7 +89,6 @@
                         <option selected>procedure</option>
                     </c:if>
                 </select>
-                <%--                <input type="text" id="remedyType" name="remedyType" class="form-control" value="<c:out value="${prescription.remedyType}"/>">--%>
             </c:if>
         </div>
 

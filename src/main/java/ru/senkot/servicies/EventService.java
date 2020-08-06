@@ -3,6 +3,7 @@ package ru.senkot.servicies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.EventDAO;
+import ru.senkot.DTO.EventDTO;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Event;
 
@@ -54,6 +55,16 @@ public class EventService {
     @Transactional
     public void deleteEvent(Event event) {
         eventDAO.deleteEvent(event);
+    }
+
+    @Transactional
+    public void updateEventStatus(EventDTO eventDTO) {
+        Event event = selectEvent(eventDTO.getEventId());
+        event.setStatus(eventDTO.getStatus());
+        if (!eventDTO.getCause().isEmpty() && eventDTO.getCause() != null) {
+            event.setCause(eventDTO.getCause());
+        }
+        updateEvent(event);
     }
 
     @Transactional

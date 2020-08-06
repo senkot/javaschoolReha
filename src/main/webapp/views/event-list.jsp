@@ -51,7 +51,11 @@
                     <c:if test="${prescription.quantity == 0}" >
                         <td style="text-align: center">-</td>
                     </c:if>
-                    <td><c:out value="${event.status}" /></td>
+                    <td>
+                        <a href="<c:url value="/event?id=${event.id}"/>">
+                            <c:out value="${event.status}"/>
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
         </table>
