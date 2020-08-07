@@ -76,4 +76,14 @@ public class PrescriptionService {
         );
     }
 
+    @Transactional
+    public void updatePrescriptionStatus (PrescriptionDTO prescriptionDTO) {
+        Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
+        prescription.setStatus(prescriptionDTO.getStatus());
+        if (!prescriptionDTO.getCause().isEmpty() && prescriptionDTO.getCause() != null) {
+            prescription.setCause(prescriptionDTO.getCause());
+        }
+        updatePrescription(prescription);
+    }
+
 }

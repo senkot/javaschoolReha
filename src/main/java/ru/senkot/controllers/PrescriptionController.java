@@ -98,4 +98,15 @@ public class PrescriptionController {
         return mav;
     }
 
+    @PostMapping(value = "/prescription")
+    public ModelAndView editPrescriptionStatus(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("prescription");
+        prescriptionService.updatePrescriptionStatus(prescriptionDTO);
+        Prescription prescription = prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId());
+        mav.addObject("prescription", prescription);
+        mav.addObject("patient", prescription.getPatient());
+        return mav;
+    }
+
 }

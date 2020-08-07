@@ -49,6 +49,12 @@ public class Prescription {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "cause")
+    private String cause;
+
     @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events;
 
@@ -133,5 +139,21 @@ public class Prescription {
 
     public void setEvents(List<Event> events) {
         this.events = events;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 }

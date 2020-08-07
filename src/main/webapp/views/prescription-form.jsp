@@ -73,13 +73,13 @@
         <div class="form-group">
             <label for="remedyType">Type of remedy</label>
             <c:if test="${empty prescription.id}">
-                <select  class="form-control" id="remedyType" name="remedyType">
+                <select  class="form-control" id="remedyType" name="remedyType"  onchange="Selected(this)">
                     <option>pill</option>
                     <option>procedure</option>
                 </select>
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <select class="form-control" id="remedyType" name="remedyType">
+                <select class="form-control" id="remedyType" name="remedyType" onchange="Selected(this)">
                     <c:if test="${prescription.remedyType == 'pill'}">
                         <option selected>pill</option>
                         <option>procedure</option>
@@ -193,5 +193,18 @@
     </footer>
 
 </div>
+
+<script>
+    function Selected(a) {
+        var label = a.value;
+        if (label=="procedure") {
+            document.getElementById("quantity").value='1';
+            document.getElementById("quantity").readOnly=true;
+        } else {
+            document.getElementById("quantity").readOnly=false;
+        }
+    }
+</script>
+
 </body>
 </html>

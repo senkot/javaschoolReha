@@ -29,7 +29,7 @@
                 <th>Date of Start</th>
                 <th>Date of End</th>
                 <th>Quantity</th>
-                <th>Show INFO</th>
+                <th>Status</th>
                 <th>Edit</th>
             </tr>
 
@@ -39,14 +39,11 @@
                     <td><c:out value="${prescription.remedyType}" /></td>
                     <td><c:out value="${prescription.dateStart}" /></td>
                     <td><c:out value="${prescription.dateEnd}" /></td>
-                    <c:if test="${prescription.quantity != 0}" >
-                        <td style="text-align: center"><c:out value="${prescription.quantity}"/></td>
-                    </c:if>
-                    <c:if test="${prescription.quantity == 0}" >
-                        <td style="text-align: center">-</td>
-                    </c:if>
+                    <td><c:out value="${prescription.quantity}"/></td>
                     <td>
-                        <a href='<c:url value="/prescription?id=${prescription.id}" />'>SHOW</a>
+                        <a href='<c:url value="/prescription?id=${prescription.id}" />'>
+                            <c:out value="${prescription.status}"/>
+                        </a>
                     </td>
                     <td>
                         <a href='<c:url value="/edit-prescription?id=${prescription.id}" />'>EDIT</a>

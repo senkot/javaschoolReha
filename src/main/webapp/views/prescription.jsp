@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
     <title>Prescription</title>
@@ -49,9 +51,74 @@
                 <th>Quantity</th>
                 <td><c:out value="${prescription.quantity}"/></td>
             </tr>
+            <tr>
+                <th>Status</th>
+                <td><c:out value="${prescription.status}"/></td>
+            </tr>
+            <c:if test="${prescription.status == 'canceled'}" >
+                <tr>
+                    <th>Cause</th>
+                    <td><c:out value="${prescription.cause}"/></td>
+                </tr>
+            </c:if>
 
         </table>
     </div>
+
+    <form method="post">
+        <div>
+            <label class="w-100">Change the status :</label>
+
+            <input type="hidden" name="prescriptionId" value="<c:out value="${prescription.id}"/>" >
+
+            <div class="custom-control custom-radio">
+                <c:if test="${prescription.status == 'planed'}">
+                    <input type="radio" value="planed" class="custom-control-input" id="planed" name="status" onChange="Selected(this)" checked>
+                </c:if>
+                <c:if test="${prescription.status != 'planed'}">
+                    <input type="radio" value="planed" class="custom-control-input" id="planed" name="status" onChange="Selected(this)" disabled>
+                </c:if>
+                <label class="custom-control-label" for="planed">Planed</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <c:if test="${prescription.status == 'done'}">
+                    <input type="radio" value="done" class="custom-control-input" id="done" name="status" onChange="Selected(this)" checked>
+                </c:if>
+                <c:if test="${prescription.status == 'planed'}">
+                    <input type="radio" value="done" class="custom-control-input" id="done" name="status" onChange="Selected(this)">
+                </c:if>
+                <c:if test="${prescription.status == 'canceled'}">
+                    <input type="radio" value="done" class="custom-control-input" id="done" name="status" onChange="Selected(this)" disabled>
+                </c:if>
+                <label class="custom-control-label" for="done">Done</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <c:if test="${prescription.status == 'planed'}">
+                    <input type="radio" value="canceled" class="custom-control-input" id="canceled" name="status" onChange="Selected(this)">
+                </c:if>
+                <c:if test="${prescription.status == 'done'}">
+                    <input type="radio" value="canceled" class="custom-control-input" id="canceled" name="status" onChange="Selected(this)" disabled>
+                </c:if>
+                <c:if test="${prescription.status == 'canceled'}">
+                    <input type="radio" value="canceled" class="custom-control-input" id="canceled" name="status" onChange="Selected(this)" checked>
+                    <p id="cause">The cause is : <c:out value="${prescription.cause}"/></p>
+                </c:if>
+                <label class="custom-control-label" for="canceled">Canceled</label>
+            </div>
+            <div id='Block1' style='display: none;'>
+                <label for="cause">Cause</label>
+                <c:if test="${!empty prescription.cause}"> <p id="cause">value="<c:out value="${prescription.cause}"/>"</p> </c:if>
+                <c:if test="${empty prescription.cause}"> <input id="cause" type="text" name="cause" ></c:if>
+
+            </div>
+
+            <c:if test="${prescription.status == 'planed'}">
+                <form:form action="${pageContext.request.contextPath}/prescription" method="post">
+                    <button class="btn btn-primary" type="submit">EDIT</button>
+                </form:form>
+            </c:if>
+        </div>
+    </form>
 
     <footer class="mastfoot mt-auto">
         <div class="inner">
@@ -60,5 +127,17 @@
     </footer>
 
 </div>
+
+<script>
+    function Selected(a) {
+        var label = a.value;
+        if (label=="canceled") {
+            document.getElementById("Block1").style.display='block';
+        } else {
+            document.getElementById("Block1").style.display='none';
+        }
+    }
+</script>
+
 </body>
 </html>

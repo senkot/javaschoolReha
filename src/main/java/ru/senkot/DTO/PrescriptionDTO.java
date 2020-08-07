@@ -25,6 +25,9 @@ public class PrescriptionDTO {
     private String evening;
     private String night;
 
+    private String status;
+    private String cause;
+
     public PrescriptionDTO(int patientId, String remedyName, String remedyType,
                            Date dateOfStart, Date dateOfEnd, String monday, String tuesday,
                            String wednesday, String thursday, String friday, String saturday,
@@ -47,6 +50,15 @@ public class PrescriptionDTO {
         this.afternoon = afternoon;
         this.evening = evening;
         this.night = night;
+    }
+
+    public PrescriptionDTO(int prescriptionId, String status, String cause) {
+        this.prescriptionId = prescriptionId;
+        this.status = status;
+        this.cause = cause;
+    }
+
+    public PrescriptionDTO() {
     }
 
     public int getPrescriptionId() {
@@ -191,5 +203,21 @@ public class PrescriptionDTO {
 
     public void setNight(String night) {
         this.night = night;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 }
