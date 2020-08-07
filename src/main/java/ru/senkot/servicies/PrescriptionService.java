@@ -106,7 +106,7 @@ public class PrescriptionService {
         if (prescriptionDTO.getStatus().equals("done")) {
             List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
             for (Event event : events) {
-                event.setStatus("done");
+                event.setStatus("canceled");
                 event.setCause("Prescription done");
                 eventService.updateEvent(event);
             }
