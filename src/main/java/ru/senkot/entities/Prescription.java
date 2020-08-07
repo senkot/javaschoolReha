@@ -63,13 +63,14 @@ public class Prescription {
     }
 
     public Prescription(Patient patient, String remedyName, String remedyType,
-                        Date dateStart, Date dateEnd, int quantity) {
+                        Date dateStart, Date dateEnd, int quantity, String status) {
         this.patient = patient;
         this.remedyName = remedyName;
         this.remedyType = remedyType;
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.quantity = quantity;
+        this.status = status;
     }
 
     @Override

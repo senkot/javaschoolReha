@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.PrescriptionDAO;
 import ru.senkot.DTO.PrescriptionDTO;
+import ru.senkot.entities.Event;
 import ru.senkot.entities.Prescription;
 
 import javax.transaction.Transactional;
@@ -17,6 +18,9 @@ public class PrescriptionService {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private EventService eventService;
 
     @Transactional
     public List<Prescription> selectAllPrescriptionsById(int id) {
@@ -72,7 +76,8 @@ public class PrescriptionService {
                 prescriptionDTO.getRemedyType(),
                 prescriptionDTO.getDateOfStart(),
                 prescriptionDTO.getDateOfEnd(),
-                prescriptionDTO.getQuantity()
+                prescriptionDTO.getQuantity(),
+                "planed"
         );
     }
 
@@ -86,4 +91,25 @@ public class PrescriptionService {
         updatePrescription(prescription);
     }
 
+    // изменение статусов во всех событиях наначения с указанием причины
+
+    @Transactional
+    public void setStatusPrescriptionToEvent(PrescriptionDTO prescriptionDTO) {
+        if (prescriptionDTO.getStatus().equals("canceled")) {
+            List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
+            for (Event event : events) {
+                event.setStatus("canceled");
+                event.setCause("Prescription canceled");
+                eventService.updateEvent(event);
+            }
+        }
+        if (prescriptionDTO.getStatus().equals("done")) {
+            List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
+            for (Event event : events) {
+                event.setStatus("done");
+                event.setCause("Prescription done");
+                eventService.updateEvent(event);
+            }
+        }
+    }
 }

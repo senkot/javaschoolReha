@@ -2,10 +2,10 @@ package ru.senkot.DAO;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.senkot.entities.Event;
-import ru.senkot.entities.Prescription;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +45,21 @@ public class EventDAO {
         return eventList.stream().
                 filter(event -> event.getPatientId() == id).
                 collect(Collectors.toList());
+    }
+
+    public List<Event> selectAllEventsByPrescriptionId(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select e from Event as e where e.prescription.id = :id");
+        query.setParameter("id", id);
+        return query.list();
+    }
+
+    public List<Event> selectAllPlanedEventsByPrescriptionId(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select e from Event as e where e.prescription.id = :id and e.status = :status");
+        query.setParameter("id", id);
+        query.setParameter("status", "planed");
+        return query.list();
     }
 
     public void deleteEvent(Event event) {

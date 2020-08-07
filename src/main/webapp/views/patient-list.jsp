@@ -7,6 +7,13 @@
     <style>
         #my-header {background-color: #e6e6fe}
     </style>
+    <script src="/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.tablesorter.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function() {
+            $("#user_list").tablesorter();
+        });
+    </script>
 </head>
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -21,7 +28,8 @@
     </header>
 
     <div class="table-responsive container">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover" id="user_list">
+            <thead>
             <tr class="table-active">
                 <th>Last Name</th>
                 <th>Name</th>
@@ -34,7 +42,9 @@
                 <th>Status</th>
                 <th>Show</th>
             </tr>
+            </thead>
 
+            <tbody>
             <c:forEach var="patient" items="${patients}">
                 <tr>
                     <td><c:out value="${patient.lastName}" /></td>
@@ -56,6 +66,7 @@
                     </td>
                 </tr>
             </c:forEach>
+            </tbody>
         </table>
     </div>
 

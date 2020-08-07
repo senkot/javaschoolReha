@@ -53,12 +53,22 @@ public class EventService {
     }
 
     @Transactional
+    public List<Event> selectAllEventsByPrescriptionId(int id){
+        return eventDAO.selectAllEventsByPrescriptionId(id);
+    }
+
+    @Transactional
+    public List<Event> selectAllPlanedEventsByPrescriptionId(int id){
+        return eventDAO.selectAllPlanedEventsByPrescriptionId(id);
+    }
+
+    @Transactional
     public void deleteEvent(Event event) {
         eventDAO.deleteEvent(event);
     }
 
     @Transactional
-    public void updateEventStatus(EventDTO eventDTO) {
+    public void updateEventStatusFromDTO(EventDTO eventDTO) {
         Event event = selectEvent(eventDTO.getEventId());
         event.setStatus(eventDTO.getStatus());
         if (!eventDTO.getCause().isEmpty() && eventDTO.getCause() != null) {
@@ -92,6 +102,7 @@ public class EventService {
     public Set<String> overlapEventsFromPrescriptionMap(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
         List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
+        if (!prescriptionDTO.getRemedyType().equals("procedure")) return null;
         if (events.isEmpty()) {
             return null;
         } else {

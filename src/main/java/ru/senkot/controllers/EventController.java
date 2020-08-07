@@ -35,7 +35,7 @@ public class EventController {
     public ModelAndView changeStatus(@ModelAttribute("eventDTO")EventDTO eventDTO){
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event");
-        eventService.updateEventStatus(eventDTO);
+        eventService.updateEventStatusFromDTO(eventDTO);
         mav.addObject("event", eventService.selectEvent(eventDTO.getEventId()));
         return mav;
     }

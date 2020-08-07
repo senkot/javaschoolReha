@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PrescriptionDTO;
+import ru.senkot.entities.Event;
 import ru.senkot.entities.Prescription;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
@@ -104,9 +105,20 @@ public class PrescriptionController {
         mav.setViewName("prescription");
         prescriptionService.updatePrescriptionStatus(prescriptionDTO);
         Prescription prescription = prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId());
+        prescriptionService.setStatusPrescriptionToEvent(prescriptionDTO);
         mav.addObject("prescription", prescription);
         mav.addObject("patient", prescription.getPatient());
         return mav;
     }
 
+    @GetMapping(value = "/prescription-show")
+    public ModelAndView getPrescriptionShow(@ModelAttribute("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("prescription-show");
+        Prescription prescription = prescriptionService.selectPrescription(id);
+        mav.addObject("prescription", prescription);
+        mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
+        mav.addObject("events", eventService.selectAllPlanedEventsByPrescriptionId(id));
+        return mav;
+    }
 }

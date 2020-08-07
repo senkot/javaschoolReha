@@ -35,7 +35,11 @@
 
             <c:forEach var="prescription" items="${prescriptions}">
                 <tr>
-                    <td><c:out value="${prescription.remedyName}" /></td>
+                    <td>
+                        <a href='<c:url value="/prescription-show?id=${prescription.id}" />'>
+                        <c:out value="${prescription.remedyName}" />
+                        </a>
+                    </td>
                     <td><c:out value="${prescription.remedyType}" /></td>
                     <td><c:out value="${prescription.dateStart}" /></td>
                     <td><c:out value="${prescription.dateEnd}" /></td>
