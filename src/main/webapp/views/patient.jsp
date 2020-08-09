@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: KOTLIS
@@ -94,6 +95,37 @@
 
         </table>
     </div>
+
+    <form method="post">
+        <div>
+            <label class="w-100">Change the status :</label>
+
+            <input type="hidden" name="patientId" value="<c:out value="${patient.id}"/>" >
+
+            <div class="custom-control custom-radio">
+                <c:if test="${patient.state == 'in'}">
+                    <input type="radio" value="in" class="custom-control-input" id="in" name="state" checked>
+                </c:if>
+                <c:if test="${patient.state != 'in'}">
+                    <input type="radio" value="in" class="custom-control-input" id="in" name="state">
+                </c:if>
+                <label class="custom-control-label" for="in">In</label>
+            </div>
+            <div class="custom-control custom-radio">
+                <c:if test="${patient.state == 'discharged'}">
+                    <input type="radio" value="discharged" class="custom-control-input" id="discharged" name="state" checked>
+                </c:if>
+                <c:if test="${patient.state != 'discharged'}">
+                    <input type="radio" value="discharged" class="custom-control-input" id="discharged" name="state" onclick="alert('This choice will cancel all unfinished prescriptions and events!')">
+                </c:if>
+                <label class="custom-control-label" for="discharged">Discharged</label>
+            </div>
+
+                <form:form action="${pageContext.request.contextPath}/patient" method="post">
+                    <button class="btn btn-primary" type="submit">CHANGE</button>
+                </form:form>
+        </div>
+    </form>
 
     <footer class="mastfoot mt-auto">
         <div class="inner">

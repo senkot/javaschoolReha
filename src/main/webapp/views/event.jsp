@@ -92,7 +92,7 @@
             <div id='Block1' style='display: none;'>
                 <label for="cause">Cause</label>
                 <c:if test="${!empty event.cause}"> <p id="cause">value="<c:out value="${event.cause}"/>"</p> </c:if>
-                <c:if test="${empty event.cause}"> <input id="cause" type="text" name="cause" ></c:if>
+                <c:if test="${empty event.cause}"> <input id="cause" type="text" name="cause"></c:if>
 
             </div>
 

@@ -68,6 +68,18 @@ public class EventService {
     }
 
     @Transactional
+    public boolean checkPlanedEventsForPrescription(int id) {
+        List<Event> events = selectAllEventsByPrescriptionId(id);
+        int numberOfEvents = events.size();
+        int counter = 0;
+        for (Event event : events) {
+            if (!event.getStatus().equals("planed")) counter++;
+        }
+
+        return numberOfEvents == counter;
+    }
+
+    @Transactional
     public void updateEventStatusFromDTO(EventDTO eventDTO) {
         Event event = selectEvent(eventDTO.getEventId());
         event.setStatus(eventDTO.getStatus());

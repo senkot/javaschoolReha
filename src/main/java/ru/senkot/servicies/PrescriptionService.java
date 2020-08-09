@@ -48,6 +48,17 @@ public class PrescriptionService {
     }
 
     @Transactional
+    public void checkPrescriptionsByPatientId(int id) {
+        List<Prescription> prescriptions = selectAllPrescriptionsById(id);
+        for (Prescription prescription: prescriptions) {
+            if (prescription.getStatus().equals("planed")
+            && eventService.checkPlanedEventsForPrescription(prescription.getId())) {
+                prescription.setStatus("done");
+            }
+        }
+    }
+
+    @Transactional
     public int getLastInsertedPrescriptionIdForPatient(int id) {
         List<Prescription> prescriptions = prescriptionDAO.selectAllPrescriptionsById(id);
         int lastPrescriptionId = 0;

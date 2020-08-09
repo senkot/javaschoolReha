@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.PatientDAO;
 import ru.senkot.DTO.PatientDTO;
+import ru.senkot.entities.Event;
 import ru.senkot.entities.Patient;
+import ru.senkot.entities.Prescription;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -14,6 +16,12 @@ public class PatientService {
 
     @Autowired
     private PatientDAO patientDAO;
+
+    @Autowired
+    private PrescriptionService prescriptionService;
+
+    @Autowired
+    private EventService eventService;
 
     @Transactional
     public List<Patient> selectAllPatients() {
@@ -67,4 +75,30 @@ public class PatientService {
                 patientDTO.getState()
         );
     }
+
+    @Transactional
+    public void setPatientStateFromDTO (PatientDTO patientDTO) {
+        Patient patient = selectPatient(patientDTO.getPatientId());
+        patient.setState(patientDTO.getState());
+        updatePatient(patient);
+    }
+
+    @Transactional
+    public void changeStatusesFromPatientDischarge (PatientDTO patientDTO) {
+        if (patientDTO.getState().equals("discharged")) {
+            List<Prescription> prescriptions = prescriptionService.selectAllPrescriptionsById(patientDTO.getPatientId());
+            for (Prescription prescription : prescriptions) {
+                List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescription.getId());
+                for (Event event : events) {
+                    event.setStatus("canceled");
+                    event.setCause("Patient discharged");
+                }
+                if (prescription.getStatus().equals("planed")) {
+                    prescription.setStatus("canceled");
+                    prescription.setCause("Patient discharged");
+                }
+            }
+        }
+    }
+
 }

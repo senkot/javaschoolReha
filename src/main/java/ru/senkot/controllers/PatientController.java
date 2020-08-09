@@ -73,4 +73,14 @@ public class PatientController {
         return mav;
     }
 
+    @PostMapping(value = "/patient")
+    public ModelAndView editPatientState(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("patient");
+        patientService.setPatientStateFromDTO(patientDTO);
+        patientService.changeStatusesFromPatientDischarge(patientDTO);
+        mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+        return mav;
+    }
+
 }

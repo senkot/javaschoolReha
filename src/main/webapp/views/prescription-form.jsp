@@ -4,10 +4,10 @@
 <html>
 <head>
     <c:if test="${empty prescription.id}">
-        <title>Add new Patient</title>
+        <title>Add new Prescription</title>
     </c:if>
     <c:if test="${!empty prescription.id}">
-        <title>Edit Patient</title>
+        <title>Edit Prescription</title>
     </c:if>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">

@@ -30,7 +30,6 @@
                 <th>Date of End</th>
                 <th>Quantity</th>
                 <th>Status</th>
-                <th>Edit</th>
             </tr>
 
             <c:forEach var="prescription" items="${prescriptions}">
@@ -49,12 +48,11 @@
                             <c:out value="${prescription.status}"/>
                         </a>
                     </td>
-                    <td>
-                        <a href='<c:url value="/edit-prescription?id=${prescription.id}" />'>EDIT</a>
-                    </td>
                 </tr>
             </c:forEach>
         </table>
+
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
 
     </div>
 

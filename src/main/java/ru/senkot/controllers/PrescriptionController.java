@@ -39,6 +39,16 @@ public class PrescriptionController {
         return mav;
     }
 
+    @GetMapping(value = "prescription-check")
+    public ModelAndView checkPrescriptions(@ModelAttribute("id") int id) {
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("prescription-list");
+        prescriptionService.checkPrescriptionsByPatientId(id);
+        mav.addObject("patient", patientService.selectPatient(id));
+        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(id));
+        return mav;
+    }
+
     @GetMapping(value = "/add-prescription")
     public ModelAndView addPrescription(@ModelAttribute("id") int id) {
         ModelAndView mav = new ModelAndView();
@@ -121,4 +131,5 @@ public class PrescriptionController {
         mav.addObject("events", eventService.selectAllPlanedEventsByPrescriptionId(id));
         return mav;
     }
+
 }

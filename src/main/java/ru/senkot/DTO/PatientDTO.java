@@ -31,6 +31,11 @@ public class PatientDTO {
     public PatientDTO() {
     }
 
+    public PatientDTO(int patientId, String state) {
+        this.patientId = patientId;
+        this.state = state;
+    }
+
     public int getPatientId() {
         return patientId;
     }
