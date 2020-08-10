@@ -5,42 +5,47 @@
 <html lang="en">
 <head>
 
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Chandra Clinic Login Page</title>
 
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
 
-
-    <!-- Custom styles for this template -->
-    <link href="css/signin.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
 </head>
 
 <body class="text-center">
 
-<form:form action="${pageContext.request.contextPath}/authenticateTheUser"
-           method="POST" class="form-horizontal">
+    <form:form action="${pageContext.request.contextPath}/authenticateTheUser"
+               method="POST" class="form-horizontal">
 
-    <form class="form-signin">
+        <label>Please sign in</label>
 
         <div>
-            <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required="" autofocus=""
+            <input type="text" name="username"  class="form-control" placeholder="Username" required="">
+        </div>
+
+        <div class="pt-3">
+            <input type="password"  name="password"  class="form-control" placeholder="Password" required="">
         </div>
 
         <div>
-            <input type="password"  name="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Sign in</button>
         </div>
 
-        <div>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        </div>
-    </form>
+        <c:if test="${param.error != null}">
 
-</form:form>
+            <div class="mt-5">
+                Invalid username and password.
+            </div>
 
-</body></html>
+        </c:if>
+
+    </form:form>
+
+</body>
+</html>

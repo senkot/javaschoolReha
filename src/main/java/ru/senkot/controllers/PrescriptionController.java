@@ -1,5 +1,6 @@
 package ru.senkot.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,8 @@ import java.util.Set;
 @Controller
 public class PrescriptionController {
 
+    private static final Logger logger = Logger.getLogger(PrescriptionController.class);
+
     @Autowired
     private PrescriptionService prescriptionService;
 
@@ -32,6 +35,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/prescription-list")
     public ModelAndView prescriptionList(@ModelAttribute("id") int id) {
+        logger.debug("prescriptionList on mapping /prescription-list is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
         mav.addObject("patient", patientService.selectPatient(id));
@@ -41,6 +45,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "prescription-check")
     public ModelAndView checkPrescriptions(@ModelAttribute("id") int id) {
+        logger.debug("checkPrescriptions on mapping /prescription-check is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
         prescriptionService.checkPrescriptionsByPatientId(id);
@@ -51,6 +56,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/add-prescription")
     public ModelAndView addPrescription(@ModelAttribute("id") int id) {
+        logger.debug("addPrescription on mapping /add-prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-form");
         mav.addObject("patient", patientService.selectPatient(id));
@@ -59,6 +65,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/edit-prescription")
     public ModelAndView editPrescription(@ModelAttribute("id") int id) {
+        logger.debug("editPrescription on mapping /edit-prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-form");
         Prescription prescription = prescriptionService.selectPrescription(id);
@@ -69,6 +76,7 @@ public class PrescriptionController {
 
     @PostMapping(value = "/edit-prescription")
     public ModelAndView editPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+        logger.debug("editPrescriptionForm on mapping /edit-prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
         prescriptionService.updatePrescription(prescriptionService.getPrescriptionFromDTOForUpdate(prescriptionDTO));
@@ -79,6 +87,7 @@ public class PrescriptionController {
 
     @PostMapping(value = "/add-prescription")
     public ModelAndView addPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+        logger.debug("addPrescriptionForm on mapping /add-prescription is executed");
         ModelAndView mav = new ModelAndView();
         Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
 
@@ -101,6 +110,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/prescription")
     public ModelAndView getPrescription(@ModelAttribute("id") int id) {
+        logger.debug("getPrescription on mapping /prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription");
         Prescription prescription = prescriptionService.selectPrescription(id);
@@ -111,6 +121,7 @@ public class PrescriptionController {
 
     @PostMapping(value = "/prescription")
     public ModelAndView editPrescriptionStatus(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+        logger.debug("editPrescriptionStatus on mapping /prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription");
         prescriptionService.updatePrescriptionStatus(prescriptionDTO);
@@ -123,6 +134,7 @@ public class PrescriptionController {
 
     @GetMapping(value = "/prescription-show")
     public ModelAndView getPrescriptionShow(@ModelAttribute("id") int id) {
+        logger.debug("getPrescriptionShow on mapping /prescription-show is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-show");
         Prescription prescription = prescriptionService.selectPrescription(id);

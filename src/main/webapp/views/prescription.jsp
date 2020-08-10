@@ -21,7 +21,7 @@
                 <a class="p-2 text-dark" href="<c:url value="/prescription-list?id=${patient.id}" />">Back to Prescriptions</a>
                 <a class="p-2 text-dark" href="<c:url value="/patient?id=${patient.id}" />">Back to Patient</a>
             </nav>
-            <a class="btn btn-outline-primary" href="<c:url value="/"/>">Back to Authorization Page</a>
+            <a class="btn btn-outline-primary" href="<c:url value="/"/>">Back to Start Page</a>
         </div>
     </header>
 

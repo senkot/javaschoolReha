@@ -17,11 +17,12 @@
                 <a class="p-2 text-dark" href="<c:url value="/add-prescription?id=${patient.id}"/>">Add new Prescription</a>
                 <a class="p-2 text-dark" href="<c:url value="/patient?id=${patient.id}"/>">Back to The Patient</a>
             </nav>
-            <a class="btn btn-outline-primary" href="/">Back to Authorization Page</a>
+            <a class="btn btn-outline-primary" href="/">Back to Start Page</a>
         </div>
     </header>
 
     <div class="table-responsive container">
+        <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
         <table class="table table-bordered table-hover">
             <tr class="table-active">
                 <th>Remedy</th>
@@ -52,9 +53,9 @@
             </c:forEach>
         </table>
 
-            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
-
     </div>
+
+
 
     <footer class="mastfoot mt-auto">
         <div class="inner">

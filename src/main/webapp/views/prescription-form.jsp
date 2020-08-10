@@ -36,7 +36,7 @@
                 </c:if>
             </nav>
 
-            <a class="btn btn-outline-primary" href="<c:url value='/'/>">Back to Authorization Page</a>
+            <a class="btn btn-outline-primary" href="<c:url value='/'/>">Back to Start Page</a>
         </div>
     </header>
 

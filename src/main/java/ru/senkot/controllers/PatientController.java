@@ -1,5 +1,6 @@
 package ru.senkot.controllers;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import ru.senkot.servicies.UserService;
 @Controller
 public class PatientController {
 
+    private static final Logger logger = Logger.getLogger(PatientController.class);
+
     @Autowired
     private PatientService patientService;
 
@@ -24,6 +27,7 @@ public class PatientController {
 
     @GetMapping(value = "/patient-list")
     public ModelAndView patientList() {
+        logger.debug("patientList on mapping /patient-list is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-list");
         mav.addObject("patients", patientService.selectAllPatients());
@@ -32,6 +36,7 @@ public class PatientController {
 
     @GetMapping(value = "/add")
     public ModelAndView patientForm() {
+        logger.debug("patientForm on mapping /add is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-form");
         mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
@@ -40,6 +45,7 @@ public class PatientController {
 
     @PostMapping(value = "/add")
     public ModelAndView addPatientForm(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+        logger.debug("addPatientForm on mapping /add is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-list");
         patientService.insertPatient(patientService.patientFromPatientDTOForInsert(patientDTO));
@@ -49,6 +55,7 @@ public class PatientController {
 
     @GetMapping(value = "/edit")
     public ModelAndView editPatient(@ModelAttribute("id") int id) {
+        logger.debug("editPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-form");
         mav.addObject("patient", patientService.selectPatient(id));
@@ -58,6 +65,7 @@ public class PatientController {
 
     @PostMapping(value = "/edit")
     public ModelAndView postEditPatient(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+        logger.debug("postEditPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
         patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
@@ -67,6 +75,7 @@ public class PatientController {
 
     @GetMapping(value = "/patient")
     public ModelAndView getPatient(@ModelAttribute("id") int id) {
+        logger.debug("getPatient on mapping /patient is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
         mav.addObject("patient", patientService.selectPatient(id));
@@ -75,6 +84,7 @@ public class PatientController {
 
     @PostMapping(value = "/patient")
     public ModelAndView editPatientState(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+        logger.debug("editPatientState on mapping /patient is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
         patientService.setPatientStateFromDTO(patientDTO);
