@@ -34,6 +34,11 @@ public class PatientService {
     }
 
     @Transactional
+    public Patient selectPatientByInsurance(String number) {
+        return patientDAO.selectPatientByInsurance(number);
+    }
+
+    @Transactional
     public void insertPatient(Patient patient) {
         patientDAO.insertPatient(patient);
     }

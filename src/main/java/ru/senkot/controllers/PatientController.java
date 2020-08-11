@@ -4,14 +4,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PatientDTO;
-import ru.senkot.entities.Patient;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.UserService;
+import ru.senkot.validation.PatientDTOValidator;
+
+import javax.validation.Valid;
 
 @Controller
 public class PatientController {
@@ -23,6 +26,9 @@ public class PatientController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PatientDTOValidator patientDTOValidator;
 
 
     @GetMapping(value = "/patient-list")
@@ -44,12 +50,22 @@ public class PatientController {
     }
 
     @PostMapping(value = "/add")
-    public ModelAndView addPatientForm(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+    public ModelAndView addPatientForm(@Valid @ModelAttribute("patientDTO") PatientDTO patientDTO, BindingResult result) {
         logger.debug("addPatientForm on mapping /add is executed");
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("patient-list");
-        patientService.insertPatient(patientService.patientFromPatientDTOForInsert(patientDTO));
-        mav.addObject("patients", patientService.selectAllPatients());
+
+        patientDTOValidator.validate(patientDTO, result);
+
+        if (result.hasErrors()) {
+            mav.setViewName("patient-form");
+            mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+            mav.addObject("errors", result.getAllErrors());
+            return mav;
+        } else {
+            mav.setViewName("patient-list");
+            patientService.insertPatient(patientService.patientFromPatientDTOForInsert(patientDTO));
+            mav.addObject("patients", patientService.selectAllPatients());
+        }
         return mav;
     }
 

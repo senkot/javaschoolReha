@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <c:if test="${empty patient.id}">
@@ -44,6 +45,14 @@
 
         <div class="form-group">
 
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('PatientDTOValidator insurance error')}">
+                        <div>There is a patient with the same insurance number!</div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+
             <input type="hidden" name="doctorName" value="${user.fullName}">
 
             <c:if test="${!empty patient.id}">
@@ -65,6 +74,14 @@
             <c:if test="${!empty patient.id}">
                 <input type="text" id="lastName" name="lastName" class="form-control" value="<c:out value="${patient.lastName}"/>" >
             </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('lastName blank')}">
+                        <div>Surname is required!</div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
+
         </div>
 
         <div class="form-group">

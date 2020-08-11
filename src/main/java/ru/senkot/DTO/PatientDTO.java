@@ -1,5 +1,6 @@
 package ru.senkot.DTO;
 
+import javax.validation.constraints.NotBlank;
 import java.sql.Date;
 
 public class PatientDTO {
@@ -11,6 +12,8 @@ public class PatientDTO {
     private String insurance;
     private String additionalInsurance;
     private String firstName;
+
+    @NotBlank(message = "lastName blank")
     private String lastName;
     private String secondName;
     private Date dateOfBirth;

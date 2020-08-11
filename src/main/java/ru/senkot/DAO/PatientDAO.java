@@ -2,12 +2,15 @@ package ru.senkot.DAO;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.senkot.entities.Patient;
 import ru.senkot.entities.User;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Repository
 public class PatientDAO {
@@ -32,6 +35,13 @@ public class PatientDAO {
     public Patient selectPatient(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Patient.class, id);
+    }
+
+    public Patient selectPatientByInsurance(String number) {
+        List<Patient> patients = selectAllPatients().stream()
+                .filter(patient -> patient.getInsurance().equals(number))
+                .collect(Collectors.toList());
+        return patients.size() > 0 ? patients.get(0) : null;
     }
 
     @SuppressWarnings("unchecked")
