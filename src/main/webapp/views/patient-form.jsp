@@ -15,6 +15,7 @@
 
     <style>
         #my-header {background-color: #e6e6fe}
+        .error {color: tomato}
     </style>
 </head>
 <body class="text-center">
@@ -47,8 +48,9 @@
 
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
-                    <c:if test="${error.defaultMessage.equals('PatientDTOValidator insurance error')}">
-                        <div>There is a patient with the same insurance number!</div>
+                    <c:if test="${error.defaultMessage.equals('insurance error')}">
+                        <div class="error">There is a patient with the same insurance number!</div>
+                        <div class="error"><a href="<c:url value="/patient?id=${existedPatientId}" />" target="_blank">Show</a></div>
                     </c:if>
                 </c:forEach>
             </c:if>
@@ -77,7 +79,10 @@
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
                     <c:if test="${error.defaultMessage.equals('lastName blank')}">
-                        <div>Surname is required!</div>
+                        <div class="error">Surname is required!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('lastName size')}">
+                        <div class="error">At least 2 symbols, and 30 as max</div>
                     </c:if>
                 </c:forEach>
             </c:if>
@@ -91,6 +96,16 @@
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="firstName" name="firstName" class="form-control" value="<c:out value="${patient.firstName}"/>">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('firstName blank')}">
+                        <div class="error">Name is required!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('firstName size')}">
+                        <div class="error">At least 2 symbols, and 30 as max</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -107,10 +122,26 @@
         <div class="form-group">
             <label for="dateOfBirth">Date of Birth</label>
             <c:if test="${empty patient.id}">
-                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="1000000">
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('dateOfBirth blank')}">
+                        <div class="error">Select the date of birth!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('date future')}">
+                        <div class="error">Check the date! It's in the future!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('date young')}">
+                        <div class="error">Patient must be older than 18 years!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('date old')}">
+                        <div class="error">Check the date! It's more than 150 years Patient!</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -121,6 +152,14 @@
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="insurance" name="insurance" class="form-control" value="<c:out value="${patient.insurance}"/>">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('insurance size')}">
+                        <div class="error">At least 7 symbols required!</div>
+                        <div class="error">For foreign insurance maximum size - 30 symbols</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 

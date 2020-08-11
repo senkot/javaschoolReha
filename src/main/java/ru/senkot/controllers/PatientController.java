@@ -15,6 +15,7 @@ import ru.senkot.servicies.UserService;
 import ru.senkot.validation.PatientDTOValidator;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 public class PatientController {
@@ -57,6 +58,11 @@ public class PatientController {
         patientDTOValidator.validate(patientDTO, result);
 
         if (result.hasErrors()) {
+            if (result.hasFieldErrors("insurance")) {
+                if (result.getFieldError("insurance").toString().equals("insurance error"))
+                    mav.addObject("existedPatientId", patientService
+                            .selectPatientByInsurance(patientDTO.getInsurance()).getId());
+            }
             mav.setViewName("patient-form");
             mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             mav.addObject("errors", result.getAllErrors());
