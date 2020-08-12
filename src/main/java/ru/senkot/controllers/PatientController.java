@@ -86,12 +86,29 @@ public class PatientController {
     }
 
     @PostMapping(value = "/edit")
-    public ModelAndView postEditPatient(@ModelAttribute("patientDTO") PatientDTO patientDTO) {
+    public ModelAndView postEditPatient(@Valid @ModelAttribute("patientDTO") PatientDTO patientDTO,
+                                        BindingResult result) {
         logger.debug("postEditPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("patient");
-        patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
-        mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+
+        patientDTOValidator.validate(patientDTO, result);
+
+        if (result.hasErrors()) {
+            if (result.hasFieldErrors("insurance")) {
+                if (result.getFieldError("insurance").toString().equals("insurance error"))
+                    mav.addObject("existedPatientId", patientService
+                            .selectPatientByInsurance(patientDTO.getInsurance()).getId());
+            }
+            mav.setViewName("patient-form");
+            mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+            mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+            mav.addObject("errors", result.getAllErrors());
+            return mav;
+        } else {
+            mav.setViewName("patient");
+            patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
+            mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+        }
         return mav;
     }
 

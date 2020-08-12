@@ -103,7 +103,7 @@
                         <div class="error">Name is required!</div>
                     </c:if>
                     <c:if test="${error.defaultMessage.equals('firstName size')}">
-                        <div class="error">At least 2 symbols, and 30 as max</div>
+                        <div class="error">At least 2 symbols required, and 30 as max</div>
                     </c:if>
                 </c:forEach>
             </c:if>
@@ -155,6 +155,9 @@
             </c:if>
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('insurance blank')}">
+                        <div class="error">Number of insurance is required!</div>
+                    </c:if>
                     <c:if test="${error.defaultMessage.equals('insurance size')}">
                         <div class="error">At least 7 symbols required!</div>
                         <div class="error">For foreign insurance maximum size - 30 symbols</div>
@@ -236,5 +239,18 @@
     </footer>
 
 </div>
+
+<script>
+    function birthdayToday() {
+        document.getElementById("dateOfBirth").valueAsDate = new Date();
+    }
+
+    var patient = patient;
+    if (patient == null) {
+        startToday();
+        endToday()
+    }
+
+</script>
 </body>
 </html>

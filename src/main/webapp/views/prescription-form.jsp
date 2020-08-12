@@ -14,6 +14,7 @@
 
     <style>
         #my-header {background-color: #e6e6fe}
+        .error {color: tomato}
     </style>
 </head>
 <body class="text-center">
@@ -46,11 +47,11 @@
 
             <c:if test="${!empty collisions}">
                 <div>
-                <ul>There is some collisions in the dates :
-                <c:forEach items="${collisions}" var="collision">
-                    <li><c:out value="${collision}" /></li>
-                </c:forEach>
-                </ul>
+                    <ul>There is some collisions in the dates :
+                        <c:forEach items="${collisions}" var="collision">
+                            <li class="error"><c:out value="${collision}" /></li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </c:if>
 
@@ -67,6 +68,16 @@
             </c:if>
             <c:if test="${!empty prescription.id}">
                 <input type="text" id="remedyName" name="remedyName" class="form-control" value="<c:out value="${prescription.remedyName}"/>" >
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('remedy blank')}">
+                        <div class="error">Name of the remedy is required!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('remedy size')}">
+                        <div class="error">At least 2 symbols required, and 30 as max</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -90,15 +101,35 @@
                     </c:if>
                 </select>
             </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('remedyType error')}">
+                        <div class="error">Remedy type must be pill or procedure!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('dremedyType blank')}">
+                        <div class="error">Where did the remedy type go?</div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
         </div>
 
         <div class="form-group">
             <label for="dateOfStart">Date of start</label>
             <c:if test="${empty prescription.id}">
-                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control">
+                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" min=" ">
             </c:if>
             <c:if test="${!empty prescription.id}">
                 <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('dateOfStart blank')}">
+                        <div class="error">Date of start is required!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('dateOfStart past')}">
+                        <div class="error">Please, set the date of start not earlier than today</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -109,6 +140,16 @@
             </c:if>
             <c:if test="${!empty prescription.id}">
                 <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control" value="<c:out value="${prescription.dateEnd}"/>">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('dateOfEnd earlier')}">
+                        <div class="error">End date is earlier than start date!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('dateOfEnd blank')}">
+                        <div class="error">Date of end is required!</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -142,15 +183,32 @@
                 <input type="checkbox" class="custom-control-input" id="sunday" name="sunday">
                 <label class="custom-control-label" for="sunday">Sunday</label>
             </div>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('weekDays blank')}">
+                        <div class="error">Choose at least one day of week for repeat!</div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
         </div>
 
         <div class="form-group">
             <label for="quantity">Quantity</label>
             <c:if test="${empty prescription.id}">
-                <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter the quantity for single use">
+                <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter the quantity for single use" min="1">
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <input type="number" id="quantity" name="quantity" class="form-control" value="<c:out value="${prescription.quantity}"/>">
+                <input type="number" id="quantity" name="quantity" class="form-control" value="<c:out value="${prescription.quantity}"/>" min="1">
+            </c:if>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('quantity low')}">
+                        <div class="error">Quantity must be greater than zero!</div>
+                    </c:if>
+                    <c:if test="${error.defaultMessage.equals('quantity procedure')}">
+                        <div class="error">For remedy type Procedure quantity should be equal to one!</div>
+                    </c:if>
+                </c:forEach>
             </c:if>
         </div>
 
@@ -172,6 +230,13 @@
                 <input type="checkbox" class="custom-control-input" id="night" name="night">
                 <label class="custom-control-label" for="night">Night</label>
             </div>
+            <c:if test="${!empty errors}">
+                <c:forEach items="${errors}" var="error">
+                    <c:if test="${error.defaultMessage.equals('dayTime blank')}">
+                        <div class="error">Choose at least one time of day for repeat!</div>
+                    </c:if>
+                </c:forEach>
+            </c:if>
         </div>
 
         <c:if test="${empty prescription.id}">
@@ -204,6 +269,22 @@
             document.getElementById("quantity").readOnly=false;
         }
     }
+
+    function startToday() {
+        document.getElementById("dateOfStart").valueAsDate = new Date();
+    }
+
+    function endToday() {
+        document.getElementById("dateOfEnd").valueAsDate = new Date();
+    }
+
+    var prescription = prescription;
+
+    if (prescription == null) {
+        startToday();
+        endToday()
+    }
+
 </script>
 
 </body>

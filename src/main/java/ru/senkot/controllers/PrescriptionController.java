@@ -3,6 +3,7 @@ package ru.senkot.controllers;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +14,9 @@ import ru.senkot.entities.Prescription;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.PrescriptionService;
+import ru.senkot.validation.PrescriptionDTOValidator;
 
+import javax.validation.Valid;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,9 @@ import java.util.Set;
 public class PrescriptionController {
 
     private static final Logger logger = Logger.getLogger(PrescriptionController.class);
+
+    @Autowired
+    private PrescriptionDTOValidator prescriptionDTOValidator;
 
     @Autowired
     private PrescriptionService prescriptionService;
@@ -86,24 +92,33 @@ public class PrescriptionController {
     }
 
     @PostMapping(value = "/add-prescription")
-    public ModelAndView addPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+    public ModelAndView addPrescriptionForm(@Valid @ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO,
+                                            BindingResult result) {
         logger.debug("addPrescriptionForm on mapping /add-prescription is executed");
         ModelAndView mav = new ModelAndView();
-        Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
 
-        if (collisions == null || collisions.isEmpty()) {
-            mav.setViewName("prescription-list");
-            prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
+        prescriptionDTOValidator.validate(prescriptionDTO, result);
 
-            prescriptionDTO.setPrescriptionId(prescriptionService.getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
-            eventService.generateAndInsertEvents(prescriptionDTO);
-            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
-            mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
-
-        } else {
+        if (result.hasErrors()) {
             mav.setViewName("prescription-form");
-            mav.addObject("collisions", collisions);
+            mav.addObject("errors", result.getAllErrors());
             mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+        } else {
+            Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
+            if (collisions == null || collisions.isEmpty()) {
+                mav.setViewName("prescription-list");
+                prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
+
+                prescriptionDTO.setPrescriptionId(prescriptionService.getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
+                eventService.generateAndInsertEvents(prescriptionDTO);
+                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+
+            } else {
+                mav.setViewName("prescription-form");
+                mav.addObject("collisions", collisions);
+                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+            }
         }
         return mav;
     }

@@ -1,13 +1,22 @@
 package ru.senkot.DTO;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 public class PrescriptionDTO {
 
     private int prescriptionId;
     private int patientId;
+
+    @NotBlank(message = "remedy blank")
+    @Size(min = 2, max = 30, message = "remedy size")
     private String remedyName;
+
+    @NotBlank(message = "type error")
     private String remedyType;
+
+
     private Date dateOfStart;
     private Date dateOfEnd;
 

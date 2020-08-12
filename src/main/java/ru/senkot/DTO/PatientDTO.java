@@ -1,7 +1,6 @@
 package ru.senkot.DTO;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 
@@ -12,6 +11,7 @@ public class PatientDTO {
     private String state;
     private String diagnosis;
 
+    @NotBlank(message = "insurance blank")
     @Size(min = 7, max = 30, message = "insurance size")
     private String insurance;
 
