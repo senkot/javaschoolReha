@@ -43,8 +43,6 @@ public class HibernateConfig {
         dataSource.setUrl(environment.getRequiredProperty("jdbc.url"));
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
-//        logger.info(">>> jdbc.url=" + environment.getProperty("jdbc.url"));
-//        logger.info(">>> jdbc.user=" + environment.getProperty("jdbc.user"));
         return dataSource;
     }
 

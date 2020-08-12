@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PatientDTO;
+import ru.senkot.entities.Patient;
+import ru.senkot.exception.IdNotFoundException;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.UserService;
 import ru.senkot.validation.PatientDTOValidator;
@@ -76,7 +78,7 @@ public class PatientController {
     }
 
     @GetMapping(value = "/edit")
-    public ModelAndView editPatient(@ModelAttribute("id") int id) {
+    public ModelAndView editPatient(@ModelAttribute("id") int id) throws IdNotFoundException {
         logger.debug("editPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-form");
@@ -113,11 +115,16 @@ public class PatientController {
     }
 
     @GetMapping(value = "/patient")
-    public ModelAndView getPatient(@ModelAttribute("id") int id) {
+    public ModelAndView getPatient(@ModelAttribute("id") int id) throws IdNotFoundException {
         logger.debug("getPatient on mapping /patient is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
-        mav.addObject("patient", patientService.selectPatient(id));
+        Patient patient = patientService.selectPatient(id);
+        if (patient != null) {
+            mav.addObject("patient", patientService.selectPatient(id));
+        } else {
+            throw new IdNotFoundException(id);
+        }
         return mav;
     }
 

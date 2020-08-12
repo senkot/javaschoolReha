@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.EventDTO;
+import ru.senkot.entities.Event;
+import ru.senkot.exception.IdNotFoundException;
 import ru.senkot.servicies.EventService;
 
 @Controller
@@ -29,12 +31,17 @@ public class EventController {
     }
 
     @GetMapping(value = "/event")
-    public ModelAndView getEventById(@ModelAttribute("id") int id) {
+    public ModelAndView getEventById(@ModelAttribute("id") int id) throws IdNotFoundException {
         logger.debug("getEventById on mapping /event is executed");
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event");
-        mav.addObject("event", eventService.selectEvent(id));
+        Event event = eventService.selectEvent(id);
+        if (event != null) {
+            mav.addObject("event", eventService.selectEvent(id));
+        } else {
+            throw new IdNotFoundException(id);
+        }
         return mav;
     }
 
