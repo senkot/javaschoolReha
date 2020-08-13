@@ -17,6 +17,9 @@
         <div id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Prescription</h5>
             <nav class="my-2 my-md-0 mr-md-3">
+                <c:if test="${prescription.status == 'planed'}">
+                    <a class="p-2 text-dark" href="<c:url value="/edit-prescription?id=${prescription.id}" />">Edit</a>
+                </c:if>
                 <a class="p-2 text-dark" href="<c:url value="/prescription-list?id=${patient.id}" />">Back to Prescriptions</a>
                 <a class="p-2 text-dark" href="<c:url value="/patient?id=${patient.id}" />">Back to Patient</a>
             </nav>

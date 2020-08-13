@@ -76,6 +76,7 @@ public class PrescriptionService {
         prescription.setDateStart(prescriptionDTO.getDateOfStart());
         prescription.setDateEnd(prescriptionDTO.getDateOfEnd());
         prescription.setQuantity(prescription.getQuantity());
+        prescription.setStatus("planed");
         return prescription;
     }
 

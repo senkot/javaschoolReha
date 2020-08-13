@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -80,6 +81,15 @@ public class EventService {
     }
 
     @Transactional
+    public void changeEventStatusForPrescriptionIdByPrescriptionId(int id) {
+        List<Event> planedEvents = selectAllPlanedEventsByPrescriptionId(id);
+        for (Event event: planedEvents) {
+            event.setStatus("canceled");
+            event.setCause("Prescription Edit");
+        }
+    }
+
+    @Transactional
     public void updateEventStatusFromDTO(EventDTO eventDTO) {
         Event event = selectEvent(eventDTO.getEventId());
         event.setStatus(eventDTO.getStatus());
@@ -138,7 +148,6 @@ public class EventService {
                     }
                 }
             }
-
             if (!collisionList.isEmpty()) return collisionSet;
             else return null;
         }
@@ -272,6 +281,43 @@ public class EventService {
         }
         if (prescriptionDTO.getNight() != null && prescriptionDTO.getNight().equals("on")) {
             times.add("night");
+        }
+    }
+
+    @Transactional
+    public Set<String> overlapEventsFromPrescriptionMapForEdit(PrescriptionDTO prescriptionDTO) {
+        Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
+        List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
+        List<Event> otherEvents = events.stream()
+                .filter(event -> event.getPrescription().getId() != prescriptionDTO.getPrescriptionId())
+                .collect(Collectors.toList());
+
+        if (!prescriptionDTO.getRemedyType().equals("procedure")) return null;
+        if (events.isEmpty()) {
+            return null;
+        } else {
+            List<String> collisionList = new ArrayList<>();
+            Set<String> collisionSet = new HashSet<>();
+
+            for (Event event : otherEvents) {
+                for (Map.Entry<Date, List<String>> entry : dateTimeMap.entrySet()) {
+                    List<String> times = new ArrayList<>();
+                    for (String time : entry.getValue()) {
+                        if (event.getRemedyType().equals("procedure")
+                                && event.getStatus().equals("planed")
+                                && event.getDate().equals(entry.getKey())
+                                && event.getTime().equals(time)) times.add(time);
+                    }
+                    if (!times.isEmpty()) {
+                        for (String time : times) {
+                            collisionList.add(entry.getKey() + " : " + time);
+                            collisionSet.add(entry.getKey() + " : " + time);
+                        }
+                    }
+                }
+            }
+            if (!collisionList.isEmpty()) return collisionSet;
+            else return null;
         }
     }
 

@@ -1,7 +1,6 @@
 package ru.senkot.servicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.UserDAO;
 import ru.senkot.entities.User;

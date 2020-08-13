@@ -31,17 +31,20 @@ public class ExceptionInterceptor {
 
     @ExceptionHandler(SQLException.class)
     public ModelAndView handleSQLException() {
+        logger.error("SQL Exception!");
         return new ModelAndView("errors/database-error");
     }
 
     @ExceptionHandler(NullPointerException.class)
     public ModelAndView handleNullPointerException() {
+        logger.error("Null-pointer Exception!");
         return new ModelAndView("errors/database-error");
     }
 
     @ExceptionHandler(IdNotFoundException.class)
     public ModelAndView handleIdNotFoundException(HttpServletRequest request, Exception e) {
         ModelAndView mav = new ModelAndView("errors/error");
+        logger.error("Id not found. URL :" + request.getRequestURL() + "?id=" + e.getMessage());
         mav.addObject("exception", e.getMessage());
         mav.addObject("url", request.getRequestURL());
         return mav;
@@ -49,6 +52,7 @@ public class ExceptionInterceptor {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleAnyOtherException() {
+        logger.error("Unknown exception. Check the log!");
         return new ModelAndView("errors/unknown-error");
     }
 

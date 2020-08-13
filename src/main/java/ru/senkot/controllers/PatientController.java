@@ -17,7 +17,6 @@ import ru.senkot.servicies.UserService;
 import ru.senkot.validation.PatientDTOValidator;
 
 import javax.validation.Valid;
-import java.util.Objects;
 
 @Controller
 public class PatientController {

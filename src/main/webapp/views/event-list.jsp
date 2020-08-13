@@ -27,6 +27,18 @@
     </header>
 
     <div class="table-responsive container">
+        <div>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions</button>
+        </div>
+        <br>
+        <div>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions1</button>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions1</button>
+            <button class="btn btn-primary" onclick="location.href='<c:url value="prescription-check?id=${patient.id}"/>'">Check prescriptions1</button>
+        </div>
+        <br>
         <table  class="table table-bordered table-hover" id="user_list">
             <tr class="table-active">
                 <th>Date</th>

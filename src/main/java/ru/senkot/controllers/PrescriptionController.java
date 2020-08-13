@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PrescriptionDTO;
-import ru.senkot.entities.Event;
 import ru.senkot.entities.Prescription;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
@@ -17,9 +16,6 @@ import ru.senkot.servicies.PrescriptionService;
 import ru.senkot.validation.PrescriptionDTOValidator;
 
 import javax.validation.Valid;
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -81,13 +77,38 @@ public class PrescriptionController {
     }
 
     @PostMapping(value = "/edit-prescription")
-    public ModelAndView editPrescriptionForm(@ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO) {
+    public ModelAndView editPrescriptionForm(@Valid @ModelAttribute("prescriptionDTO") PrescriptionDTO prescriptionDTO,
+                                             BindingResult result) {
         logger.debug("editPrescriptionForm on mapping /edit-prescription is executed");
         ModelAndView mav = new ModelAndView();
-        mav.setViewName("prescription-list");
-        prescriptionService.updatePrescription(prescriptionService.getPrescriptionFromDTOForUpdate(prescriptionDTO));
-        mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
-        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+        prescriptionDTOValidator.validate(prescriptionDTO, result);
+
+        if (result.hasErrors()) {
+            mav.setViewName("prescription-form");
+            mav.addObject("errors", result.getAllErrors());
+            mav.addObject("prescription", prescriptionService.selectPrescription(prescriptionDTO.getPatientId()));
+            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+        } else {
+            Set<String> collisions = eventService.overlapEventsFromPrescriptionMapForEdit(prescriptionDTO);
+            if (collisions == null || collisions.isEmpty()) {
+                mav.setViewName("prescription-show");
+                prescriptionService.updatePrescription(prescriptionService.getPrescriptionFromDTOForUpdate(prescriptionDTO));
+                mav.addObject("prescription", prescriptionService
+                        .selectPrescription(prescriptionDTO.getPrescriptionId()));
+                mav.addObject("patient", patientService
+                        .selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("events", eventService
+                        .selectAllEventsByPrescriptionId(prescriptionDTO.getPrescriptionId()));
+
+                eventService.changeEventStatusForPrescriptionIdByPrescriptionId(prescriptionDTO.getPrescriptionId());
+                eventService.generateAndInsertEvents(prescriptionDTO);
+            } else {
+                mav.setViewName("prescription-form");
+                mav.addObject("collisions", collisions);
+                mav.addObject("prescription", prescriptionService.selectPrescription(prescriptionDTO.getPatientId()));
+                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+            }
+        }
         return mav;
     }
 
@@ -155,7 +176,7 @@ public class PrescriptionController {
         Prescription prescription = prescriptionService.selectPrescription(id);
         mav.addObject("prescription", prescription);
         mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
-        mav.addObject("events", eventService.selectAllPlanedEventsByPrescriptionId(id));
+        mav.addObject("events", eventService.selectAllEventsByPrescriptionId(id));
         return mav;
     }
 

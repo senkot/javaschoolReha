@@ -39,7 +39,7 @@
 
         <c:if test="${param.error != null}">
 
-            <div class="mt-5">
+            <div class="mt-5" style="color: tomato">
                 Invalid username and password.
             </div>
 
