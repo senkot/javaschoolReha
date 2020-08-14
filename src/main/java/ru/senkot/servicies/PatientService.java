@@ -82,14 +82,14 @@ public class PatientService {
     }
 
     @Transactional
-    public void setPatientStateFromDTO (PatientDTO patientDTO) {
+    public void setPatientStateFromDTO(PatientDTO patientDTO) {
         Patient patient = selectPatient(patientDTO.getPatientId());
         patient.setState(patientDTO.getState());
         updatePatient(patient);
     }
 
     @Transactional
-    public void changeStatusesFromPatientDischarge (PatientDTO patientDTO) {
+    public void changeStatusesFromPatientDischarge(PatientDTO patientDTO) {
         if (patientDTO.getState().equals("discharged")) {
             List<Prescription> prescriptions = prescriptionService.selectAllPrescriptionsById(patientDTO.getPatientId());
             for (Prescription prescription : prescriptions) {

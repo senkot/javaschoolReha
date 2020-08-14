@@ -19,7 +19,10 @@
         <p class="lead">Rehab division of the Chandra clinic was founded in May 2020</p>
         <p class="lead">as a part of Chandra Clinic in Pune, Maharashtra, India.</p>
         <p class="lead">Rehab division is a resort with a special approach to visitors</p>
-        <p class="lead">who are patients of Chandra Clinic and take a rehabilitation course.</p>
+        <p class="lead">who are patients of Chandra Clinic and take a rehabilitation course with such diseases as :</p>
+        <p class="lead">tiredness, sadness, stress, depression, weakness, boredom, insomnia and nervousness.</p>
+        <p class="lead"><b>We are convinced of the importance of eliminating these diseases</b></p>
+        <p class="lead"><b>as the main cause of other common illnesses.</b></p>
         <p class="lead">
             <a class="btn btn-outline-primary"  href='<c:url value="/" />'>Back</a>
         </p>

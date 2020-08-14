@@ -122,7 +122,7 @@
         <div class="form-group">
             <label for="dateOfBirth">Date of Birth</label>
             <c:if test="${empty patient.id}">
-                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="1000000">
+                <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>">

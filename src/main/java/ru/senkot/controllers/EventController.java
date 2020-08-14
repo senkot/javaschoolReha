@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.EventDTO;
+import ru.senkot.DTO.FilterEventsDTO;
 import ru.senkot.entities.Event;
 import ru.senkot.exception.IdNotFoundException;
 import ru.senkot.servicies.EventService;
+import ru.senkot.servicies.PatientService;
 
 @Controller
 public class EventController {
@@ -20,6 +22,9 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private PatientService patientService;
+
     @GetMapping(value = "/event-list")
     public ModelAndView getEvents() {
         logger.debug("getEvents on mapping /event-list is executed");
@@ -27,6 +32,18 @@ public class EventController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event-list");
         mav.addObject("events", eventService.selectAllEvents());
+        mav.addObject("patients", patientService.selectAllPatients());
+        return mav;
+    }
+
+    @PostMapping(value = "/event-list")
+    public ModelAndView filterEvents(@ModelAttribute("filterEventsDTO") FilterEventsDTO filterEventsDTO) {
+        logger.debug("filterEvents on mapping /event-list is executed");
+
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("event-list");
+        mav.addObject("events", eventService.selectEventsByDTO(filterEventsDTO));
+        mav.addObject("patients", patientService.selectAllPatients());
         return mav;
     }
 
@@ -46,7 +63,7 @@ public class EventController {
     }
 
     @PostMapping(value = "/event")
-    public ModelAndView changeStatus(@ModelAttribute("eventDTO")EventDTO eventDTO){
+    public ModelAndView changeStatus(@ModelAttribute("eventDTO") EventDTO eventDTO) {
         logger.debug("changeStatus on mapping /event is executed");
 
         ModelAndView mav = new ModelAndView();

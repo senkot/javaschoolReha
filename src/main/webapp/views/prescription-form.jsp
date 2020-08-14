@@ -116,7 +116,7 @@
         <div class="form-group">
             <label for="dateOfStart">Date of start</label>
             <c:if test="${empty prescription.id}">
-                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" min=" ">
+                <input type="date" id="dateOfStart" name="dateOfStart" class="form-control">
             </c:if>
             <c:if test="${!empty prescription.id}">
                 <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>">
@@ -278,7 +278,7 @@
         document.getElementById("dateOfEnd").valueAsDate = new Date();
     }
 
-    var prescription = prescription;
+    var prescription = ${prescription};
 
     if (prescription == null) {
         startToday();

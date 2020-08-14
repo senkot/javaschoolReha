@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.EventDAO;
 import ru.senkot.DTO.EventDTO;
+import ru.senkot.DTO.FilterEventsDTO;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Event;
 
@@ -54,18 +55,46 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> selectAllEventsByPrescriptionId(int id){
+    public List<Event> selectAllEventsByPrescriptionId(int id) {
         return eventDAO.selectAllEventsByPrescriptionId(id);
     }
 
     @Transactional
-    public List<Event> selectAllPlanedEventsByPrescriptionId(int id){
+    public List<Event> selectAllPlanedEventsByPrescriptionId(int id) {
         return eventDAO.selectAllPlanedEventsByPrescriptionId(id);
     }
 
     @Transactional
     public void deleteEvent(Event event) {
         eventDAO.deleteEvent(event);
+    }
+
+    @Transactional
+    public List<Event> selectEventsByDTO(FilterEventsDTO filterEventsDTO) {
+        List<Event> events = selectAllEvents();
+
+        if (filterEventsDTO.getPatientId() != 0) {
+            events = events.stream()
+                    .filter(event -> event.getPatientId() == filterEventsDTO.getPatientId())
+                    .collect(Collectors.toList());
+        }
+        if (filterEventsDTO.getDateToFilter() != null) {
+            System.out.println(filterEventsDTO.getDateToFilter());
+            events = events.stream()
+                    .filter(event -> event.getDate().equals(filterEventsDTO.getDateToFilter()))
+                    .collect(Collectors.toList());
+        }
+        if (!filterEventsDTO.getDayTime().equals("all")) {
+            events = events.stream()
+                    .filter(event -> event.getTime().equals(filterEventsDTO.getDayTime()))
+                    .collect(Collectors.toList());
+        }
+        if (!filterEventsDTO.getStatus().equals("all")) {
+            events = events.stream()
+                    .filter(event -> event.getStatus().equals(filterEventsDTO.getStatus()))
+                    .collect(Collectors.toList());
+        }
+        return events;
     }
 
     @Transactional
@@ -83,7 +112,7 @@ public class EventService {
     @Transactional
     public void changeEventStatusForPrescriptionIdByPrescriptionId(int id) {
         List<Event> planedEvents = selectAllPlanedEventsByPrescriptionId(id);
-        for (Event event: planedEvents) {
+        for (Event event : planedEvents) {
             event.setStatus("canceled");
             event.setCause("Prescription Edit");
         }
@@ -124,33 +153,7 @@ public class EventService {
     public Set<String> overlapEventsFromPrescriptionMap(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
         List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
-        if (!prescriptionDTO.getRemedyType().equals("procedure")) return null;
-        if (events.isEmpty()) {
-            return null;
-        } else {
-            List<String> collisionList = new ArrayList<>();
-            Set<String> collisionSet = new HashSet<>();
-
-            for (Event event : events) {
-                for (Map.Entry<Date, List<String>> entry : dateTimeMap.entrySet()) {
-                    List<String> times = new ArrayList<>();
-                    for (String time : entry.getValue()) {
-                        if (event.getRemedyType().equals("procedure")
-                                && event.getStatus().equals("planed")
-                                && event.getDate().equals(entry.getKey())
-                                && event.getTime().equals(time)) times.add(time);
-                    }
-                    if (!times.isEmpty()) {
-                        for (String time : times) {
-                            collisionList.add(entry.getKey() + " : " + time);
-                            collisionSet.add(entry.getKey() + " : " + time);
-                        }
-                    }
-                }
-            }
-            if (!collisionList.isEmpty()) return collisionSet;
-            else return null;
-        }
+        return getStrings(prescriptionDTO, dateTimeMap, events, events);
     }
 
     // получение списка дат с каждой датой из периода PrescriptionDTO
@@ -292,6 +295,10 @@ public class EventService {
                 .filter(event -> event.getPrescription().getId() != prescriptionDTO.getPrescriptionId())
                 .collect(Collectors.toList());
 
+        return getStrings(prescriptionDTO, dateTimeMap, events, otherEvents);
+    }
+
+    private Set<String> getStrings(PrescriptionDTO prescriptionDTO, Map<Date, List<String>> dateTimeMap, List<Event> events, List<Event> otherEvents) {
         if (!prescriptionDTO.getRemedyType().equals("procedure")) return null;
         if (events.isEmpty()) {
             return null;

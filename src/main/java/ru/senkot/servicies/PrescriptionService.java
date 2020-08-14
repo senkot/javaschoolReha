@@ -50,9 +50,9 @@ public class PrescriptionService {
     @Transactional
     public void checkPrescriptionsByPatientId(int id) {
         List<Prescription> prescriptions = selectAllPrescriptionsById(id);
-        for (Prescription prescription: prescriptions) {
+        for (Prescription prescription : prescriptions) {
             if (prescription.getStatus().equals("planed")
-            && eventService.checkPlanedEventsForPrescription(prescription.getId())) {
+                    && eventService.checkPlanedEventsForPrescription(prescription.getId())) {
                 prescription.setStatus("done");
             }
         }
@@ -81,7 +81,7 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public Prescription getPrescriptionForInsert (PrescriptionDTO prescriptionDTO) {
+    public Prescription getPrescriptionForInsert(PrescriptionDTO prescriptionDTO) {
         return new Prescription(
                 patientService.selectPatient(prescriptionDTO.getPatientId()),
                 prescriptionDTO.getRemedyName(),
@@ -94,7 +94,7 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void updatePrescriptionStatus (PrescriptionDTO prescriptionDTO) {
+    public void updatePrescriptionStatus(PrescriptionDTO prescriptionDTO) {
         Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
         prescription.setStatus(prescriptionDTO.getStatus());
         if (!prescriptionDTO.getCause().isEmpty() && prescriptionDTO.getCause() != null) {
