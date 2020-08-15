@@ -23,7 +23,7 @@
     <form:form action="${pageContext.request.contextPath}/authenticateTheUser"
                method="POST" class="form-horizontal">
 
-        <label>Please sign in</label>
+        <label>Sign in</label>
 
         <div>
             <input type="text" name="username"  class="form-control" placeholder="Username" required="">

@@ -12,11 +12,23 @@
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header>
+
         <div style="background-color: #e6e6fe" id="my-header" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Chandra Clinic</h5>
             <sec:authorize access="hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
-                <p class="my-2 my-md-0 mr-md-3">Hello, <sec:authentication property="principal.username"/>!
-                    You signed in as a <sec:authentication property="principal.authorities"/></p>
+                <p class="my-2 my-md-0 mr-md-3">Greetings, <c:out value="${user.fullName}"/> !
+                    You are logged in as
+                    <sec:authentication var="role" property="principal.authorities"/>
+                    <c:if test="${role == '[ROLE_DOCTOR]'}">
+                        a <b>Doctor</b>
+                    </c:if>
+                    <c:if test="${role == '[ROLE_NURSE]'}">
+                        a <b>Nurse</b>
+                    </c:if>
+                    <c:if test="${role == '[ROLE_ADMIN, ROLE_DOCTOR, ROLE_NURSE]'}">
+                        an <b>Administrator</b>
+                    </c:if>
+                </p>
             </sec:authorize>
             <nav class="my-2 my-md-0 mr-md-3">
                 <sec:authorize access="hasRole('DOCTOR')">
@@ -27,21 +39,21 @@
                 </sec:authorize>
             </nav>
 
-                <sec:authorize access="hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
+            <sec:authorize access="hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
                 <form:form action="${pageContext.request.contextPath}/logout" method="post">
                     <input type="submit" class="btn btn-outline-primary" value="Logout" />
                 </form:form>
-                </sec:authorize>
-                <sec:authorize access="!hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
-                    <a class="btn btn-outline-primary"  href='<c:url value="/login-page" />'>Login</a>
-                </sec:authorize>
+            </sec:authorize>
+            <sec:authorize access="!hasAnyRole('DOCTOR', 'NURSE', 'ADMIN')">
+                <a class="btn btn-outline-primary"  href='<c:url value="/login-page" />'>Login</a>
+            </sec:authorize>
 
         </div>
     </header>
 
     <main role="main" class="inner cover">
         <h1 class="cover-heading">Chandra Clinic Rehab Division System</h1>
-<%--        <h1 class="cover-heading">THE USER IS : <c:out value="${user.fullName}" /></h1>--%>
+        <%--        <h1 class="cover-heading">THE USER IS : <c:out value="${user.fullName}" /></h1>--%>
         <p class="lead">Document management system of the Chandra clinic Rehab Resort</p>
         <p class="lead">
             <a class="btn btn-outline-primary"  href='<c:url value="/about" />'>More</a>

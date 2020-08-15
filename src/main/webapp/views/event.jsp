@@ -14,7 +14,12 @@
         <div style="background-color: #e6e6fe" class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3  border-bottom shadow-sm">
             <h5 class="my-0 mr-md-auto font-weight-normal">Event</h5>
             <nav class="my-2 my-md-0 mr-md-3">
-                <a class="p-2 text-dark" href="<c:url value="/event-list" />">Back to Event List</a>
+                <sec:authorize access="hasRole('NURSE')">
+                    <a class="p-2 text-dark" href="<c:url value="/event-list" />">Back to Event List</a>
+                </sec:authorize>
+                <sec:authorize access="hasRole('DOCTOR')">
+                    <a class="p-2 text-dark" href="<c:url value="/prescription-show?id=${event.prescription.id}" />">Back to Prescription</a>
+                </sec:authorize>
             </nav>
             <a class="btn btn-outline-primary" href="<c:url value="/"/>">Back to Start Page</a>
         </div>
@@ -92,14 +97,14 @@
             <div id='Block1' style='display: none;'>
                 <label for="cause">Cause</label>
                 <c:if test="${!empty event.cause}"> <p id="cause">value="<c:out value="${event.cause}"/>"</p> </c:if>
-                <c:if test="${empty event.cause}"> <input id="cause" type="text" name="cause"></c:if>
+                <c:if test="${empty event.cause}"> <input id="causeInput" type="text" name="cause"></c:if>
 
             </div>
 
             <c:if test="${event.status == 'planed'}">
-            <form:form action="${pageContext.request.contextPath}/event" method="post">
-                <button class="btn btn-primary" type="submit">EDIT</button>
-            </form:form>
+                <form:form action="${pageContext.request.contextPath}/event" method="post">
+                    <button class="btn btn-primary" type="submit">EDIT</button>
+                </form:form>
             </c:if>
         </div>
     </form>
@@ -117,8 +122,10 @@
         var label = a.value;
         if (label=="canceled") {
             document.getElementById("Block1").style.display='block';
+            document.getElementById("causeInput").required=true;
         } else {
             document.getElementById("Block1").style.display='none';
+            document.getElementById("causeInput").required=false;
         }
     }
 </script>
