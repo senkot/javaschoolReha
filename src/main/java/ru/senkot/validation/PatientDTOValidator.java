@@ -32,6 +32,18 @@ public class PatientDTOValidator implements Validator {
         }
 
         // validation age of Patient
+        checkAge(errors, patientDTO);
+    }
+
+    public void validateEdit(Object o, Errors errors) {
+
+        PatientDTO patientDTO = (PatientDTO) o;
+
+        // validation age of Patient
+        checkAge(errors, patientDTO);
+    }
+
+    private void checkAge(Errors errors, PatientDTO patientDTO) {
         if (patientDTO.getDateOfBirth() != null) {
             Calendar birthDateDTO = new GregorianCalendar();
             birthDateDTO.setTime(patientDTO.getDateOfBirth());
@@ -51,4 +63,5 @@ public class PatientDTOValidator implements Validator {
             errors.rejectValue("dateOfBirth", "", "dateOfBirth blank");
         }
     }
+
 }

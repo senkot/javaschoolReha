@@ -90,7 +90,7 @@
                 </select>
             </c:if>
             <c:if test="${!empty prescription.id}">
-                <select class="form-control" id="remedyType" name="remedyType" onchange="Selected(this)">
+                <select class="form-control" id="remedyType" name="remedyType" onchange="Selected(this)" >
                     <c:if test="${prescription.remedyType == 'pill'}">
                         <option selected>pill</option>
                         <option>procedure</option>
@@ -278,7 +278,7 @@
         document.getElementById("dateOfEnd").valueAsDate = new Date();
     }
 
-    var prescription = ${prescription};
+    var prescription = prescription;
 
     if (prescription == null) {
         startToday();

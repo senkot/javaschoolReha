@@ -92,7 +92,7 @@ public class PatientController {
         logger.debug("postEditPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
 
-        patientDTOValidator.validate(patientDTO, result);
+        patientDTOValidator.validateEdit(patientDTO, result);
 
         if (result.hasErrors()) {
             if (result.hasFieldErrors("insurance")) {
