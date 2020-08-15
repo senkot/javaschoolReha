@@ -60,9 +60,10 @@ public class PatientController {
 
         if (result.hasErrors()) {
             if (result.hasFieldErrors("insurance")) {
-                if (result.getFieldError("insurance").toString().equals("insurance error"))
+                if (result.getFieldError("insurance").getDefaultMessage().equals("insurance error")) {
                     mav.addObject("existedPatientId", patientService
                             .selectPatientByInsurance(patientDTO.getInsurance()).getId());
+                }
             }
             mav.setViewName("patient-form");
             mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));

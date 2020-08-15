@@ -278,12 +278,10 @@
         document.getElementById("dateOfEnd").valueAsDate = new Date();
     }
 
-    var prescription = prescription;
-
-    if (prescription == null) {
+    <c:if test="${empty prescription}">
         startToday();
         endToday()
-    }
+    </c:if>
 
 </script>
 

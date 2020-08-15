@@ -107,7 +107,7 @@
             <div id='Block1' style='display: none;'>
                 <label for="cause">Cause</label>
                 <c:if test="${!empty prescription.cause}"> <p id="cause">value="<c:out value="${prescription.cause}"/>"</p> </c:if>
-                <c:if test="${empty prescription.cause}"> <input id="cause" type="text" name="cause" ></c:if>
+                <c:if test="${empty prescription.cause}"> <input id="causeInput" type="text" name="cause" ></c:if>
 
             </div>
 
@@ -132,8 +132,10 @@
         var label = a.value;
         if (label=="canceled") {
             document.getElementById("Block1").style.display='block';
+            document.getElementById("causeInput").required=true;
         } else {
             document.getElementById("Block1").style.display='none';
+            document.getElementById("causeInput").required=false;
         }
     }
 </script>

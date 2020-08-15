@@ -91,17 +91,17 @@ public class PrescriptionController {
         } else {
             Set<String> collisions = eventService.overlapEventsFromPrescriptionMapForEdit(prescriptionDTO);
             if (collisions == null || collisions.isEmpty()) {
-                mav.setViewName("prescription-show");
-                prescriptionService.updatePrescription(prescriptionService.getPrescriptionFromDTOForUpdate(prescriptionDTO));
-                mav.addObject("prescription", prescriptionService
-                        .selectPrescription(prescriptionDTO.getPrescriptionId()));
-                mav.addObject("patient", patientService
-                        .selectPatient(prescriptionDTO.getPatientId()));
-                mav.addObject("events", eventService
-                        .selectAllEventsByPrescriptionId(prescriptionDTO.getPrescriptionId()));
+                mav.setViewName("prescription-list");
 
+                prescriptionService.updatePrescription(prescriptionService.getPrescriptionFromDTOForUpdate(prescriptionDTO));
                 eventService.changeEventStatusForPrescriptionIdByPrescriptionId(prescriptionDTO.getPrescriptionId());
                 eventService.generateAndInsertEvents(prescriptionDTO);
+
+                mav.addObject("patient", patientService
+                        .selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("prescriptions", prescriptionService
+                        .selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+
             } else {
                 mav.setViewName("prescription-form");
                 mav.addObject("collisions", collisions);

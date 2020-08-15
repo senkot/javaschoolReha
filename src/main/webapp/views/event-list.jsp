@@ -7,13 +7,8 @@
     <title>Event List</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-<%--    <script src="js/jquery-3.5.1.min.js" type="text/javascript"></script>--%>
-<%--    <script src="/js/jquery.tablesorter.js" type="text/javascript"></script>--%>
-<%--    <script>--%>
-<%--        $(document).ready(function() {--%>
-<%--            $("#user_list").tablesorter();--%>
-<%--        });--%>
-<%--    </script>--%>
+    <script src="js/jquery-3.5.1.min.js" type="text/javascript"></script>
+    <script src="/js/jquery.tablesorter.js" type="text/javascript"></script>
 </head>
 <body class="text-center">
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
@@ -88,12 +83,7 @@
                     <td><c:out value="${event.prescription.patient.lastName} ${event.prescription.patient.firstName}" /></td>
                     <td><c:out value="${event.remedyName}" /></td>
                     <td><c:out value="${event.remedyType}" /></td>
-                    <c:if test="${event.quantity != 0}" >
-                        <td style="text-align: center"><c:out value="${event.quantity}"/></td>
-                    </c:if>
-                    <c:if test="${prescription.quantity == 0}" >
-                        <td style="text-align: center">-</td>
-                    </c:if>
+                    <td style="text-align: center"><c:out value="${event.quantity}"/></td>
                     <td>
                         <a href="<c:url value="/event?id=${event.id}"/>">
                             <c:out value="${event.status}"/>
@@ -119,6 +109,10 @@
     }
 
     setDayToday();
+
+    $(document).ready(function() {
+        $("#user_list").tablesorter();
+    });
 
 </script>
 

@@ -18,7 +18,8 @@
                     <a class="p-2 text-dark" href="<c:url value="/event-list" />">Back to Event List</a>
                 </sec:authorize>
                 <sec:authorize access="hasRole('DOCTOR')">
-                    <a class="p-2 text-dark" href="<c:url value="/prescription-show?id=${event.prescription.id}" />">Back to Prescription</a>
+                    <a class="p-2 text-dark" href="<c:url value="/prescription-show?id=${event.prescription.id}" />">Go to Prescription</a>
+                    <a class="p-2 text-dark" href="<c:url value="/event-list" />">Go to Event List</a>
                 </sec:authorize>
             </nav>
             <a class="btn btn-outline-primary" href="<c:url value="/"/>">Back to Start Page</a>

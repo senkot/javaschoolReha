@@ -194,26 +194,82 @@
                 <select  class="form-control" id="diagnosis" name="diagnosis">
                     <c:if test="${patient.diagnosis == 'tiredness'}">
                         <option selected>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'sadness'}">
+                        <option>tiredness</option>
                         <option selected>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'stress'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
                         <option selected>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'depression'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
                         <option selected>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'weakness'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
                         <option selected>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'boredom'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
                         <option selected>boredom</option>
+                        <option>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'insomnia'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
                         <option selected>insomnia</option>
+                        <option>nervousness</option>
                     </c:if>
                     <c:if test="${patient.diagnosis == 'nervousness'}">
+                        <option>tiredness</option>
+                        <option>sadness</option>
+                        <option>stress</option>
+                        <option>depression</option>
+                        <option>weakness</option>
+                        <option>boredom</option>
+                        <option>insomnia</option>
                         <option selected>nervousness</option>
                     </c:if>
                 </select>
