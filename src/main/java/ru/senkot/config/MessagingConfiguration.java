@@ -1,0 +1,66 @@
+package ru.senkot.config;
+
+import org.apache.activemq.spring.ActiveMQConnectionFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.core.JmsTemplate;
+
+import javax.jms.ConnectionFactory;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import java.util.Arrays;
+import java.util.Properties;
+
+@Configuration
+public class MessagingConfiguration {
+
+    private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
+    private static final String ORDER_QUEUE = "myQueue";
+
+    private static final String DEFAULT_MESSAGE = "Hello, World!";
+    private static final String DEFAULT_CONNECTION_FACTORY = "java:jboss/exported/jms/RemoteConnectionFactory";
+    private static final String DEFAULT_DESTINATION = "java:jboss/exported/jms/queue/myQueue";
+    private static final String DEFAULT_MESSAGE_COUNT = "1";
+    private static final String DEFAULT_USERNAME = "senkot";
+    private static final String DEFAULT_PASSWORD = "123456";
+    private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
+    private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
+
+
+    @Bean
+    public ConnectionFactory connectionFactory() throws NamingException {
+
+        String userName = System.getProperty("username", DEFAULT_USERNAME);
+        String password = System.getProperty("password", DEFAULT_PASSWORD);
+
+        final Properties properties = new Properties();
+        properties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
+        properties.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
+        properties.put(Context.SECURITY_PRINCIPAL, userName);
+        properties.put(Context.SECURITY_CREDENTIALS, password);
+        Context namingContext = new InitialContext();
+
+        String connectionFactoryString = System.getProperty("connection.factory", DEFAULT_CONNECTION_FACTORY);
+        ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(connectionFactoryString);
+
+        return connectionFactory;
+    }
+
+//    @Bean
+//    public ActiveMQConnectionFactory connectionFactory() {
+//        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
+//        connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
+//        connectionFactory.setTrustedPackages(Arrays.asList("ru.senkot"));
+//        return connectionFactory;
+//    }
+
+    @Bean
+    public JmsTemplate jmsTemplate() throws NamingException {
+        JmsTemplate template = new JmsTemplate();
+        template.setConnectionFactory(connectionFactory());
+        template.setDefaultDestinationName(DEFAULT_DESTINATION);
+        return template;
+    }
+
+}

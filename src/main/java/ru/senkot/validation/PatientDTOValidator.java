@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.senkot.DTO.PatientDTO;
-import ru.senkot.entities.Patient;
 import ru.senkot.servicies.PatientService;
 
 import java.util.Calendar;

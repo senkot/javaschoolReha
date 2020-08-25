@@ -11,6 +11,7 @@ import ru.senkot.DTO.EventDTO;
 import ru.senkot.DTO.FilterEventsDTO;
 import ru.senkot.entities.Event;
 import ru.senkot.exception.IdNotFoundException;
+import ru.senkot.messaging.MessageSender;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 
@@ -25,6 +26,9 @@ public class EventController {
     @Autowired
     private PatientService patientService;
 
+    @Autowired
+    MessageSender messageSender;
+
     @GetMapping(value = "/event-list")
     public ModelAndView getEvents() {
         logger.debug("getEvents on mapping /event-list is executed");
@@ -33,6 +37,7 @@ public class EventController {
         mav.setViewName("event-list");
         mav.addObject("events", eventService.selectAllEvents());
         mav.addObject("patients", patientService.selectAllPatients());
+        messageSender.sendMessage("raz raz");
         return mav;
     }
 
