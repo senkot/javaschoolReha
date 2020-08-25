@@ -149,8 +149,10 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-jms-client-bom</artifactId>
+            <version>20.0.0.Final</version>
             <type>pom</type>
         </dependency>
+
 
     </dependencies>
 

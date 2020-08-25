@@ -19,8 +19,8 @@ public class MessagingConfiguration {
     private static final String ORDER_QUEUE = "myQueue";
 
     private static final String DEFAULT_MESSAGE = "Hello, World!";
-    private static final String DEFAULT_CONNECTION_FACTORY = "java:jboss/exported/jms/RemoteConnectionFactory";
-    private static final String DEFAULT_DESTINATION = "java:jboss/exported/jms/queue/myQueue";
+    private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
+    private static final String DEFAULT_DESTINATION = "jms/queue/myQueue";
     private static final String DEFAULT_MESSAGE_COUNT = "1";
     private static final String DEFAULT_USERNAME = "senkot";
     private static final String DEFAULT_PASSWORD = "123456";
@@ -35,11 +35,11 @@ public class MessagingConfiguration {
         String password = System.getProperty("password", DEFAULT_PASSWORD);
 
         final Properties properties = new Properties();
-        properties.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
+        properties.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
         properties.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
         properties.put(Context.SECURITY_PRINCIPAL, userName);
         properties.put(Context.SECURITY_CREDENTIALS, password);
-        Context namingContext = new InitialContext();
+        Context namingContext = new InitialContext(properties);
 
         String connectionFactoryString = System.getProperty("connection.factory", DEFAULT_CONNECTION_FACTORY);
         ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(connectionFactoryString);
