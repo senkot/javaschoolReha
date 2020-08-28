@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.senkot.DAO.EventDAO;
 import ru.senkot.DTO.EventDTO;
+import ru.senkot.DTO.EventStringDTO;
 import ru.senkot.DTO.FilterEventsDTO;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Event;
@@ -29,6 +30,9 @@ public class EventService {
     @Autowired
     private PrescriptionService prescriptionService;
 
+    @Autowired
+    private PatientService patientService;
+
     @Transactional
     public void insertEvent(Event event) {
         eventDAO.insertEvent(event);
@@ -50,8 +54,24 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> selectAllEventsByPatientId(int id) {
-        return eventDAO.selectAllEventsByPatientId(id);
+    public List<Event> selectAllEventsByDate(Date date) {
+        return eventDAO.selectAllEventsByDate(date);
+    }
+
+    public List<EventStringDTO> convertEventsToDTO(List<Event> events) {
+        List<EventStringDTO> eventStringDTOList = new ArrayList<>();
+        for (Event event : events) {
+            eventStringDTOList.add(new EventStringDTO(event.getDate().toString(),
+                    event.getTime(),
+                    patientService.selectPatient(event.getPatientId()).getLastName() + " "
+                            + patientService.selectPatient(event.getPatientId()).getFirstName(),
+                    event.getRemedyName(),
+                    event.getRemedyType(),
+                    event.getQuantity(),
+                    event.getStatus())
+            );
+        }
+        return eventStringDTOList;
     }
 
     @Transactional

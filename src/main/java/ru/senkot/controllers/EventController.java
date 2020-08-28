@@ -15,6 +15,10 @@ import ru.senkot.messaging.MessageSender;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.List;
+
 @Controller
 public class EventController {
 
@@ -75,6 +79,14 @@ public class EventController {
         mav.setViewName("event");
         eventService.updateEventStatusFromDTO(eventDTO);
         mav.addObject("event", eventService.selectEvent(eventDTO.getEventId()));
+        return mav;
+    }
+
+    @GetMapping(value = "/test")
+    public ModelAndView testMethod() {
+        ModelAndView mav = new ModelAndView("test");
+        List<Event> events = eventService.selectAllEventsByDate(new Date(Calendar.getInstance().getTime().getTime()));
+        mav.addObject("events", eventService.convertEventsToDTO(events));
         return mav;
     }
 }

@@ -24,18 +24,8 @@ public class MessageSender {
     @Autowired
     JmsTemplate jmsTemplate;
 
-//    @Autowired
-//    ConnectionFactory connectionFactory;
-
-//    @Resource(lookup = "java:jboss/exported/jms/queue/myQueue")
-//    Destination destination;
-
     public void sendMessage(String text) {
-////            Connection connection = connectionFactory.createConnection();
-////            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//////            MessageProducer messageProducer = session.createProducer(destination);
-////            TextMessage textMessage = session.createTextMessage(text);
-//
+
             MessageCreator messageCreator = new MessageCreator() {
                 @Override
                 public Message createMessage(Session session) throws JMSException {

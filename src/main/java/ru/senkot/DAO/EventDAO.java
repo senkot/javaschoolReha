@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.senkot.entities.Event;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,13 @@ public class EventDAO {
         return eventList.stream().
                 filter(event -> event.getPatientId() == id).
                 collect(Collectors.toList());
+    }
+
+    public List<Event> selectAllEventsByDate(Date date) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select e from Event as e where e.date = :date");
+        query.setParameter("date", date);
+        return query.list();
     }
 
     public List<Event> selectAllEventsByPrescriptionId(int id) {
