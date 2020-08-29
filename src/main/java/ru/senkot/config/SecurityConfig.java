@@ -27,11 +27,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                    .antMatchers("/", "/about").permitAll()
+                    .antMatchers("/", "/about", "/test/**").permitAll()
                     .antMatchers("/patient-list/**", "/patient/**", "/patient-form/**"
                     , "/prescription-list/**", "/prescription/**", "/prescription-form/**", "/add", "/edit"
                     , "/add-prescription", "/edit-prescription").hasRole("DOCTOR")
-                    .antMatchers("/event-list/**", "/event/**", "/test/**").hasAnyRole("NURSE", "DOCTOR")
+                    .antMatchers("/event-list/**", "/event/**").hasAnyRole("NURSE", "DOCTOR")
                 .and()
                 .formLogin()
                     .loginPage("/login-page")

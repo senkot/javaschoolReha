@@ -10,6 +10,9 @@ public class EventStringDTO {
     private int quantity;
     private String status;
 
+    public EventStringDTO() {
+    }
+
     public EventStringDTO(String date, String time, String patient, String remedy, String type, int quantity, String status) {
         this.date = date;
         this.time = time;
