@@ -31,7 +31,7 @@ public class PrescriptionDTOValidator implements Validator {
             today.roll(Calendar.DATE, -1);
 
             if (dateOfStart.after(dateOfEnd)) errors.rejectValue("dateOfEnd", "", "dateOfEnd earlier");
-            if (dateOfStart.before(today)) errors.rejectValue("dateOfStart", "", "dateOfStart past");
+//            if (dateOfStart.before(today)) errors.rejectValue("dateOfStart", "", "dateOfStart past");
 
         } else if (prescriptionDTO.getDateOfStart() == null && prescriptionDTO.getDateOfEnd() != null) {
             errors.rejectValue("dateOfStart", "", "dateOfStart blank");
