@@ -41,7 +41,6 @@ public class EventController {
         mav.setViewName("event-list");
         mav.addObject("events", eventService.selectAllEvents());
         mav.addObject("patients", patientService.selectAllPatients());
-        messageSender.sendMessage("raz raz");
         return mav;
     }
 
@@ -79,6 +78,7 @@ public class EventController {
         mav.setViewName("event");
         eventService.updateEventStatusFromDTO(eventDTO);
         mav.addObject("event", eventService.selectEvent(eventDTO.getEventId()));
+        messageSender.sendMessage("DB updated. Event changed status");
         return mav;
     }
 
@@ -87,6 +87,7 @@ public class EventController {
         ModelAndView mav = new ModelAndView("test");
         List<Event> events = eventService.selectAllEventsByDate(new Date(Calendar.getInstance().getTime().getTime()));
         mav.addObject("events", eventService.convertEventsToDTO(events));
+        messageSender.sendMessage("DB not updated. Message from test method");
         return mav;
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Prescription;
+import ru.senkot.messaging.MessageSender;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.PrescriptionService;
@@ -34,6 +35,9 @@ public class PrescriptionController {
 
     @Autowired
     private EventService eventService;
+
+    @Autowired
+    MessageSender messageSender;
 
     @GetMapping(value = "/prescription-list")
     public ModelAndView prescriptionList(@ModelAttribute("id") int id) {
@@ -101,6 +105,7 @@ public class PrescriptionController {
                         .selectPatient(prescriptionDTO.getPatientId()));
                 mav.addObject("prescriptions", prescriptionService
                         .selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+                messageSender.sendMessage("DB updated. Prescription has been changed");
 
             } else {
                 mav.setViewName("prescription-form");
@@ -130,10 +135,14 @@ public class PrescriptionController {
                 mav.setViewName("prescription-list");
                 prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
 
-                prescriptionDTO.setPrescriptionId(prescriptionService.getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
+                prescriptionDTO.setPrescriptionId(prescriptionService
+                        .getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
                 eventService.generateAndInsertEvents(prescriptionDTO);
-                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
-                mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+                mav.addObject("patient", patientService
+                        .selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("prescriptions", prescriptionService
+                        .selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+                messageSender.sendMessage("DB updated. New prescription has been added");
 
             } else {
                 mav.setViewName("prescription-form");
@@ -165,6 +174,7 @@ public class PrescriptionController {
         prescriptionService.setStatusPrescriptionToEvent(prescriptionDTO);
         mav.addObject("prescription", prescription);
         mav.addObject("patient", prescription.getPatient());
+        messageSender.sendMessage("DB updated. Prescription's status has been changed");
         return mav;
     }
 

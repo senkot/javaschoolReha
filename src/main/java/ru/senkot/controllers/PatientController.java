@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.PatientDTO;
 import ru.senkot.entities.Patient;
 import ru.senkot.exception.IdNotFoundException;
+import ru.senkot.messaging.MessageSender;
 import ru.senkot.servicies.PatientService;
 import ru.senkot.servicies.UserService;
 import ru.senkot.validation.PatientDTOValidator;
@@ -32,6 +33,8 @@ public class PatientController {
     @Autowired
     private PatientDTOValidator patientDTOValidator;
 
+    @Autowired
+    MessageSender messageSender;
 
     @GetMapping(value = "/patient-list")
     public ModelAndView patientList() {
@@ -47,7 +50,8 @@ public class PatientController {
         logger.debug("patientForm on mapping /add is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-form");
-        mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+        mav.addObject("user", userService.findByUsername(SecurityContextHolder.
+                getContext().getAuthentication().getName()));
         return mav;
     }
 
@@ -73,6 +77,7 @@ public class PatientController {
             mav.setViewName("patient-list");
             patientService.insertPatient(patientService.patientFromPatientDTOForInsert(patientDTO));
             mav.addObject("patients", patientService.selectAllPatients());
+            messageSender.sendMessage("DB updated. New patient has been added");
         }
         return mav;
     }
@@ -110,6 +115,7 @@ public class PatientController {
             mav.setViewName("patient");
             patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
             mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+            messageSender.sendMessage("DB updated. Patient has been updated");
         }
         return mav;
     }
@@ -136,6 +142,7 @@ public class PatientController {
         patientService.setPatientStateFromDTO(patientDTO);
         patientService.changeStatusesFromPatientDischarge(patientDTO);
         mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+        messageSender.sendMessage("DB updated. Patient's status has been changed");
         return mav;
     }
 
