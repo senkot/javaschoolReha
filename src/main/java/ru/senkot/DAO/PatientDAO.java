@@ -44,7 +44,7 @@ public class PatientDAO {
     @SuppressWarnings("unchecked")
     public List<Patient> selectAllPatients() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select p from Patient as p").list();
+        return session.createQuery("select p from Patient as p order by p.lastName").list();
     }
 
     public void deletePatient(Patient patient) {

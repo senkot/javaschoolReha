@@ -37,7 +37,7 @@ public class EventDAO {
 
     public List<Event> selectAllEvents() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("From Event").list();
+        return session.createQuery("From Event order by date").list();
     }
 
     public List<Event> selectAllEventsByPatientId(int id) {

@@ -21,9 +21,7 @@ public class MainRestController {
     EventService eventService;
 
     @RequestMapping(value = "/test/{date}",
-            method = RequestMethod.GET,
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
+            method = RequestMethod.GET)
     public List<EventStringDTO> getEventStrings(@PathVariable Date date) {
         List<Event> events = eventService.selectAllEventsByDate(date);
         List<EventStringDTO> eventStrings = eventService.convertEventsToDTO(events);

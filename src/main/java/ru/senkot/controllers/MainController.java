@@ -2,11 +2,9 @@ package ru.senkot.controllers;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ru.senkot.entities.User;
 import ru.senkot.servicies.UserService;
 
 @Controller
@@ -29,15 +27,7 @@ public class MainController {
     public ModelAndView getIndexPage() {
         logger.debug("getIndexPAge on mapping / is executed");
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("index");
-
-        User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        if (user != null) {
-            mav.addObject("user", user);
-        }
-
-        return mav;
+        return userService.getMavForMain();
     }
 
 }

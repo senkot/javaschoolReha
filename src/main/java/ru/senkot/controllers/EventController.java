@@ -59,15 +59,7 @@ public class EventController {
     public ModelAndView getEventById(@ModelAttribute("id") int id) throws IdNotFoundException {
         logger.debug("getEventById on mapping /event is executed");
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("event");
-        Event event = eventService.selectEvent(id);
-        if (event != null) {
-            mav.addObject("event", eventService.selectEvent(id));
-        } else {
-            throw new IdNotFoundException(id);
-        }
-        return mav;
+        return eventService.getMavForEvent(id);
     }
 
     @PostMapping(value = "/event")

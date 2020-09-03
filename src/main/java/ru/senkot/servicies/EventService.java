@@ -2,12 +2,14 @@ package ru.senkot.servicies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DAO.EventDAO;
 import ru.senkot.DTO.EventDTO;
 import ru.senkot.DTO.EventStringDTO;
 import ru.senkot.DTO.FilterEventsDTO;
 import ru.senkot.DTO.PrescriptionDTO;
 import ru.senkot.entities.Event;
+import ru.senkot.exception.IdNotFoundException;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
@@ -22,6 +24,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventService {
 
     @Autowired
@@ -56,6 +59,17 @@ public class EventService {
     @Transactional
     public List<Event> selectAllEventsByDate(Date date) {
         return eventDAO.selectAllEventsByDate(date);
+    }
+
+    public ModelAndView getMavForEvent(int id) throws IdNotFoundException {
+        ModelAndView mav = new ModelAndView("event");
+        Event event = selectEvent(id);
+        if (event != null) {
+            mav.addObject("event", event);
+        } else {
+            throw new IdNotFoundException(id);
+        }
+        return mav;
     }
 
     public List<EventStringDTO> convertEventsToDTO(List<Event> events) {

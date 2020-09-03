@@ -17,6 +17,8 @@
     <main role="main" class="inner cover">
         <h1 class="cover-heading">Stay calm!</h1>
         <p class="lead">Unknown Error occurred</p>
+        <p class="lead">The request page is : <c:out value="${url}"/></p>
+        <p class="lead">The reason of error is : <c:out value="${exception}"/></p>
         <p class="lead">You can go to the Start page</p>
         <p class="lead">
             <a class="btn btn-outline-primary"  href='<c:url value="/" />'>Start Page</a>

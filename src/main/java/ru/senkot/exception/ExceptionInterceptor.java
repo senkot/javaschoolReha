@@ -50,10 +50,13 @@ public class ExceptionInterceptor {
         return mav;
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ModelAndView handleAnyOtherException() {
-//        logger.error("Unknown exception. Check the log!");
-//        return new ModelAndView("errors/unknown-error");
-//    }
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleAnyOtherException(HttpServletRequest request, Exception e) {
+        logger.error("Unknown exception. Check the log!" + e.getMessage());
+        ModelAndView mav = new ModelAndView("errors/unknown-error");
+        mav.addObject("exception", e.getMessage());
+        mav.addObject("url", request.getRequestURL());
+        return mav;
+    }
 
 }
