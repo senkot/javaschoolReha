@@ -1,9 +1,7 @@
 package ru.senkot.config;
 
-import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.ConnectionFactory;
@@ -11,9 +9,9 @@ import javax.jms.Destination;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.util.Arrays;
 import java.util.Properties;
 
+@SuppressWarnings("DuplicatedCode")
 @Configuration
 public class MessagingConfiguration {
 
@@ -48,14 +46,6 @@ public class MessagingConfiguration {
 
         return connectionFactory;
     }
-
-//    @Bean
-//    public ActiveMQConnectionFactory connectionFactory() {
-//        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-//        connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-//        connectionFactory.setTrustedPackages(Arrays.asList("ru.senkot"));
-//        return connectionFactory;
-//    }
 
     @Bean
     public JmsTemplate jmsTemplate() throws NamingException {

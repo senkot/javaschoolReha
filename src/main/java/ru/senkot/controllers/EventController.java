@@ -74,12 +74,4 @@ public class EventController {
         return mav;
     }
 
-    @GetMapping(value = "/test")
-    public ModelAndView testMethod() {
-        ModelAndView mav = new ModelAndView("test");
-        List<Event> events = eventService.selectAllEventsByDate(new Date(Calendar.getInstance().getTime().getTime()));
-        mav.addObject("events", eventService.convertEventsToDTO(events));
-        messageSender.sendMessage("DB not updated. Message from test method");
-        return mav;
-    }
 }
