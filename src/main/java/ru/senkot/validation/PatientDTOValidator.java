@@ -26,7 +26,7 @@ public class PatientDTOValidator implements Validator {
 
         // validation existing Patient by insurance
         PatientDTO patientDTO = (PatientDTO) o;
-        if (patientService.selectPatientByInsurance(patientDTO.getInsurance()) != null) {
+        if (patientService.findPatientByInsurance(patientDTO.getInsurance()) != null) {
             errors.rejectValue("insurance", "", "insurance error");
         }
 

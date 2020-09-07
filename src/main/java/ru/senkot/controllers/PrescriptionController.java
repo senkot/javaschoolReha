@@ -44,8 +44,8 @@ public class PrescriptionController {
         logger.debug("prescriptionList on mapping /prescription-list is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
-        mav.addObject("patient", patientService.selectPatient(id));
-        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(id));
+        mav.addObject("patient", patientService.findPatientById(id));
+        mav.addObject("prescriptions", prescriptionService.findAllPrescriptionsByPatientId(id));
         return mav;
     }
 
@@ -55,8 +55,8 @@ public class PrescriptionController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-list");
         prescriptionService.checkPrescriptionsByPatientId(id);
-        mav.addObject("patient", patientService.selectPatient(id));
-        mav.addObject("prescriptions", prescriptionService.selectAllPrescriptionsById(id));
+        mav.addObject("patient", patientService.findPatientById(id));
+        mav.addObject("prescriptions", prescriptionService.findAllPrescriptionsByPatientId(id));
         return mav;
     }
 
@@ -65,7 +65,7 @@ public class PrescriptionController {
         logger.debug("addPrescription on mapping /add-prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-form");
-        mav.addObject("patient", patientService.selectPatient(id));
+        mav.addObject("patient", patientService.findPatientById(id));
         return mav;
     }
 
@@ -74,9 +74,9 @@ public class PrescriptionController {
         logger.debug("editPrescription on mapping /edit-prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-form");
-        Prescription prescription = prescriptionService.selectPrescription(id);
+        Prescription prescription = prescriptionService.findPrescriptionById(id);
         mav.addObject("prescription", prescription);
-        mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
+        mav.addObject("patient", patientService.findPatientById(prescription.getPatient().getId()));
         return mav;
     }
 
@@ -90,8 +90,8 @@ public class PrescriptionController {
         if (result.hasErrors()) {
             mav.setViewName("prescription-form");
             mav.addObject("errors", result.getAllErrors());
-            mav.addObject("prescription", prescriptionService.selectPrescription(prescriptionDTO.getPatientId()));
-            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+            mav.addObject("prescription", prescriptionService.findPrescriptionById(prescriptionDTO.getPatientId()));
+            mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
         } else {
             Set<String> collisions = eventService.overlapEventsFromPrescriptionMapForEdit(prescriptionDTO);
             if (collisions == null || collisions.isEmpty()) {
@@ -102,16 +102,16 @@ public class PrescriptionController {
                 eventService.generateAndInsertEvents(prescriptionDTO);
 
                 mav.addObject("patient", patientService
-                        .selectPatient(prescriptionDTO.getPatientId()));
+                        .findPatientById(prescriptionDTO.getPatientId()));
                 mav.addObject("prescriptions", prescriptionService
-                        .selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+                        .findAllPrescriptionsByPatientId(prescriptionDTO.getPatientId()));
                 messageSender.sendMessage("DB updated. Prescription has been changed");
 
             } else {
                 mav.setViewName("prescription-form");
                 mav.addObject("collisions", collisions);
-                mav.addObject("prescription", prescriptionService.selectPrescription(prescriptionDTO.getPatientId()));
-                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("prescription", prescriptionService.findPrescriptionById(prescriptionDTO.getPatientId()));
+                mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
             }
         }
         return mav;
@@ -128,26 +128,26 @@ public class PrescriptionController {
         if (result.hasErrors()) {
             mav.setViewName("prescription-form");
             mav.addObject("errors", result.getAllErrors());
-            mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+            mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
         } else {
             Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
             if (collisions == null || collisions.isEmpty()) {
                 mav.setViewName("prescription-list");
-                prescriptionService.insertPrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
+                prescriptionService.savePrescription(prescriptionService.getPrescriptionForInsert(prescriptionDTO));
 
                 prescriptionDTO.setPrescriptionId(prescriptionService
                         .getLastInsertedPrescriptionIdForPatient(prescriptionDTO.getPatientId()));
                 eventService.generateAndInsertEvents(prescriptionDTO);
                 mav.addObject("patient", patientService
-                        .selectPatient(prescriptionDTO.getPatientId()));
+                        .findPatientById(prescriptionDTO.getPatientId()));
                 mav.addObject("prescriptions", prescriptionService
-                        .selectAllPrescriptionsById(prescriptionDTO.getPatientId()));
+                        .findAllPrescriptionsByPatientId(prescriptionDTO.getPatientId()));
                 messageSender.sendMessage("DB updated. New prescription has been added");
 
             } else {
                 mav.setViewName("prescription-form");
                 mav.addObject("collisions", collisions);
-                mav.addObject("patient", patientService.selectPatient(prescriptionDTO.getPatientId()));
+                mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
             }
         }
         return mav;
@@ -158,9 +158,9 @@ public class PrescriptionController {
         logger.debug("getPrescription on mapping /prescription is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription");
-        Prescription prescription = prescriptionService.selectPrescription(id);
+        Prescription prescription = prescriptionService.findPrescriptionById(id);
         mav.addObject("prescription", prescription);
-        mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
+        mav.addObject("patient", patientService.findPatientById(prescription.getPatient().getId()));
         return mav;
     }
 
@@ -170,7 +170,7 @@ public class PrescriptionController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription");
         prescriptionService.updatePrescriptionStatus(prescriptionDTO);
-        Prescription prescription = prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId());
+        Prescription prescription = prescriptionService.findPrescriptionById(prescriptionDTO.getPrescriptionId());
         prescriptionService.setStatusPrescriptionToEvent(prescriptionDTO);
         mav.addObject("prescription", prescription);
         mav.addObject("patient", prescription.getPatient());
@@ -183,10 +183,10 @@ public class PrescriptionController {
         logger.debug("getPrescriptionShow on mapping /prescription-show is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("prescription-show");
-        Prescription prescription = prescriptionService.selectPrescription(id);
+        Prescription prescription = prescriptionService.findPrescriptionById(id);
         mav.addObject("prescription", prescription);
-        mav.addObject("patient", patientService.selectPatient(prescription.getPatient().getId()));
-        mav.addObject("events", eventService.selectAllEventsByPrescriptionId(id));
+        mav.addObject("patient", patientService.findPatientById(prescription.getPatient().getId()));
+        mav.addObject("events", eventService.findAllEventsByPrescriptionId(id));
         return mav;
     }
 

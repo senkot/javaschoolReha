@@ -46,7 +46,7 @@ public class PrescriptionServiceTest {
 
         when(prescriptionDAO.selectAllPrescriptionsById(id)).thenReturn(prescriptions);
 
-        assertEquals(id, prescriptionService.selectAllPrescriptionsById(id).get(1).getId());
+        assertEquals(id, prescriptionService.findAllPrescriptionsByPatientId(id).get(1).getId());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class PrescriptionServiceTest {
 
         when(prescriptionDAO.selectPrescription(id)).thenReturn(prescription);
 
-        assertEquals(name, prescriptionService.selectPrescription(id).getRemedyName());
+        assertEquals(name, prescriptionService.findPrescriptionById(id).getRemedyName());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class PrescriptionServiceTest {
         Prescription prescription = new Prescription();
         prescription.setId(prescriptionDTO.getPrescriptionId());
 
-        when(prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId()))
+        when(prescriptionService.findPrescriptionById(prescriptionDTO.getPrescriptionId()))
                 .thenReturn(prescription);
 
         assertEquals(prescriptionDTO.getRemedyName(),
@@ -150,7 +150,7 @@ public class PrescriptionServiceTest {
         prescriptionDTO.setDateOfEnd(dateEnd);
         prescriptionDTO.setQuantity(1);
 
-        when(patientService.selectPatient(1)).thenReturn(patient);
+        when(patientService.findPatientById(1)).thenReturn(patient);
 
         assertEquals(prescriptionDTO.getRemedyName(),
                 prescriptionService.getPrescriptionForInsert(prescriptionDTO).getRemedyName());
@@ -189,7 +189,7 @@ public class PrescriptionServiceTest {
         events.add(event);
         events.add(event);
 
-        when(eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId()))
+        when(eventService.findAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId()))
                 .thenReturn(events);
 
         prescriptionService.setStatusPrescriptionToEvent(prescriptionDTO);

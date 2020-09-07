@@ -41,7 +41,7 @@ public class PatientController {
         logger.debug("patientList on mapping /patient-list is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-list");
-        mav.addObject("patients", patientService.selectAllPatients());
+        mav.addObject("patients", patientService.findAllPatients());
         return mav;
     }
 
@@ -66,7 +66,7 @@ public class PatientController {
             if (result.hasFieldErrors("insurance")) {
                 if (result.getFieldError("insurance").getDefaultMessage().equals("insurance error")) {
                     mav.addObject("existedPatientId", patientService
-                            .selectPatientByInsurance(patientDTO.getInsurance()).getId());
+                            .findPatientByInsurance(patientDTO.getInsurance()).getId());
                 }
             }
             mav.setViewName("patient-form");
@@ -75,8 +75,8 @@ public class PatientController {
             return mav;
         } else {
             mav.setViewName("patient-list");
-            patientService.insertPatient(patientService.patientFromPatientDTOForInsert(patientDTO));
-            mav.addObject("patients", patientService.selectAllPatients());
+            patientService.savePatient(patientService.patientFromPatientDTOForInsert(patientDTO));
+            mav.addObject("patients", patientService.findAllPatients());
             messageSender.sendMessage("DB updated. New patient has been added");
         }
         return mav;
@@ -87,7 +87,7 @@ public class PatientController {
         logger.debug("editPatient on mapping /edit is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient-form");
-        mav.addObject("patient", patientService.selectPatient(id));
+        mav.addObject("patient", patientService.findPatientById(id));
         mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
         return mav;
     }
@@ -104,17 +104,17 @@ public class PatientController {
             if (result.hasFieldErrors("insurance")) {
                 if (result.getFieldError("insurance").toString().equals("insurance error"))
                     mav.addObject("existedPatientId", patientService
-                            .selectPatientByInsurance(patientDTO.getInsurance()).getId());
+                            .findPatientByInsurance(patientDTO.getInsurance()).getId());
             }
             mav.setViewName("patient-form");
-            mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+            mav.addObject("patient", patientService.findPatientById(patientDTO.getPatientId()));
             mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             mav.addObject("errors", result.getAllErrors());
             return mav;
         } else {
             mav.setViewName("patient");
             patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
-            mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+            mav.addObject("patient", patientService.findPatientById(patientDTO.getPatientId()));
             messageSender.sendMessage("DB updated. Patient has been updated");
         }
         return mav;
@@ -125,9 +125,9 @@ public class PatientController {
         logger.debug("getPatient on mapping /patient is executed");
         ModelAndView mav = new ModelAndView();
         mav.setViewName("patient");
-        Patient patient = patientService.selectPatient(id);
+        Patient patient = patientService.findPatientById(id);
         if (patient != null) {
-            mav.addObject("patient", patientService.selectPatient(id));
+            mav.addObject("patient", patientService.findPatientById(id));
         } else {
             throw new IdNotFoundException(id);
         }
@@ -141,7 +141,7 @@ public class PatientController {
         mav.setViewName("patient");
         patientService.setPatientStateFromDTO(patientDTO);
         patientService.changeStatusesFromPatientDischarge(patientDTO);
-        mav.addObject("patient", patientService.selectPatient(patientDTO.getPatientId()));
+        mav.addObject("patient", patientService.findPatientById(patientDTO.getPatientId()));
         messageSender.sendMessage("DB updated. Patient's status has been changed");
         return mav;
     }

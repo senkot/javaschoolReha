@@ -23,12 +23,12 @@ public class PrescriptionService {
     private EventService eventService;
 
     @Transactional
-    public List<Prescription> selectAllPrescriptionsById(int id) {
+    public List<Prescription> findAllPrescriptionsByPatientId(int id) {
         return prescriptionDAO.selectAllPrescriptionsById(id);
     }
 
     @Transactional
-    public Prescription selectPrescription(int id) {
+    public Prescription findPrescriptionById(int id) {
         return prescriptionDAO.selectPrescription(id);
     }
 
@@ -38,13 +38,13 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void insertPrescription(Prescription prescription) {
+    public void savePrescription(Prescription prescription) {
         prescriptionDAO.insertPrescription(prescription);
     }
 
     @Transactional
     public void checkPrescriptionsByPatientId(int id) {
-        List<Prescription> prescriptions = selectAllPrescriptionsById(id);
+        List<Prescription> prescriptions = findAllPrescriptionsByPatientId(id);
         for (Prescription prescription : prescriptions) {
             if (prescription.getStatus().equals("planed")
                     && eventService.checkPlanedEventsForPrescription(prescription.getId())) {
@@ -65,7 +65,7 @@ public class PrescriptionService {
 
     @Transactional
     public Prescription getPrescriptionFromDTOForUpdate(PrescriptionDTO prescriptionDTO) {
-        Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
+        Prescription prescription = findPrescriptionById(prescriptionDTO.getPrescriptionId());
         prescription.setRemedyName(prescriptionDTO.getRemedyName());
         prescription.setRemedyType(prescriptionDTO.getRemedyType());
         prescription.setDateStart(prescriptionDTO.getDateOfStart());
@@ -78,7 +78,7 @@ public class PrescriptionService {
     @Transactional
     public Prescription getPrescriptionForInsert(PrescriptionDTO prescriptionDTO) {
         return new Prescription(
-                patientService.selectPatient(prescriptionDTO.getPatientId()),
+                patientService.findPatientById(prescriptionDTO.getPatientId()),
                 prescriptionDTO.getRemedyName(),
                 prescriptionDTO.getRemedyType(),
                 prescriptionDTO.getDateOfStart(),
@@ -90,7 +90,7 @@ public class PrescriptionService {
 
     @Transactional
     public void updatePrescriptionStatus(PrescriptionDTO prescriptionDTO) {
-        Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
+        Prescription prescription = findPrescriptionById(prescriptionDTO.getPrescriptionId());
         prescription.setStatus(prescriptionDTO.getStatus());
         if (prescriptionDTO.getCause() != null && !prescriptionDTO.getCause().isEmpty()) {
             prescription.setCause(prescriptionDTO.getCause());
@@ -103,7 +103,7 @@ public class PrescriptionService {
     @Transactional
     public void setStatusPrescriptionToEvent(PrescriptionDTO prescriptionDTO) {
         if (prescriptionDTO.getStatus().equals("canceled")) {
-            List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
+            List<Event> events = eventService.findAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
             for (Event event : events) {
                 event.setStatus("canceled");
                 event.setCause("Prescription canceled");
@@ -111,7 +111,7 @@ public class PrescriptionService {
             }
         }
         if (prescriptionDTO.getStatus().equals("done")) {
-            List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
+            List<Event> events = eventService.findAllPlanedEventsByPrescriptionId(prescriptionDTO.getPrescriptionId());
             for (Event event : events) {
                 event.setStatus("canceled");
                 event.setCause("Prescription done");

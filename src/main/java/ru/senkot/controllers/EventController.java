@@ -9,15 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.senkot.DTO.EventDTO;
 import ru.senkot.DTO.FilterEventsDTO;
-import ru.senkot.entities.Event;
 import ru.senkot.exception.IdNotFoundException;
 import ru.senkot.messaging.MessageSender;
 import ru.senkot.servicies.EventService;
 import ru.senkot.servicies.PatientService;
-
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.List;
 
 @Controller
 public class EventController {
@@ -39,8 +34,8 @@ public class EventController {
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event-list");
-        mav.addObject("events", eventService.selectAllEvents());
-        mav.addObject("patients", patientService.selectAllPatients());
+        mav.addObject("events", eventService.findAllEvents());
+        mav.addObject("patients", patientService.findAllPatients());
         return mav;
     }
 
@@ -50,8 +45,8 @@ public class EventController {
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event-list");
-        mav.addObject("events", eventService.selectEventsByDTO(filterEventsDTO));
-        mav.addObject("patients", patientService.selectAllPatients());
+        mav.addObject("events", eventService.findEventsFromDTO(filterEventsDTO));
+        mav.addObject("patients", patientService.findAllPatients());
         return mav;
     }
 
@@ -69,7 +64,7 @@ public class EventController {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event");
         eventService.updateEventStatusFromDTO(eventDTO);
-        mav.addObject("event", eventService.selectEvent(eventDTO.getEventId()));
+        mav.addObject("event", eventService.findEventById(eventDTO.getEventId()));
         messageSender.sendMessage("DB updated. Event changed status");
         return mav;
     }

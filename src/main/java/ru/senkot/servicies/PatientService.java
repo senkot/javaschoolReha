@@ -25,22 +25,22 @@ public class PatientService {
     private EventService eventService;
 
     @Transactional
-    public List<Patient> selectAllPatients() {
+    public List<Patient> findAllPatients() {
         return patientDAO.selectAllPatients();
     }
 
     @Transactional
-    public Patient selectPatient(int id) {
+    public Patient findPatientById(int id) {
         return patientDAO.selectPatient(id);
     }
 
     @Transactional
-    public Patient selectPatientByInsurance(String number) {
+    public Patient findPatientByInsurance(String number) {
         return patientDAO.selectPatientByInsurance(number);
     }
 
     @Transactional
-    public void insertPatient(Patient patient) {
+    public void savePatient(Patient patient) {
         patientDAO.insertPatient(patient);
     }
 
@@ -51,7 +51,7 @@ public class PatientService {
 
     @Transactional
     public Patient patientFromPatientDTOForUpdate(PatientDTO patientDTO) {
-        Patient patient = selectPatient(patientDTO.getPatientId());
+        Patient patient = findPatientById(patientDTO.getPatientId());
         patient.setInsurance(patientDTO.getInsurance());
         patient.setAdditionalInsurance(patientDTO.getAdditionalInsurance());
         patient.setFirstName(patientDTO.getFirstName());
@@ -79,7 +79,7 @@ public class PatientService {
 
     @Transactional
     public void setPatientStateFromDTO(PatientDTO patientDTO) {
-        Patient patient = selectPatient(patientDTO.getPatientId());
+        Patient patient = findPatientById(patientDTO.getPatientId());
         patient.setState(patientDTO.getState());
         updatePatient(patient);
     }
@@ -87,9 +87,9 @@ public class PatientService {
     @Transactional
     public void changeStatusesFromPatientDischarge(PatientDTO patientDTO) {
         if (patientDTO.getState().equals("discharged")) {
-            List<Prescription> prescriptions = prescriptionService.selectAllPrescriptionsById(patientDTO.getPatientId());
+            List<Prescription> prescriptions = prescriptionService.findAllPrescriptionsByPatientId(patientDTO.getPatientId());
             for (Prescription prescription : prescriptions) {
-                List<Event> events = eventService.selectAllPlanedEventsByPrescriptionId(prescription.getId());
+                List<Event> events = eventService.findAllPlanedEventsByPrescriptionId(prescription.getId());
                 for (Event event : events) {
                     event.setStatus("canceled");
                     event.setCause("Patient discharged");

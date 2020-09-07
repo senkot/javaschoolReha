@@ -43,7 +43,7 @@ public class EventServiceTest {
         event.setId(id);
         event.setRemedyName(name);
         when(eventDAO.selectEvent(id)).thenReturn(event);
-        String remedyName = eventService.selectEvent(id).getRemedyName();
+        String remedyName = eventService.findEventById(id).getRemedyName();
 
         assertEquals(name, remedyName);
     }
@@ -55,7 +55,7 @@ public class EventServiceTest {
         events.add(new Event());
         events.add(new Event());
         when(eventDAO.selectAllEvents()).thenReturn(events);
-        String className = eventService.selectAllEvents().get(0).getClass().toString();
+        String className = eventService.findAllEvents().get(0).getClass().toString();
 
         assertEquals(eventDAO.selectAllEvents().get(0).getClass().toString(), className);
     }
@@ -72,7 +72,7 @@ public class EventServiceTest {
         events.add(event);
         events.add(event);
         when(eventDAO.selectAllEventsByDate(date)).thenReturn(events);
-        Date testDate = eventService.selectAllEventsByDate(date).get(0).getDate();
+        Date testDate = eventService.findAllEventsByDate(date).get(0).getDate();
 
         assertEquals(testDate, date);
     }
@@ -100,7 +100,7 @@ public class EventServiceTest {
         List<Event> eventList = new ArrayList<>();
         eventList.add(event);
 
-        when(patientService.selectPatient(patient.getId())).thenReturn(patient);
+        when(patientService.findPatientById(patient.getId())).thenReturn(patient);
 
         assertEquals(eventService.convertEventsToDTO(eventList).get(0).getClass().toString(),
                 "class ru.senkot.DTO.EventStringDTO");
@@ -121,7 +121,7 @@ public class EventServiceTest {
         when(eventDAO.selectAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
 
         assertEquals(prescriptionId,
-                eventService.selectAllEventsByPrescriptionId(prescriptionId).get(0).getPrescription().getId());
+                eventService.findAllEventsByPrescriptionId(prescriptionId).get(0).getPrescription().getId());
     }
 
     @Test
@@ -142,7 +142,7 @@ public class EventServiceTest {
         when(eventDAO.selectAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
 
         assertEquals("planed",
-                eventService.selectAllEventsByPrescriptionId(prescriptionId).get(0).getStatus());
+                eventService.findAllEventsByPrescriptionId(prescriptionId).get(0).getStatus());
     }
 
     @Test
@@ -181,10 +181,10 @@ public class EventServiceTest {
         when(eventDAO.selectAllEvents()).thenReturn(eventList);
 
         assertEquals(event1.getRemedyName(),
-                eventService.selectEventsByDTO(filterEvent1).get(0).getRemedyName());
+                eventService.findEventsFromDTO(filterEvent1).get(0).getRemedyName());
 
         assertEquals(event2.getRemedyName(),
-                eventService.selectEventsByDTO(filterEvent2).get(0).getRemedyName());
+                eventService.findEventsFromDTO(filterEvent2).get(0).getRemedyName());
     }
 
     @Test

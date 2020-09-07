@@ -37,7 +37,7 @@ public class EventService {
     private PatientService patientService;
 
     @Transactional
-    public void insertEvent(Event event) {
+    public void saveEvent(Event event) {
         eventDAO.insertEvent(event);
     }
 
@@ -47,23 +47,23 @@ public class EventService {
     }
 
     @Transactional
-    public Event selectEvent(int id) {
+    public Event findEventById(int id) {
         return eventDAO.selectEvent(id);
     }
 
     @Transactional
-    public List<Event> selectAllEvents() {
+    public List<Event> findAllEvents() {
         return eventDAO.selectAllEvents();
     }
 
     @Transactional
-    public List<Event> selectAllEventsByDate(Date date) {
+    public List<Event> findAllEventsByDate(Date date) {
         return eventDAO.selectAllEventsByDate(date);
     }
 
     public ModelAndView getMavForEvent(int id) throws IdNotFoundException {
         ModelAndView mav = new ModelAndView("event");
-        Event event = selectEvent(id);
+        Event event = findEventById(id);
         if (event != null) {
             mav.addObject("event", event);
         } else {
@@ -77,8 +77,8 @@ public class EventService {
         for (Event event : events) {
             eventStringDTOList.add(new EventStringDTO(event.getDate().toString(),
                     event.getTime(),
-                    patientService.selectPatient(event.getPatientId()).getLastName() + " "
-                            + patientService.selectPatient(event.getPatientId()).getFirstName(),
+                    patientService.findPatientById(event.getPatientId()).getLastName() + " "
+                            + patientService.findPatientById(event.getPatientId()).getFirstName(),
                     event.getRemedyName(),
                     event.getRemedyType(),
                     event.getQuantity(),
@@ -89,18 +89,18 @@ public class EventService {
     }
 
     @Transactional
-    public List<Event> selectAllEventsByPrescriptionId(int id) {
+    public List<Event> findAllEventsByPrescriptionId(int id) {
         return eventDAO.selectAllEventsByPrescriptionId(id);
     }
 
     @Transactional
-    public List<Event> selectAllPlanedEventsByPrescriptionId(int id) {
+    public List<Event> findAllPlanedEventsByPrescriptionId(int id) {
         return eventDAO.selectAllPlanedEventsByPrescriptionId(id);
     }
 
     @Transactional
-    public List<Event> selectEventsByDTO(FilterEventsDTO filterEventsDTO) {
-        List<Event> events = selectAllEvents();
+    public List<Event> findEventsFromDTO(FilterEventsDTO filterEventsDTO) {
+        List<Event> events = findAllEvents();
 
         if (filterEventsDTO.getPatientId() != 0) {
             events = events.stream()
@@ -128,7 +128,7 @@ public class EventService {
 
     @Transactional
     public boolean checkPlanedEventsForPrescription(int id) {
-        List<Event> events = selectAllEventsByPrescriptionId(id);
+        List<Event> events = findAllEventsByPrescriptionId(id);
         int numberOfEvents = events.size();
         int counter = 0;
         for (Event event : events) {
@@ -140,7 +140,7 @@ public class EventService {
 
     @Transactional
     public void changeEventStatusForPrescriptionIdByPrescriptionId(int id) {
-        List<Event> planedEvents = selectAllPlanedEventsByPrescriptionId(id);
+        List<Event> planedEvents = findAllPlanedEventsByPrescriptionId(id);
         for (Event event : planedEvents) {
             event.setStatus("canceled");
             event.setCause("Prescription Edit");
@@ -153,7 +153,7 @@ public class EventService {
      */
     @Transactional
     public void updateEventStatusFromDTO(EventDTO eventDTO) {
-        Event event = selectEvent(eventDTO.getEventId());
+        Event event = findEventById(eventDTO.getEventId());
         event.setStatus(eventDTO.getStatus());
         if (!eventDTO.getCause().isEmpty() && eventDTO.getCause() != null) {
             event.setCause(eventDTO.getCause());
@@ -175,9 +175,9 @@ public class EventService {
                 Event event = new Event(entry.getKey(),
                         time, "planed", prescriptionDTO.getRemedyName(),
                         prescriptionDTO.getRemedyType(), prescriptionDTO.getQuantity(),
-                        prescriptionService.selectPrescription(prescriptionDTO.getPrescriptionId()),
+                        prescriptionService.findPrescriptionById(prescriptionDTO.getPrescriptionId()),
                         prescriptionDTO.getPatientId());
-                insertEvent(event);
+                saveEvent(event);
             }
         }
     }

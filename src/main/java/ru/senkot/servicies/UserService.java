@@ -21,21 +21,6 @@ public class UserService {
         return userDAO.findByUsername(name);
     }
 
-    @Transactional
-    public void insertUser(User user) {
-        userDAO.insertUser(user);
-    }
-
-    @Transactional
-    public void updateUser(User user) {
-        userDAO.updateUser(user);
-    }
-
-    @Transactional
-    public void deleteUser(User user) {
-        userDAO.deleteUser(user);
-    }
-
     public ModelAndView getMavForMain() {
         ModelAndView mav = new ModelAndView("index");
 

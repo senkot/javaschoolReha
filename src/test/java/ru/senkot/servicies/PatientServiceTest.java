@@ -52,7 +52,7 @@ public class PatientServiceTest {
 
         when(patientDAO.selectPatient(id)).thenReturn(patient);
 
-        assertEquals(name, patientService.selectPatient(id).getFirstName());
+        assertEquals(name, patientService.findPatientById(id).getFirstName());
     }
 
     @Test
@@ -140,8 +140,8 @@ public class PatientServiceTest {
         events.add(event);
         events.add(event);
 
-        when(prescriptionService.selectAllPrescriptionsById(patientDTO.getPatientId())).thenReturn(prescriptions);
-        when(eventService.selectAllPlanedEventsByPrescriptionId(prescription.getId())).thenReturn(events);
+        when(prescriptionService.findAllPrescriptionsByPatientId(patientDTO.getPatientId())).thenReturn(prescriptions);
+        when(eventService.findAllPlanedEventsByPrescriptionId(prescription.getId())).thenReturn(events);
 
         patientService.changeStatusesFromPatientDischarge(patientDTO);
 
