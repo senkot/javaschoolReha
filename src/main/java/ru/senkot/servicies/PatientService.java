@@ -50,11 +50,6 @@ public class PatientService {
     }
 
     @Transactional
-    public void deletePatient(Patient patient) {
-        patientDAO.deletePatient(patient);
-    }
-
-    @Transactional
     public Patient patientFromPatientDTOForUpdate(PatientDTO patientDTO) {
         Patient patient = selectPatient(patientDTO.getPatientId());
         patient.setInsurance(patientDTO.getInsurance());
