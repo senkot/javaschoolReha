@@ -99,11 +99,6 @@ public class EventService {
     }
 
     @Transactional
-    public void deleteEvent(Event event) {
-        eventDAO.deleteEvent(event);
-    }
-
-    @Transactional
     public List<Event> selectEventsByDTO(FilterEventsDTO filterEventsDTO) {
         List<Event> events = selectAllEvents();
 
@@ -152,6 +147,10 @@ public class EventService {
         }
     }
 
+    /**
+     * Method for update Event status based on EventDTO status.
+     * @param eventDTO point the new status for Event
+     */
     @Transactional
     public void updateEventStatusFromDTO(EventDTO eventDTO) {
         Event event = selectEvent(eventDTO.getEventId());
@@ -162,6 +161,11 @@ public class EventService {
         updateEvent(event);
     }
 
+    /**
+     * This method generates new events based on data from PrescriptionDTO,
+     * then insert this events into database.
+     * @param prescriptionDTO gives data for generating new events.
+     */
     @Transactional
     public void generateAndInsertEvents(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
@@ -212,7 +216,7 @@ public class EventService {
     // Получение Map с датой и списком времени дня для применения назначения
     // и генерации событий по дате и времени
 
-    private Map<Date, List<String>> dateTimeMap(PrescriptionDTO prescriptionDTO) {
+    public Map<Date, List<String>> dateTimeMap(PrescriptionDTO prescriptionDTO) {
         List<Date> dates = dates(prescriptionDTO);
         Map<Date, List<String>> dateTimeMap = new HashMap<>();
         Calendar calendar = new GregorianCalendar();
