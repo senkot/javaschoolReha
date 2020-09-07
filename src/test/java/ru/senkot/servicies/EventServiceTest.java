@@ -18,12 +18,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -34,9 +31,6 @@ public class EventServiceTest {
 
     @Mock
     private EventDAO eventDAO;
-
-    @Mock
-    private PrescriptionService prescriptionService;
 
     @Mock
     private PatientService patientService;

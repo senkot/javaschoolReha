@@ -28,11 +28,6 @@ public class PrescriptionService {
     }
 
     @Transactional
-    public void deletePrescription(Prescription prescription) {
-        prescriptionDAO.deletePrescription(prescription);
-    }
-
-    @Transactional
     public Prescription selectPrescription(int id) {
         return prescriptionDAO.selectPrescription(id);
     }
@@ -97,7 +92,7 @@ public class PrescriptionService {
     public void updatePrescriptionStatus(PrescriptionDTO prescriptionDTO) {
         Prescription prescription = selectPrescription(prescriptionDTO.getPrescriptionId());
         prescription.setStatus(prescriptionDTO.getStatus());
-        if (!prescriptionDTO.getCause().isEmpty() && prescriptionDTO.getCause() != null) {
+        if (prescriptionDTO.getCause() != null && !prescriptionDTO.getCause().isEmpty()) {
             prescription.setCause(prescriptionDTO.getCause());
         }
         updatePrescription(prescription);
