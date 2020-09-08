@@ -50,7 +50,7 @@ public class PatientServiceTest {
         patient.setId(id);
         patient.setFirstName(name);
 
-        when(patientDAO.selectPatient(id)).thenReturn(patient);
+        when(patientDAO.findPatientById(id)).thenReturn(patient);
 
         assertEquals(name, patientService.findPatientById(id).getFirstName());
     }
@@ -74,11 +74,11 @@ public class PatientServiceTest {
         Patient patient = new Patient();
         patient.setId(1);
 
-        when(patientDAO.selectPatient(patientDTO.getPatientId())).thenReturn(patient);
+        when(patientDAO.findPatientById(patientDTO.getPatientId())).thenReturn(patient);
 
-        assertEquals("Ivanovich", patientService.patientFromPatientDTOForUpdate(patientDTO).getSecondName());
+        assertEquals("Ivanovich", patientService.getPatientFromPatientDTOForUpdate(patientDTO).getSecondName());
         assertEquals("class ru.senkot.entities.Patient",
-                patientService.patientFromPatientDTOForUpdate(patientDTO).getClass().toString());
+                patientService.getPatientFromPatientDTOForUpdate(patientDTO).getClass().toString());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class PatientServiceTest {
         Patient patient = new Patient();
         patient.setState("in");
 
-        when(patientDAO.selectPatient(patientDTO.getPatientId())).thenReturn(patient);
+        when(patientDAO.findPatientById(patientDTO.getPatientId())).thenReturn(patient);
         patientService.setPatientStateFromDTO(patientDTO);
 
         assertEquals("discharged", patient.getState());

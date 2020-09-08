@@ -44,7 +44,7 @@ public class PrescriptionServiceTest {
         prescriptions.add(prescription);
         prescriptions.add(prescription);
 
-        when(prescriptionDAO.selectAllPrescriptionsById(id)).thenReturn(prescriptions);
+        when(prescriptionDAO.findAllPrescriptionsByPatientId(id)).thenReturn(prescriptions);
 
         assertEquals(id, prescriptionService.findAllPrescriptionsByPatientId(id).get(1).getId());
     }
@@ -57,7 +57,7 @@ public class PrescriptionServiceTest {
         prescription.setRemedyName(name);
         prescription.setId(id);
 
-        when(prescriptionDAO.selectPrescription(id)).thenReturn(prescription);
+        when(prescriptionDAO.findPrescriptionById(id)).thenReturn(prescription);
 
         assertEquals(name, prescriptionService.findPrescriptionById(id).getRemedyName());
     }
@@ -74,7 +74,7 @@ public class PrescriptionServiceTest {
         prescriptions.add(prescription);
 
         when(eventService.checkPlanedEventsForPrescription(prescription.getId())).thenReturn(true);
-        when(prescriptionDAO.selectAllPrescriptionsById(prescription.getId())).thenReturn(prescriptions);
+        when(prescriptionDAO.findAllPrescriptionsByPatientId(prescription.getId())).thenReturn(prescriptions);
 
         prescriptionService.checkPrescriptionsByPatientId(prescription.getId());
 
@@ -97,7 +97,7 @@ public class PrescriptionServiceTest {
         prescriptions.add(prescription2);
         prescriptions.add(prescription3);
 
-        when(prescriptionDAO.selectAllPrescriptionsById(0)).thenReturn(prescriptions);
+        when(prescriptionDAO.findAllPrescriptionsByPatientId(0)).thenReturn(prescriptions);
 
         assertEquals(3, prescriptionService.getLastInsertedPrescriptionIdForPatient(0));
     }
@@ -168,7 +168,7 @@ public class PrescriptionServiceTest {
         prescriptionDTO.setPrescriptionId(1);
         prescriptionDTO.setStatus("done");
 
-        when(prescriptionDAO.selectPrescription(prescriptionDTO.getPrescriptionId())).thenReturn(prescription);
+        when(prescriptionDAO.findPrescriptionById(prescriptionDTO.getPrescriptionId())).thenReturn(prescription);
 
         prescriptionService.updatePrescriptionStatus(prescriptionDTO);
 

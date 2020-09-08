@@ -18,7 +18,7 @@ public class PrescriptionDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    public void insertPrescription(Prescription prescription) {
+    public void savePrescription(Prescription prescription) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(prescription);
     }
@@ -28,17 +28,17 @@ public class PrescriptionDAO {
         session.update(prescription);
     }
 
-    public Prescription selectPrescription(int id) {
+    public Prescription findPrescriptionById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Prescription.class, id);
     }
 
-    public List<Prescription> selectAllPrescriptions() {
+    public List<Prescription> findAllPrescriptions() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("From Prescription").list();
     }
 
-    public List<Prescription> selectAllPrescriptionsById(int id) {
+    public List<Prescription> findAllPrescriptionsByPatientId(int id) {
         Session session = sessionFactory.getCurrentSession();
         List<Prescription> allPrescriptions = session.createQuery("select p FROM Prescription as p").list();
         return allPrescriptions.stream().

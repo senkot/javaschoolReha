@@ -19,7 +19,7 @@ public class PatientDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    public void insertPatient(Patient patient) {
+    public void savePatient(Patient patient) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(patient);
     }
@@ -29,20 +29,20 @@ public class PatientDAO {
         session.update(patient);
     }
 
-    public Patient selectPatient(int id) {
+    public Patient findPatientById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Patient.class, id);
     }
 
-    public Patient selectPatientByInsurance(String number) {
-        List<Patient> patients = selectAllPatients().stream()
+    public Patient findPatientByInsurance(String number) {
+        List<Patient> patients = findAllPatients().stream()
                 .filter(patient -> patient.getInsurance().equals(number))
                 .collect(Collectors.toList());
         return patients.size() > 0 ? patients.get(0) : null;
     }
 
     @SuppressWarnings("unchecked")
-    public List<Patient> selectAllPatients() {
+    public List<Patient> findAllPatients() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select p from Patient as p order by p.lastName").list();
     }

@@ -20,7 +20,7 @@ public class EventDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    public void insertEvent(Event event) {
+    public void safeEvent(Event event) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(event);
     }
@@ -30,39 +30,39 @@ public class EventDAO {
         session.update(event);
     }
 
-    public Event selectEvent(int id) {
+    public Event findEventById(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(Event.class, id);
     }
 
-    public List<Event> selectAllEvents() {
+    public List<Event> findAllEvents() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("From Event order by date").list();
     }
 
-    public List<Event> selectAllEventsByPatientId(int id) {
-        List<Event> eventList = selectAllEvents();
+    public List<Event> findAllEventsByPatientId(int id) {
+        List<Event> eventList = findAllEvents();
 
         return eventList.stream().
                 filter(event -> event.getPatientId() == id).
                 collect(Collectors.toList());
     }
 
-    public List<Event> selectAllEventsByDate(Date date) {
+    public List<Event> findAllEventsByDate(Date date) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select e from Event as e where e.date = :date");
         query.setParameter("date", date);
         return query.list();
     }
 
-    public List<Event> selectAllEventsByPrescriptionId(int id) {
+    public List<Event> findAllEventsByPrescriptionId(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select e from Event as e where e.prescription.id = :id");
         query.setParameter("id", id);
         return query.list();
     }
 
-    public List<Event> selectAllPlanedEventsByPrescriptionId(int id) {
+    public List<Event> findAllPlanedEventsByPrescriptionId(int id) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select e from Event as e where e.prescription.id = :id and e.status = :status");
         query.setParameter("id", id);

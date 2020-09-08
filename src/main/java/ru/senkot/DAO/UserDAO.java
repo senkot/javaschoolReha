@@ -17,7 +17,7 @@ public class UserDAO {
         this.sessionFactory = sessionFactory;
     }
 
-    public void insertUser(User user) {
+    public void saveUser(User user) {
         Session session = sessionFactory.getCurrentSession();
         session.persist(user);
     }
@@ -29,7 +29,7 @@ public class UserDAO {
 
 
     @SuppressWarnings("unchecked")
-    public List<User> selectAllUsers() {
+    public List<User> findAllUsers() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select u from User as u").list();
     }

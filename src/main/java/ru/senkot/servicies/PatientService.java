@@ -24,33 +24,68 @@ public class PatientService {
     @Autowired
     private EventService eventService;
 
+
+    /**
+     * This method returns the list of all existing patients from DB.
+     *
+     * @return the list of all existing patients found in DB
+     */
     @Transactional
     public List<Patient> findAllPatients() {
-        return patientDAO.selectAllPatients();
+        return patientDAO.findAllPatients();
     }
 
+    /**
+     * This method returns Patient found by it's id from database.
+     *
+     * @param id id of patient
+     * @return instance of Patient class found in database by id
+     */
     @Transactional
     public Patient findPatientById(int id) {
-        return patientDAO.selectPatient(id);
+        return patientDAO.findPatientById(id);
     }
 
+    /**
+     * This method returns Patient found by it's number of insurance from database.
+     *
+     * @param number number of insurance of patient
+     * @return instance of Patient class found in database by number of insurance
+     */
     @Transactional
     public Patient findPatientByInsurance(String number) {
-        return patientDAO.selectPatientByInsurance(number);
+        return patientDAO.findPatientByInsurance(number);
     }
 
+    /**
+     * This method saves new Patient in DB.
+     *
+     * @param patient new instance Patient class for saving
+     */
     @Transactional
     public void savePatient(Patient patient) {
-        patientDAO.insertPatient(patient);
+        patientDAO.savePatient(patient);
     }
 
+    /**
+     * This method updates Patient in DB
+     *
+     * @param patient existing instance of Patient class
+     */
     @Transactional
     public void updatePatient(Patient patient) {
         patientDAO.updatePatient(patient);
     }
 
+    /**
+     * This method returns existing Patient object with updated data
+     * from PatientDTO object for update in DB.
+     *
+     * @param patientDTO Data Transfer object mapped from post-method on the view-page
+     * @return existing Patient object with updated data from PatientDTO object
+     */
     @Transactional
-    public Patient patientFromPatientDTOForUpdate(PatientDTO patientDTO) {
+    public Patient getPatientFromPatientDTOForUpdate(PatientDTO patientDTO) {
         Patient patient = findPatientById(patientDTO.getPatientId());
         patient.setInsurance(patientDTO.getInsurance());
         patient.setAdditionalInsurance(patientDTO.getAdditionalInsurance());
@@ -62,6 +97,13 @@ public class PatientService {
         return patient;
     }
 
+    /**
+     * This method returns new Patient object based data
+     * from PatientDTO object for save in DB.
+     *
+     * @param patientDTO Data Transfer object mapped from post-method on the view-page
+     * @return new Patient object based on data from PatientDTO object
+     */
     @Transactional
     public Patient patientFromPatientDTOForInsert(PatientDTO patientDTO) {
         return new Patient(
@@ -77,6 +119,12 @@ public class PatientService {
         );
     }
 
+    /**
+     * This method updates status of existing patient object in DB
+     * to new status from DTO.
+     *
+     * @param patientDTO Data-transfer object with new status for update
+     */
     @Transactional
     public void setPatientStateFromDTO(PatientDTO patientDTO) {
         Patient patient = findPatientById(patientDTO.getPatientId());
@@ -84,6 +132,12 @@ public class PatientService {
         updatePatient(patient);
     }
 
+    /**
+     * This method changes statuses of all planed events and prescriptions of patient
+     * found by patient's id because of patient's discharge.
+     *
+     * @param patientDTO Data-transfer object with new status of Patient for update
+     */
     @Transactional
     public void changeStatusesFromPatientDischarge(PatientDTO patientDTO) {
         if (patientDTO.getState().equals("discharged")) {

@@ -42,7 +42,7 @@ public class EventServiceTest {
         Event event = new Event();
         event.setId(id);
         event.setRemedyName(name);
-        when(eventDAO.selectEvent(id)).thenReturn(event);
+        when(eventDAO.findEventById(id)).thenReturn(event);
         String remedyName = eventService.findEventById(id).getRemedyName();
 
         assertEquals(name, remedyName);
@@ -54,10 +54,10 @@ public class EventServiceTest {
         events.add(new Event());
         events.add(new Event());
         events.add(new Event());
-        when(eventDAO.selectAllEvents()).thenReturn(events);
+        when(eventDAO.findAllEvents()).thenReturn(events);
         String className = eventService.findAllEvents().get(0).getClass().toString();
 
-        assertEquals(eventDAO.selectAllEvents().get(0).getClass().toString(), className);
+        assertEquals(eventDAO.findAllEvents().get(0).getClass().toString(), className);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class EventServiceTest {
         events.add(event);
         events.add(event);
         events.add(event);
-        when(eventDAO.selectAllEventsByDate(date)).thenReturn(events);
+        when(eventDAO.findAllEventsByDate(date)).thenReturn(events);
         Date testDate = eventService.findAllEventsByDate(date).get(0).getDate();
 
         assertEquals(testDate, date);
@@ -118,7 +118,7 @@ public class EventServiceTest {
         List<Event> eventList = new ArrayList<>();
         eventList.add(event);
 
-        when(eventDAO.selectAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
+        when(eventDAO.findAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
 
         assertEquals(prescriptionId,
                 eventService.findAllEventsByPrescriptionId(prescriptionId).get(0).getPrescription().getId());
@@ -139,7 +139,7 @@ public class EventServiceTest {
         eventList.add(event);
         eventList.add(event);
 
-        when(eventDAO.selectAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
+        when(eventDAO.findAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
 
         assertEquals("planed",
                 eventService.findAllEventsByPrescriptionId(prescriptionId).get(0).getStatus());
@@ -178,7 +178,7 @@ public class EventServiceTest {
         eventList.add(event1);
         eventList.add(event2);
 
-        when(eventDAO.selectAllEvents()).thenReturn(eventList);
+        when(eventDAO.findAllEvents()).thenReturn(eventList);
 
         assertEquals(event1.getRemedyName(),
                 eventService.findEventsFromDTO(filterEvent1).get(0).getRemedyName());
@@ -200,7 +200,7 @@ public class EventServiceTest {
         event1.setStatus("done");
         eventList.add(event1);
 
-        when(eventDAO.selectAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
+        when(eventDAO.findAllEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
 
         assertFalse(eventService.checkPlanedEventsForPrescription(prescriptionId));
     }
@@ -215,7 +215,7 @@ public class EventServiceTest {
         eventList.add(event);
         eventList.add(event);
 
-        when(eventDAO.selectAllPlanedEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
+        when(eventDAO.findAllPlanedEventsByPrescriptionId(prescriptionId)).thenReturn(eventList);
         eventService.changeEventStatusForPrescriptionIdByPrescriptionId(prescriptionId);
 
         assertEquals("canceled", eventList.get(0).getStatus());
@@ -229,7 +229,7 @@ public class EventServiceTest {
 
         EventDTO eventDTO = new EventDTO(1, "done", "test");
 
-        when(eventDAO.selectEvent(1)).thenReturn(event);
+        when(eventDAO.findEventById(1)).thenReturn(event);
         eventService.updateEventStatusFromDTO(eventDTO);
 
         assertEquals("done", event.getStatus());

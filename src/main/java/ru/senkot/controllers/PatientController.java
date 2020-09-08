@@ -113,7 +113,7 @@ public class PatientController {
             return mav;
         } else {
             mav.setViewName("patient");
-            patientService.updatePatient(patientService.patientFromPatientDTOForUpdate(patientDTO));
+            patientService.updatePatient(patientService.getPatientFromPatientDTOForUpdate(patientDTO));
             mav.addObject("patient", patientService.findPatientById(patientDTO.getPatientId()));
             messageSender.sendMessage("DB updated. Patient has been updated");
         }

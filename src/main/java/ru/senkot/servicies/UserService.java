@@ -21,6 +21,11 @@ public class UserService {
         return userDAO.findByUsername(name);
     }
 
+    /**
+     * This method find the user by username, put user object in model if it exist.
+     *
+     * @return ModelAndView instance with the name of view page and instance of user (or without it)
+     */
     public ModelAndView getMavForMain() {
         ModelAndView mav = new ModelAndView("index");
 

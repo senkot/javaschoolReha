@@ -36,31 +36,66 @@ public class EventService {
     @Autowired
     private PatientService patientService;
 
+    /**
+     * This method saves new Event in DB.
+     *
+     * @param event new instance Event class for saving
+     */
     @Transactional
     public void saveEvent(Event event) {
-        eventDAO.insertEvent(event);
+        eventDAO.safeEvent(event);
     }
 
+    /**
+     * This method updates Event in DB.
+     *
+     * @param event existing instance of Event class
+     */
     @Transactional
     public void updateEvent(Event event) {
         eventDAO.updateEvent(event);
     }
 
+    /**
+     * This method returns Event found by it's id from database.
+     *
+     * @param id id of Event
+     * @return instance of Event class found in database by id
+     */
     @Transactional
     public Event findEventById(int id) {
-        return eventDAO.selectEvent(id);
+        return eventDAO.findEventById(id);
     }
 
+    /**
+     * This method returns the list of all existing events from DB.
+     *
+     * @return the list of all existing events found in DB
+     */
     @Transactional
     public List<Event> findAllEvents() {
-        return eventDAO.selectAllEvents();
+        return eventDAO.findAllEvents();
     }
 
+    /**
+     * This method returns the list of events found by date from DB.
+     *
+     * @param date date for find events with the same date
+     * @return list of events found by date from DB
+     */
     @Transactional
     public List<Event> findAllEventsByDate(Date date) {
-        return eventDAO.selectAllEventsByDate(date);
+        return eventDAO.findAllEventsByDate(date);
     }
 
+    /**
+     * This method finds the event by id, puts event object in model if it exist,
+     * or throw IdNotFoundException.
+     *
+     * @param id searched event id
+     * @return ModelAndView instance with the name of view page and instance of event (or without it)
+     * @throws IdNotFoundException if can't find event by id in DB
+     */
     public ModelAndView getMavForEvent(int id) throws IdNotFoundException {
         ModelAndView mav = new ModelAndView("event");
         Event event = findEventById(id);
@@ -72,6 +107,12 @@ public class EventService {
         return mav;
     }
 
+    /**
+     * This method converts list of EventStringDTO objects from list of Event objects.
+     *
+     * @param events list of Event objects
+     * @return list of EventStringDTO objects
+     */
     public List<EventStringDTO> convertEventsToDTO(List<Event> events) {
         List<EventStringDTO> eventStringDTOList = new ArrayList<>();
         for (Event event : events) {
@@ -88,16 +129,35 @@ public class EventService {
         return eventStringDTOList;
     }
 
+    /**
+     * This method returns all events found by prescription id.
+     *
+     * @param id prescription id for search connected events
+     * @return list of events
+     */
     @Transactional
     public List<Event> findAllEventsByPrescriptionId(int id) {
-        return eventDAO.selectAllEventsByPrescriptionId(id);
+        return eventDAO.findAllEventsByPrescriptionId(id);
     }
 
+    /**
+     * This method returns planed events found by prescription id.
+     *
+     * @param id prescription id for search connected events
+     * @return list of events
+     */
     @Transactional
     public List<Event> findAllPlanedEventsByPrescriptionId(int id) {
-        return eventDAO.selectAllPlanedEventsByPrescriptionId(id);
+        return eventDAO.findAllPlanedEventsByPrescriptionId(id);
     }
 
+    /**
+     * This method returns list of events filtered by data from FilterEventsDTO object.
+     *
+     * @param filterEventsDTO data-transfer object contains fields for filter the return list.
+     *                        Contains date, patient id, time of the day and status.
+     * @return list of all events from DB, filtered by data from FilterEventsDTO object
+     */
     @Transactional
     public List<Event> findEventsFromDTO(FilterEventsDTO filterEventsDTO) {
         List<Event> events = findAllEvents();
@@ -126,6 +186,13 @@ public class EventService {
         return events;
     }
 
+    /**
+     * This method checks all events found by id of existing prescription from DB.
+     * If all found events have status "done" or "canceled", the method returns true.
+     *
+     * @param id id of prescription
+     * @return true - if all found events have status "done" or "canceled", otherwise - false
+     */
     @Transactional
     public boolean checkPlanedEventsForPrescription(int id) {
         List<Event> events = findAllEventsByPrescriptionId(id);
@@ -138,6 +205,11 @@ public class EventService {
         return numberOfEvents == counter;
     }
 
+    /**
+     * This method changes statuses on "canceled" in all planed events found by prescription id.
+     *
+     * @param id prescription id for find all connected events from DB
+     */
     @Transactional
     public void changeEventStatusForPrescriptionIdByPrescriptionId(int id) {
         List<Event> planedEvents = findAllPlanedEventsByPrescriptionId(id);
@@ -149,7 +221,8 @@ public class EventService {
 
     /**
      * Method for update Event status based on EventDTO status.
-     * @param eventDTO point the new status for Event
+     *
+     * @param eventDTO Object points the new status for Event
      */
     @Transactional
     public void updateEventStatusFromDTO(EventDTO eventDTO) {
@@ -164,6 +237,7 @@ public class EventService {
     /**
      * This method generates new events based on data from PrescriptionDTO,
      * then insert this events into database.
+     *
      * @param prescriptionDTO gives data for generating new events.
      */
     @Transactional
@@ -182,20 +256,29 @@ public class EventService {
         }
     }
 
-    // проверка списка Events пациента из PrescriptionDTO на возможность добавления событий
-    // проверка на отсутствие совпадений дат и времени дня, если это процедура
-    // возвращает null, если нет коллизий
-    // возвращает List с совпадениями в виде: Дата : Время-дня
-
+    /**
+     * This method checks list of events found by patient id from DB.
+     * If there is any coincidence in dates and times for event type "procedure",
+     * method returns set of dates and times as strings (element has structure - "date : daytime"),
+     * else returns null (if no coincidence).
+     *
+     * @param prescriptionDTO contains data to check the coincidence in DB
+     * @return set of dates and times of coincidence as string or null
+     */
     @Transactional
     public Set<String> overlapEventsFromPrescriptionMap(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
-        List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
+        List<Event> events = eventDAO.findAllEventsByPatientId(prescriptionDTO.getPatientId());
         return getStrings(prescriptionDTO, dateTimeMap, events, events);
     }
 
-    // получение списка дат с каждой датой из периода PrescriptionDTO
-
+    /**
+     * This method returns list of dates with each date
+     * from period specified if PrescriptionDTO object.
+     *
+     * @param prescriptionDTO contains dates of start and end of the period
+     * @return list of dates
+     */
     private List<Date> dates(PrescriptionDTO prescriptionDTO) {
         List<Date> datesInRange = new ArrayList<>();
         Calendar calendar = new GregorianCalendar();
@@ -213,9 +296,15 @@ public class EventService {
         return datesInRange;
     }
 
-    // Получение Map с датой и списком времени дня для применения назначения
-    // и генерации событий по дате и времени
-
+    /**
+     * This method returns Map with date as a key and list of times of day as a value.
+     * Dates and times gets from PrescriptionDTO object, then this method verifies
+     * dates by day of the week pointed in PrescriptionDTO object also.
+     *
+     * @param prescriptionDTO contains dates of start and end of the prescription,
+     *                        times of he day and days of the week for repeat the prescription
+     * @return Map with date as a key and list of times of day as a value
+     */
     public Map<Date, List<String>> dateTimeMap(PrescriptionDTO prescriptionDTO) {
         List<Date> dates = dates(prescriptionDTO);
         Map<Date, List<String>> dateTimeMap = new HashMap<>();
@@ -308,8 +397,13 @@ public class EventService {
         return dateTimeMap;
     }
 
-    // вспомогательный метод для проверки актуальности времени дня
-
+    /**
+     * This method checks times of day in PrescriptionDTO object
+     * and add new item in list (second param) if it's "on".
+     *
+     * @param prescriptionDTO contains fields of times of days for check
+     * @param times list for add times of days if it's "on" in PrescriptionDTO object
+     */
     private void listOfAcceptedTimes(PrescriptionDTO prescriptionDTO, List<String> times) {
         if (prescriptionDTO.getMorning() != null && prescriptionDTO.getMorning().equals("on")) {
             times.add("morning");
@@ -325,10 +419,21 @@ public class EventService {
         }
     }
 
+    /**
+     * This method prepares Map of coincidence with date as a key and list of times of day as a value,
+     * list of all events found by patient id and list of events for defined patient
+     * except events connected the same prescription as point at PrescriptionDTO object.
+     * Then this method calls getStrings() method and gives map and 2 lists there for getting
+     * set of strings with dates and times of coincidence
+     *
+     * @param prescriptionDTO contains all data for prepare and create set of coincidences
+     * @return set of dates and times of coincidence as string or null
+     * (element of set has a structure - "date : daytime")
+     */
     @Transactional
     public Set<String> overlapEventsFromPrescriptionMapForEdit(PrescriptionDTO prescriptionDTO) {
         Map<Date, List<String>> dateTimeMap = dateTimeMap(prescriptionDTO);
-        List<Event> events = eventDAO.selectAllEventsByPatientId(prescriptionDTO.getPatientId());
+        List<Event> events = eventDAO.findAllEventsByPatientId(prescriptionDTO.getPatientId());
         List<Event> otherEvents = events.stream()
                 .filter(event -> event.getPrescription().getId() != prescriptionDTO.getPrescriptionId())
                 .collect(Collectors.toList());
@@ -336,7 +441,21 @@ public class EventService {
         return getStrings(prescriptionDTO, dateTimeMap, events, otherEvents);
     }
 
-    private Set<String> getStrings(PrescriptionDTO prescriptionDTO, Map<Date, List<String>> dateTimeMap, List<Event> events, List<Event> otherEvents) {
+    /**
+     * This method checks list of events found for patient.
+     * If there is any coincidence in dates and times for event type "procedure",
+     * method returns set of dates and times as strings (element has structure - "date : daytime"),
+     * else returns null (if no coincidence).
+     * @param prescriptionDTO contains type of remedy for check
+     * @param dateTimeMap contains Map with date as a key and list of times of day as a value for check
+     * @param events contains all events for defined patient
+     * @param otherEvents contains all events for defined patient
+     *                   except events connected the same prescription as point at PrescriptionDTO object
+     * @return set of dates and times of coincidence as string or null
+     * (element of set has a structure - "date : daytime")
+     */
+    private Set<String> getStrings(PrescriptionDTO prescriptionDTO, Map<Date, List<String>> dateTimeMap,
+                                   List<Event> events, List<Event> otherEvents) {
         if (!prescriptionDTO.getRemedyType().equals("procedure")) return null;
         if (events.isEmpty()) {
             return null;
