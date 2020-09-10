@@ -45,6 +45,7 @@ public class EventController {
 
         ModelAndView mav = new ModelAndView();
         mav.setViewName("event-list");
+        mav.addObject("filter", filterEventsDTO);
         mav.addObject("events", eventService.findEventsFromDTO(filterEventsDTO));
         mav.addObject("patients", patientService.findAllPatients());
         return mav;

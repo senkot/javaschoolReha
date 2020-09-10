@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -31,31 +32,44 @@
                 <select class="form-control" id="patients" name="patientId">
                     <option value="0">All</option>
                     <c:forEach var="patient" items="${patients}">
-                        <option value="${patient.id}"><c:out value="${patient.lastName}"/> <c:out value="${patient.firstName}"/></option>
+                        <option value="${patient.id}"
+                        <c:if test="${filter.patientId == patient.id}"> selected
+                        </c:if>
+                        ><c:out value="${patient.lastName}"/> <c:out value="${patient.firstName}"/></option>
                     </c:forEach>
                 </select>
             </div>
             <div class="form-group">
                 <label for="dateToFilter">Date</label>
-                <input class="form-control" type="date" id="dateToFilter" name="dateToFilter">
+                <fmt:formatDate value="${filter.dateToFilter}" type="date" var="datka" pattern="YYYY-MM-DD" />
+                <input class="form-control" pattern="dd.MM.yyyy" type="date" id="dateToFilter" name="dateToFilter" value="${datka}">
             </div>
             <div class="form-group">
                 <label for="dayTime">Time of the day</label>
                 <select class="form-control" id="dayTime" name="dayTime">
-                    <option value="all">All</option>
-                    <option value="morning">Morning</option>
-                    <option value="afternoon">Afternoon</option>
-                    <option value="evening">Evening</option>
-                    <option value="night">Night</option>
+                    <option value="all"<c:if test="${filter.dayTime == 'all'}"> selected
+                    </c:if>>All</option>
+                    <option value="morning"<c:if test="${filter.dayTime == 'morning'}"> selected
+                    </c:if>>Morning</option>
+                    <option value="afternoon"<c:if test="${filter.dayTime == 'afternoon'}"> selected
+                    </c:if>>Afternoon</option>
+                    <option value="evening"<c:if test="${filter.dayTime == 'evening'}"> selected
+                    </c:if>>Evening</option>
+                    <option value="night"<c:if test="${filter.dayTime == 'night'}"> selected
+                    </c:if>>Night</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="status">Event status</label>
                 <select class="form-control" id="status" name="status">
-                    <option value="all">All</option>
-                    <option value="planed">Planed</option>
-                    <option value="done">Done</option>
-                    <option value="canceled">Canceled</option>
+                    <option value="all"<c:if test="${filter.status == 'all'}"> selected
+                    </c:if>>All</option>
+                    <option value="planed"<c:if test="${filter.status == 'planed'}"> selected
+                    </c:if>>Planed</option>
+                    <option value="done"<c:if test="${filter.status == 'done'}"> selected
+                    </c:if>>Done</option>
+                    <option value="canceled"<c:if test="${filter.status == 'canceled'}"> selected
+                    </c:if>>Canceled</option>
                 </select>
             </div>
 

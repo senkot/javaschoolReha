@@ -16,6 +16,32 @@
     <style>
         #my-header {background-color: #e6e6fe}
         .error {color: tomato}
+        input:invalid {
+            border: 2px dashed red;
+        }
+        .errorButton {color: tomato}
+
+        .errorInput {
+            border: 2px solid tomato;
+        }
+
+        .input-requirements {
+            font-style: italic;
+            text-align: left;
+            list-style: disc;
+            list-style-position: inside;
+            max-width: 400px;
+            margin: 10px auto;
+            color: rgb(150,150,150);
+            max-Height: 0;
+            overflow: hidden;
+        }
+        .input-requirements li.invalid {
+            color: #e74c3c;
+        }
+        .input-requirements li.valid {
+            color: #2ecc71;
+        }
     </style>
 </head>
 <body class="text-center">
@@ -42,9 +68,11 @@
         </div>
     </header>
 
-    <form method="post">
+    <div class="container">
+        <div class="row ">
+    <form class="col" method="post" name="mainForm">
 
-        <div class="form-group">
+        <div class="form-group form-lastName">
 
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
@@ -72,14 +100,24 @@
             <label for="lastName">Surname</label>
             <c:if test="${empty patient.id}">
                 <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter surname">
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                    <li>Last name is required!</li>
+                    <li>At least 2 symbols, and 30 as max</li>
+                </ul>
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="lastName" name="lastName" class="form-control" value="<c:out value="${patient.lastName}"/>" >
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                    <li>Last name is required!</li>
+                    <li>At least 2 symbols, and 30 as max</li>
+                </ul>
             </c:if>
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
                     <c:if test="${error.defaultMessage.equals('lastName blank')}">
-                        <div class="error">Surname is required!</div>
+                        <div class="error" >Surname is required!</div>
                     </c:if>
                     <c:if test="${error.defaultMessage.equals('lastName size')}">
                         <div class="error">At least 2 symbols, and 30 as max</div>
@@ -89,13 +127,23 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-name">
             <label for="firstName">Name</label>
             <c:if test="${empty patient.id}">
                 <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter name">
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                    <li>Name is required!</li>
+                    <li>At least 2 symbols, and 30 as max</li>
+                </ul>
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="firstName" name="firstName" class="form-control" value="<c:out value="${patient.firstName}"/>">
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                    <li>Name is required!</li>
+                    <li>At least 2 symbols, and 30 as max</li>
+                </ul>
             </c:if>
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
@@ -107,25 +155,43 @@
                     </c:if>
                 </c:forEach>
             </c:if>
+            <div class="error" id="nameErrorRequired"></div>
+            <div class="error" id="nameErrorSize"></div>
+
+
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-secondName">
             <label for="secondName">Second name</label>
             <c:if test="${empty patient.id}">
                 <input type="text" id="secondName" name="secondName" class="form-control" placeholder="Enter second name">
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                </ul>
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="secondName" name="secondName" class="form-control" value="<c:out value="${patient.secondName}"/>">
+                <ul class="input-requirements">
+                    <li>Can contain letters only!</li>
+                </ul>
             </c:if>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-dateOfBirth">
             <label for="dateOfBirth">Date of Birth</label>
             <c:if test="${empty patient.id}">
                 <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                <ul class="input-requirements">
+                    <li>Maximum patient age 130 years!</li>
+                    <li>Minimum age 18 years!</li>
+                </ul>
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>">
+                <ul class="input-requirements">
+                    <li>Maximum patient age 130 years!</li>
+                    <li>Minimum age 18 years!</li>
+                </ul>
             </c:if>
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
@@ -145,13 +211,19 @@
             </c:if>
         </div>
 
-        <div class="form-group">
+        <div class="form-group form-insurance">
             <label for="insurance">Insurance</label>
             <c:if test="${empty patient.id}">
                 <input type="text" id="insurance" name="insurance" class="form-control" placeholder="Enter number of main insurance">
+                <ul class="input-requirements">
+                    <li>Insurance is required!</li>
+                </ul>
             </c:if>
             <c:if test="${!empty patient.id}">
                 <input type="text" id="insurance" name="insurance" class="form-control" value="<c:out value="${patient.insurance}"/>">
+                <ul class="input-requirements">
+                    <li>Insurance is required!</li>
+                </ul>
             </c:if>
             <c:if test="${!empty errors}">
                 <c:forEach items="${errors}" var="error">
@@ -278,16 +350,18 @@
 
         <c:if test="${empty patient.id}">
             <form:form action="${pageContext.request.contextPath}/add" method="post">
-                <button class="btn btn-primary" type="submit">ADD</button>
+                <button class="btn btn-primary" id="buttonAdd" type="submit">ADD</button>
             </form:form>
         </c:if>
         <c:if test="${!empty patient.id}">
             <form:form action="${pageContext.request.contextPath}/edit" method="post">
-                <button class="btn btn-primary" type="submit">EDIT</button>
+                <button class="btn btn-primary" id="buttonEdit" type="submit">EDIT</button>
             </form:form>
         </c:if>
     </form>
 
+        </div>
+    </div>
     <footer class="mastfoot mt-auto">
         <div class="inner">
             <p>Chandra Clinic &copy; 2020 by Konstantin Senko</p>
@@ -308,5 +382,7 @@
     }
 
 </script>
+<script src="/js/patient-form-validation.js" type="text/javascript"></script>
+
 </body>
 </html>
