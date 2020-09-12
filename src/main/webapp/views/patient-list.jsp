@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <style>
         #my-header {background-color: #e6e6fe}
+        .search-text {
+            margin-top: 3px;
+            margin-bottom: 18px;
+        }
     </style>
     <script src="/js/jquery-3.5.1.min.js" type="text/javascript"></script>
     <script src="/js/jquery.tablesorter.js" type="text/javascript"></script>
@@ -13,6 +17,26 @@
         $(document).ready(function() {
             $("#user_list").tablesorter();
         });
+    </script>
+    <script>
+        function tableSearch() {
+            var phrase = document.getElementById('search-text');
+            var table = document.getElementById('user_list');
+            var regPhrase = new RegExp(phrase.value, 'i');
+            var flag = false;
+            for (var i = 1; i < table.rows.length; i++) {
+                flag = false;
+                for (var j = table.rows[i].cells.length - 1; j >= 0; j--) {
+                    flag = regPhrase.test(table.rows[i].cells[j].innerHTML);
+                    if (flag) break;
+                }
+                if (flag) {
+                    table.rows[i].style.display = "";
+                } else {
+                    table.rows[i].style.display = "none";
+                }
+            }
+        }
     </script>
 </head>
 <body class="text-center">
@@ -29,6 +53,7 @@
     </header>
 
     <div class="table-responsive container">
+        <input class="form-control  search-text" type="text" placeholder="Search patient" id="search-text" onkeyup="tableSearch()">
         <table class="table table-bordered table-hover" id="user_list">
             <thead>
             <tr class="table-active">

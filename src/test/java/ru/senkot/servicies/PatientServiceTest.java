@@ -35,14 +35,6 @@ public class PatientServiceTest {
     private EventService eventService;
 
     @Test
-    public void selectAllPatients() {
-    }
-
-    @Test
-    public void selectPatient() {
-    }
-
-    @Test
     public void selectPatientByInsurance() {
         int id = 1;
         String name = "Ivan";

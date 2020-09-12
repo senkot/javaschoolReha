@@ -1,6 +1,3 @@
-
-var input = document.getElementById("firstName");
-
 function checkButton(){
     try {
         if (validateName() === true
@@ -39,8 +36,8 @@ function validateOnBlurName(){
     }
 
     checkButton();
-
 }
+
 function validateOnBlurLastName(){
 
     if (validateLastName() === true) {
@@ -73,7 +70,8 @@ function validateOnBlurDateOfBirth(){
     {
         document.getElementById("dateOfBirth").classList.remove("errorInput");
         document.querySelector(".form-dateOfBirth > .input-requirements").style.maxHeight="0px";
-    } else {document.getElementById("dateOfBirth").classList.add("errorInput");
+    } else {
+        document.getElementById("dateOfBirth").classList.add("errorInput");
         document.querySelector(".form-dateOfBirth > .input-requirements").style.maxHeight="1000px";
     }
     checkButton();
@@ -135,7 +133,7 @@ function validateName(){
     if (x.length == 0) {
         li2.classList.add('invalid');
         li2.classList.remove('valid');
-    } else{
+    } else {
         li2.classList.add('valid');
         li2.classList.remove('invalid');
     }
@@ -143,10 +141,11 @@ function validateName(){
     if (x.length < 2 || x.length > 30) {
         li3.classList.add('invalid');
         li3.classList.remove('valid');
-    } else{
+    } else {
         li3.classList.add('valid');
         li3.classList.remove('invalid');
     }
+
     if (li1.classList.contains('valid') && li2.classList.contains('valid') && li3.classList.contains('valid')){
         return true;
     } else return false;
@@ -234,7 +233,6 @@ function validateDateOfBirth(){
         li2.classList.remove('invalid');
         li2.classList.add('valid');
     }
-
 
     if (li1.classList.contains('valid') && li2.classList.contains('valid')){
         return true;

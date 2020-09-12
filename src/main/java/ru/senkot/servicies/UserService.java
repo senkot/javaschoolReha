@@ -22,7 +22,7 @@ public class UserService {
     }
 
     /**
-     * This method find the user by username, put user object in model if it exist.
+     * This method finds the user by username, put user object in model if it exist.
      *
      * @return ModelAndView instance with the name of view page and instance of user (or without it)
      */
