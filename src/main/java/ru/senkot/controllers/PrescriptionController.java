@@ -85,13 +85,14 @@ public class PrescriptionController {
                                              BindingResult result) {
         logger.debug("editPrescriptionForm on mapping /edit-prescription is executed");
         ModelAndView mav = new ModelAndView();
-        prescriptionDTOValidator.validate(prescriptionDTO, result);
+        prescriptionDTOValidator.validateEdit(prescriptionDTO, result);
 
         if (result.hasErrors()) {
             mav.setViewName("prescription-form");
             mav.addObject("errors", result.getAllErrors());
-            mav.addObject("prescription", prescriptionService.findPrescriptionById(prescriptionDTO.getPatientId()));
+            mav.addObject("prescription", prescriptionService.findPrescriptionById(prescriptionDTO.getPrescriptionId()));
             mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
+            mav.addObject("prescriptionDTO", prescriptionDTO);
         } else {
             Set<String> collisions = eventService.overlapEventsFromPrescriptionMapForEdit(prescriptionDTO);
             if (collisions == null || collisions.isEmpty()) {
@@ -112,6 +113,7 @@ public class PrescriptionController {
                 mav.addObject("collisions", collisions);
                 mav.addObject("prescription", prescriptionService.findPrescriptionById(prescriptionDTO.getPatientId()));
                 mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
+                mav.addObject("prescriptionDTO", prescriptionDTO);
             }
         }
         return mav;
@@ -129,6 +131,7 @@ public class PrescriptionController {
             mav.setViewName("prescription-form");
             mav.addObject("errors", result.getAllErrors());
             mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
+            mav.addObject("prescriptionDTO", prescriptionDTO);
         } else {
             Set<String> collisions = eventService.overlapEventsFromPrescriptionMap(prescriptionDTO);
             if (collisions == null || collisions.isEmpty()) {
@@ -148,6 +151,7 @@ public class PrescriptionController {
                 mav.setViewName("prescription-form");
                 mav.addObject("collisions", collisions);
                 mav.addObject("patient", patientService.findPatientById(prescriptionDTO.getPatientId()));
+                mav.addObject("prescriptionDTO", prescriptionDTO);
             }
         }
         return mav;

@@ -92,14 +92,17 @@
 
                     <label for="remedyName">Remedy</label>
                     <c:if test="${empty prescription.id}">
-                        <input type="text" id="remedyName" name="remedyName" class="form-control" placeholder="Enter name of remedy">
+                        <input type="text" id="remedyName" name="remedyName" class="form-control" placeholder="Enter name of remedy"
+                        <c:if test="${!empty prescriptionDTO.remedyName}"> value="${prescriptionDTO.remedyName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Name of the remedy is required!</li>
                             <li>At least 2 symbols, and 30 as max</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty prescription.id}">
-                        <input type="text" id="remedyName" name="remedyName" class="form-control" value="<c:out value="${prescription.remedyName}"/>" >
+                        <input type="text" id="remedyName" name="remedyName" class="form-control" value="<c:out value="${prescription.remedyName}"/>"
+                        <c:if test="${!empty prescriptionDTO.remedyName}"> value="${prescriptionDTO.remedyName}" </c:if>
+                        >
                         <ul class="input-requirements">
                             <li>Name of the remedy is required!</li>
                             <li>At least 2 symbols, and 30 as max</li>
@@ -120,7 +123,8 @@
                 <div class="form-group">
                     <label for="remedyType">Type of remedy</label>
                     <c:if test="${empty prescription.id}">
-                        <select  class="form-control" id="remedyType" name="remedyType"  onchange="Selected(this)">
+                        <select  class="form-control" id="remedyType" name="remedyType"  onchange="Selected(this)"
+                                <c:if test="${!empty prescriptionDTO.remedyType}"> value="${prescriptionDTO.remedyType}" </c:if>>
                             <option>pill</option>
                             <option>procedure</option>
                         </select>
@@ -149,17 +153,20 @@
                     </c:if>
                 </div>
 
-                    <div class="form-group form-dateOfStart">
+                <div class="form-group form-dateOfStart">
                     <label for="dateOfStart">Date of start</label>
                     <c:if test="${empty prescription.id}">
-                        <input type="date" id="dateOfStart" name="dateOfStart" class="form-control">
+                        <input type="date" id="dateOfStart" name="dateOfStart" class="form-control"
+                        <c:if test="${!empty prescriptionDTO.dateOfStart}"> value="${prescriptionDTO.dateOfStart}" </c:if>>
                         <ul class="input-requirements">
                             <li>Date of start is required!</li>
                             <li>Set the date of start not earlier than today</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty prescription.id}">
-                        <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>">
+                        <input type="date" id="dateOfStart" name="dateOfStart" class="form-control" value="<c:out value="${prescription.dateStart}"/>"
+                        <c:if test="${!empty prescriptionDTO.dateOfStart}"> value="${prescriptionDTO.dateOfStart}" </c:if>
+                        >
                         <ul class="input-requirements">
                             <li>Date of start is required!</li>
                             <li>Set the date of start not earlier than today</li>
@@ -180,14 +187,17 @@
                 <div class="form-group form-dateOfEnd">
                     <label for="dateOfEnd">Date of end</label>
                     <c:if test="${empty prescription.id}">
-                        <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control">
+                        <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control"
+                        <c:if test="${!empty prescriptionDTO.dateOfEnd}"> value="${prescriptionDTO.dateOfEnd}" </c:if>>
                         <ul class="input-requirements">
                             <li>Date of end is required!</li>
                             <li>End date is earlier than start date!</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty prescription.id}">
-                        <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control" value="<c:out value="${prescription.dateEnd}"/>">
+                        <input type="date" id="dateOfEnd" name="dateOfEnd" class="form-control" value="<c:out value="${prescription.dateEnd}"/>"
+                        <c:if test="${!empty prescriptionDTO.dateOfEnd}"> value="${prescriptionDTO.dateOfEnd}" </c:if>
+                        >
                         <ul class="input-requirements">
                             <li>Date of end is required!</li>
                             <li>End date is earlier than start date!</li>
@@ -208,31 +218,38 @@
                 <div class="form-group">
                     <label class="w-100">Weekday for repeat</label>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="monday" name="monday">
+                        <input type="checkbox" class="custom-control-input" id="monday" name="monday"
+                        <c:if test="${!empty prescriptionDTO.monday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="monday">Monday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="tuesday" name="tuesday">
+                        <input type="checkbox" class="custom-control-input" id="tuesday" name="tuesday"
+                        <c:if test="${!empty prescriptionDTO.tuesday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="tuesday">Tuesday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="wednesday" name="wednesday">
+                        <input type="checkbox" class="custom-control-input" id="wednesday" name="wednesday"
+                        <c:if test="${!empty prescriptionDTO.wednesday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="wednesday">Wednesday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="thursday" name="thursday">
+                        <input type="checkbox" class="custom-control-input" id="thursday" name="thursday"
+                        <c:if test="${!empty prescriptionDTO.thursday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="thursday">Thursday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="friday" name="friday">
+                        <input type="checkbox" class="custom-control-input" id="friday" name="friday"
+                        <c:if test="${!empty prescriptionDTO.friday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="friday">Friday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="saturday" name="saturday">
+                        <input type="checkbox" class="custom-control-input" id="saturday" name="saturday"
+                        <c:if test="${!empty prescriptionDTO.saturday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="saturday">Saturday</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="sunday" name="sunday">
+                        <input type="checkbox" class="custom-control-input" id="sunday" name="sunday"
+                        <c:if test="${!empty prescriptionDTO.sunday.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="sunday">Sunday</label>
                     </div>
                     <c:if test="${!empty errors}">
@@ -247,13 +264,16 @@
                 <div class="form-group form-quantity">
                     <label for="quantity">Quantity</label>
                     <c:if test="${empty prescription.id}">
-                        <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter the quantity for single use" min="1">
+                        <input type="number" id="quantity" name="quantity" class="form-control" placeholder="Enter the quantity for single use" min="1"
+                        <c:if test="${!empty prescriptionDTO.quantity}"> value="${prescriptionDTO.quantity}" </c:if>>
                         <ul class="input-requirements">
                             <li>Quantity must be greater than zero!</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty prescription.id}">
-                        <input type="number" id="quantity" name="quantity" class="form-control" value="<c:out value="${prescription.quantity}"/>" min="1">
+                        <input type="number" id="quantity" name="quantity" class="form-control" value="<c:out value="${prescription.quantity}"/>" min="1"
+                        <c:if test="${!empty prescriptionDTO.quantity}"> value="${prescriptionDTO.quantity}" </c:if>
+                        >
                         <ul class="input-requirements">
                             <li>Quantity must be greater than zero!</li>
                         </ul>
@@ -273,19 +293,23 @@
                 <div class="form-group">
                     <label class="w-100">Time reception</label>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="morning" name="morning">
+                        <input type="checkbox" class="custom-control-input" id="morning" name="morning"
+                        <c:if test="${!empty prescriptionDTO.morning.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="morning">Morning</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="afternoon" name="afternoon">
+                        <input type="checkbox" class="custom-control-input" id="afternoon" name="afternoon"
+                        <c:if test="${!empty prescriptionDTO.afternoon.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="afternoon">Afternoon</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="evening" name="evening">
+                        <input type="checkbox" class="custom-control-input" id="evening" name="evening"
+                        <c:if test="${!empty prescriptionDTO.evening.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="evening">Evening</label>
                     </div>
                     <div class="custom-control custom-checkbox custom-control-inline">
-                        <input type="checkbox" class="custom-control-input" id="night" name="night">
+                        <input type="checkbox" class="custom-control-input" id="night" name="night"
+                        <c:if test="${!empty prescriptionDTO.night.equals('on')}"> checked </c:if>>
                         <label class="custom-control-label" for="night">Night</label>
                     </div>
                     <c:if test="${!empty errors}">
@@ -339,7 +363,7 @@
         document.getElementById("dateOfEnd").valueAsDate = new Date();
     }
 
-    <c:if test="${empty prescription}">
+    <c:if test="${empty prescription} && ${empty prescriptionDTO}">
     startToday();
     endToday();
     </c:if>

@@ -99,7 +99,8 @@
 
                     <label for="lastName">Surname</label>
                     <c:if test="${empty patient.id}">
-                        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter surname">
+                        <input type="text" id="lastName" name="lastName" class="form-control" placeholder="Enter surname"
+                        <c:if test="${!empty patientDTO.lastName}"> value="${patientDTO.lastName}" </c:if>   >
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                             <li>Last name is required!</li>
@@ -107,7 +108,8 @@
                         </ul>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="text" id="lastName" name="lastName" class="form-control" value="<c:out value="${patient.lastName}"/>" >
+                        <input type="text" id="lastName" name="lastName" class="form-control" value="<c:out value="${patient.lastName}"/>"
+                        <c:if test="${!empty patientDTO.lastName}"> value="${patientDTO.lastName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                             <li>Last name is required!</li>
@@ -130,7 +132,8 @@
                 <div class="form-group form-name">
                     <label for="firstName">Name</label>
                     <c:if test="${empty patient.id}">
-                        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter name">
+                        <input type="text" id="firstName" name="firstName" class="form-control" placeholder="Enter name"
+                        <c:if test="${!empty patientDTO.firstName}"> value="${patientDTO.firstName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                             <li>Name is required!</li>
@@ -138,7 +141,8 @@
                         </ul>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="text" id="firstName" name="firstName" class="form-control" value="<c:out value="${patient.firstName}"/>">
+                        <input type="text" id="firstName" name="firstName" class="form-control" value="<c:out value="${patient.firstName}"/>"
+                        <c:if test="${!empty patientDTO.firstName}"> value="${patientDTO.firstName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                             <li>Name is required!</li>
@@ -164,13 +168,15 @@
                 <div class="form-group form-secondName">
                     <label for="secondName">Second name</label>
                     <c:if test="${empty patient.id}">
-                        <input type="text" id="secondName" name="secondName" class="form-control" placeholder="Enter second name">
+                        <input type="text" id="secondName" name="secondName" class="form-control" placeholder="Enter second name"
+                        <c:if test="${!empty patientDTO.secondName}"> value="${patientDTO.secondName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="text" id="secondName" name="secondName" class="form-control" value="<c:out value="${patient.secondName}"/>">
+                        <input type="text" id="secondName" name="secondName" class="form-control" value="<c:out value="${patient.secondName}"/>"
+                        <c:if test="${!empty patientDTO.secondName}"> value="${patientDTO.secondName}" </c:if>>
                         <ul class="input-requirements">
                             <li>Can contain letters only!</li>
                         </ul>
@@ -180,14 +186,16 @@
                 <div class="form-group form-dateOfBirth">
                     <label for="dateOfBirth">Date of Birth</label>
                     <c:if test="${empty patient.id}">
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control">
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control"
+                        <c:if test="${!empty patientDTO.dateOfBirth}"> value="${patientDTO.dateOfBirth}" </c:if>>
                         <ul class="input-requirements">
                             <li>Maximum patient age 130 years!</li>
                             <li>Minimum age 18 years!</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>">
+                        <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" value="<c:out value="${patient.dateOfBirth}"/>"
+                        <c:if test="${!empty patientDTO.dateOfBirth}"> value="${patientDTO.dateOfBirth}" </c:if>>
                         <ul class="input-requirements">
                             <li>Maximum patient age 130 years!</li>
                             <li>Minimum age 18 years!</li>
@@ -214,13 +222,15 @@
                 <div class="form-group form-insurance">
                     <label for="insurance">Insurance</label>
                     <c:if test="${empty patient.id}">
-                        <input type="text" id="insurance" name="insurance" class="form-control" placeholder="Enter number of main insurance">
+                        <input type="text" id="insurance" name="insurance" class="form-control" placeholder="Enter number of main insurance"
+                        <c:if test="${!empty patientDTO.insurance}"> value="${patientDTO.insurance}" </c:if>>
                         <ul class="input-requirements">
                             <li>Insurance is required!</li>
                         </ul>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="text" id="insurance" name="insurance" class="form-control" value="<c:out value="${patient.insurance}"/>">
+                        <input type="text" id="insurance" name="insurance" class="form-control" value="<c:out value="${patient.insurance}"/>"
+                        <c:if test="${!empty patientDTO.insurance}"> value="${patientDTO.insurance}" </c:if>>
                         <ul class="input-requirements">
                             <li>Insurance is required!</li>
                         </ul>
@@ -241,10 +251,12 @@
                 <div class="form-group">
                     <label for="additionalInsurance">Additional Insurance</label>
                     <c:if test="${empty patient.id}">
-                        <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" placeholder="Enter number of additional insurance if there is">
+                        <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" placeholder="Enter number of additional insurance if there is"
+                        <c:if test="${!empty patientDTO.additionalInsurance}"> value="${patientDTO.additionalInsurance}" </c:if>>
                     </c:if>
                     <c:if test="${!empty patient.id}">
-                        <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" value="<c:out value="${patient.additionalInsurance}"/>">
+                        <input type="text" id="additionalInsurance" name="additionalInsurance" class="form-control" value="<c:out value="${patient.additionalInsurance}"/>"
+                        <c:if test="${!empty patientDTO.additionalInsurance}"> value="${patientDTO.additionalInsurance}" </c:if>>
                     </c:if>
                 </div>
 
@@ -252,14 +264,22 @@
                     <label for="diagnosis">Diagnosis</label>
                     <c:if test="${empty patient.id}">
                         <select class="form-control" id="diagnosis" name="diagnosis">
-                            <option>tiredness</option>
-                            <option>sadness</option>
-                            <option>stress</option>
-                            <option>depression</option>
-                            <option>weakness</option>
-                            <option>boredom</option>
-                            <option>insomnia</option>
-                            <option>nervousness</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('tiredness')}"> selected </c:if>>tiredness</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('sadness')}"> selected </c:if>>sadness</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('stress')}"> selected </c:if>>stress</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('depression')}"> selected </c:if>>depression</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('weakness')}"> selected </c:if>>weakness</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('boredom')}"> selected </c:if>>boredom</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('insomnia')}"> selected </c:if>>insomnia</option>
+                            <option <c:if test="${!empty patientDTO.diagnosis &&
+                            patientDTO.diagnosis.equals('nervousness')}"> selected </c:if>>nervousness</option>
                         </select>
                     </c:if>
                     <c:if test="${!empty patient.id}">

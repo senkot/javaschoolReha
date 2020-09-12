@@ -70,8 +70,10 @@ public class PatientController {
                 }
             }
             mav.setViewName("patient-form");
-            mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
+            mav.addObject("user",
+                    userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             mav.addObject("errors", result.getAllErrors());
+            mav.addObject("patientDTO", patientDTO);
             return mav;
         } else {
             mav.setViewName("patient-list");
@@ -110,6 +112,7 @@ public class PatientController {
             mav.addObject("patient", patientService.findPatientById(patientDTO.getPatientId()));
             mav.addObject("user", userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             mav.addObject("errors", result.getAllErrors());
+            mav.addObject("patientDTO", patientDTO);
             return mav;
         } else {
             mav.setViewName("patient");

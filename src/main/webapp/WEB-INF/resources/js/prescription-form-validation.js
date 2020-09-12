@@ -1,9 +1,9 @@
 function checkButton(){
     try {
         if (validateRemedyName() === true
-        && validateQuantity() === true
-        && validateDateStart() === true
-        && validateDateEnd() === true
+            && validateQuantity() === true
+            && validateDateStart() === true
+            && validateDateEnd() === true
         ) {
             document.getElementById("buttonAdd").removeAttribute("disabled");
         } else {
@@ -11,9 +11,9 @@ function checkButton(){
         }
     } catch (e) {
         if (validateRemedyName() === true
-        && validateQuantity() === true
-        && validateDateStart() === true
-        && validateDateEnd() === true
+            && validateQuantity() === true
+            && validateDateStart() === true
+            && validateDateEnd() === true
         ) {
             document.getElementById("buttonEdit").removeAttribute("disabled");
         } else {
@@ -102,6 +102,7 @@ function validateDateStart() {
     var li1 = document.querySelector(".form-dateOfStart > .input-requirements li:nth-child(1)");
     var li2 = document.querySelector(".form-dateOfStart > .input-requirements li:nth-child(2)");
 
+
     if (dateStart.length === 0) {
         li1.classList.add('invalid');
         li1.classList.remove('valid');
@@ -110,15 +111,18 @@ function validateDateStart() {
         li1.classList.remove('invalid');
     }
 
-    if (dateStart < dateNow) {
-        li2.classList.add('invalid');
-        li2.classList.remove('valid');
+    if (document.getElementById("buttonEdit")) {
+        return (li1.classList.contains('valid'));
     } else {
-        li2.classList.add('valid');
-        li2.classList.remove('invalid');
+        if (dateStart < dateNow) {
+            li2.classList.add('invalid');
+            li2.classList.remove('valid');
+        } else {
+            li2.classList.add('valid');
+            li2.classList.remove('invalid');
+        }
+        return (li1.classList.contains('valid') && li2.classList.contains('valid'));
     }
-
-    return (li1.classList.contains('valid') && li2.classList.contains('valid'));
 }
 
 function validateOnBlurStart() {
